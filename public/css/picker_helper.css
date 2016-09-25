@@ -1,0 +1,15 @@
+.picker__date-display {
+    background: #2196f3;
+}
+.picker__weekday-display {
+    background: #1565c0;
+}
+.picker__close, .picker__today {
+    color: #1565c0;
+}
+.picker__day--selected, .picker--focused .picker__day--selected{
+    background-color: #2196f3;
+}
+.picker__day.picker__day--today {
+    color: #ff5722;
+}

@@ -1,0 +1,101 @@
+/*
+    colors:
+    blue: #2196F3;
+*/
+                                        /* tab part */
+.on-change-input {
+    display: none;
+}
+.tab-container h5 {
+    padding-bottom: 20px;
+}
+                                        /* some styles */
+.error-block {
+    font-size: 12px;
+    color: red;
+    margin-top: 0px;
+    display: block;
+}
+.delete-entity {
+    display: none;
+}
+.edit-news-item .delete-entity {
+    position: absolute;
+    right: 15px;
+    top: 5px;
+}
+                                        /* main part */
+.main-container {
+    padding: 10px;
+    padding-top: 0px;
+}
+.menu ul {
+    padding: 0px;
+    margin: 0px;
+    display: none;
+}
+.menu i {
+    float: right;
+}
+.menu-item {
+    background: #f5f5f5;
+    border-bottom: 1px solid #ccc;
+    display: block;
+    padding: 5px;
+    text-indent: 5px;
+    cursor: pointer;
+}
+.menu-item.menu-header {
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+}
+.menu-item.active, .menu-item:hover{
+    background: #ff5722;
+    color: white;
+    font-weight: bolder;
+    box-shadow: inset 0 2px 10px 0 rgba(0,0,0,0.3);
+}
+.menu-item:hover a {
+    color: white;
+}
+.content {
+    width: 100%;
+    background: #eeeeee;
+}
+.news-item {
+    padding: 20px;
+}
+.edit-news-item {
+    padding: 10px;
+}
+.edit-news-item:hover .delete-entity {
+    display: block;
+    float: right;
+}
+.edit-news-title {
+    float: left;
+}
+.edit-news-item {
+    position: relative;
+    padding: 15px 10px;
+    cursor: pointer;
+}
+.new-goods-item {
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+.new-goods-item div {
+    padding: 5px;
+}
+.new-goods-item-title {
+    border-bottom: 1px solid #e5e5e5;
+}
+.to-cart {
+    cursor: pointer;
+}
+.order-table {
+    margin-bottom: 20px;
+}
+.order-params {
+    display: none;
+}
