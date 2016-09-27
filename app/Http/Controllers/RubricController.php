@@ -9,7 +9,7 @@ use Validator;
 use App\Rubric;
 use App\RubricRelation;
 
-class RubricController extends Controller
+class RubricController extends SharedController
 {
     protected function validator(array $data)
     {

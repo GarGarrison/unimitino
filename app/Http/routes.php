@@ -23,6 +23,7 @@ Route::get('/order_params', 'CartController@order_params');
 Route::post('/make_order', 'CartController@make_order');
 
 Route::get('/home', 'HomeController@index');
+Route::post('/home', 'HomeController@update_user');
 
 Route::get('/test', function(){
     return view('test');
@@ -31,6 +32,8 @@ Route::get('/test', function(){
 Route::get('/admin', 'AdminController@index');
 Route::get('/admin/rubric', 'AdminController@view_rubric');
 Route::get('/admin/news', 'AdminController@view_news');
+Route::get('/admin/users', 'AdminController@view_users');
+Route::get('/admin/goods', 'AdminController@view_goods');
 
 Route::get('/admin/show_add_rubric', 'RubricController@show_add_rubric');
 Route::get('/admin/show_edit_rubric', 'RubricController@show_edit_rubric');

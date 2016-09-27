@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use Carbon\Carbon;
 use Validator;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\SharedController;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
-class AuthController extends Controller
+class AuthController extends SharedController
 {
     /*
     |--------------------------------------------------------------------------
@@ -39,6 +39,7 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        parent::__construct();
     }
 
     /**
@@ -50,12 +51,8 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:3|confirmed',
-            'post_index' => 'integer',
-            'inn' => 'integer',
-            'bank_account' => 'integer',
+            'password' => 'required|min:3|confirmed'
         ]);
     }
 
@@ -68,15 +65,6 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'city' => $data['city'],
-            'company' => $data['company'],
-            'post_index' => $data['post_index'],
-            'address' => $data['address'],
-            'phone' => $data['phone'],
-            'bank_name' => $data['bank_name'],
-            'bank_account' => $data['bank_account'],
-            'inn' => $data['inn'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'created' => Carbon::now()

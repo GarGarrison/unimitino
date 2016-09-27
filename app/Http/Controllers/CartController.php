@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Cart;
 use App\Goods;
-class CartController extends Controller
+use App\Order;
+class CartController extends SharedController
 {
     public function show_cart(Request $request) {
         $goods = "";
@@ -29,11 +30,23 @@ class CartController extends Controller
         Cart::destroy($ctd);
         return response()->json(['success'=> 'Успешно удалено']);
     }
-
+    // форма с параметрами заказа
     public function order_params(){ return view("util.order_params");}
 
     public function make_order(Request $request){
-        return $request->all();
+        $uid = $request->cookie('uid');
+        $goods = $request['order'];
+        foreach($goods as $good) {
+            $gid = $good['id'];
+            $count = $good['count'];
+            Order::create([
+                'uid'=> $uid,
+                'gid'=> $gid,
+                'count'=> $count,
+                'status'=> 0
+            ]);
+        }
+        return "Заказа отправлен в работу!";
     }
 
 }

@@ -1,9 +1,5 @@
 @extends('layouts.main')
 
-@section('cart')
-<li><a href="{{ url('/show_cart') }}">Корзина (<span class="cart-count">{{ $cart_length }}</span>)</a></li>
-@endsection
-
 @if (isset($important))
     @section('important')
         <div class="card">
@@ -28,7 +24,7 @@
 @endif
 <nav class="white">
     <div class="nav-wrapper">
-        <form id="search_form" action="{{ url('/search') }}">
+        <form class="search_form" action="{{ url('/search') }}">
             <div class="input-field">
                 {{ csrf_field() }}
                 <input id="search" type="search" name="req" required>

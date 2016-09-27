@@ -1,19 +1,18 @@
-// функция при успешном выполнении поиска
-function searchSuccess(resp) {
-    $('.content').html(resp);
-}
-
 // собрать заказ из таблицы в словарь
 function makeOrder() {
-    order = {};
+    order = [];
     $('.order-table tbody tr').each(function(){
         id = $(this).attr('name');
         count = $(this).find('div[name="count"]').text();
-        order[id]= count;
+        order.push({"id": id, "count": count});
     })
     return order;
 }
-
+// обновить количество товаров в корзине, после клика на товар
+function plusCart() {
+    cur_count = parseInt($("span.cart-count").text());
+    $("span.cart-count").text(cur_count + 1);
+}
 $(document).ready(function(){
     //$('.menu ul').prev('.menu-item').append("<span>&#9658;</span>");
 });
@@ -28,14 +27,6 @@ $(document).on('click', '.menu-item', function(){
     $(this).next('ul').slideToggle('fast');
 });
 
-// запрос на поиск
-$(document).on('submit', '#search_form', function(event){
-    event.preventDefault();
-    url = $(this).attr("action");
-    data = serializeToObject($(this));
-    SendForm(url, data, searchSuccess);
-});
-
 // добавить позицию из поиска в корзину
 $(document).on('click', '.to-cart', function(){
     gid = $(this).closest('tr').attr('name');
@@ -46,6 +37,7 @@ $(document).on('click', '.to-cart', function(){
         'data': {'goods_id': gid},
         'success': function(resp) {
             alert(resp);
+            plusCart();
         },
         'error': function(resp){
             $('body').prepend(resp.responseText);
@@ -89,6 +81,6 @@ $(document).on('click', '.do-order', function(){
         url = form.attr('action');
         data = serializeToObject(form);
         data["order"] = makeOrder();
-        SendForm(url, data)
+        SendForm(url, data, alertSuccess)
     }
 })

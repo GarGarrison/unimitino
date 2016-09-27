@@ -18,19 +18,20 @@
     </script>
 </head>
 <body>
+
+=>{{ $cook }}
     <header>
         <nav class="blue">
             <div class="nav-wrapper">
                 <a class="brand-logo left" href="{{ url('/') }}">Unimitino</a>
                 <ul class="right">
-                    @section('cart')
-                    @show
+                    <li><a href="{{ url('/show_cart') }}">Корзина (<span class="cart-count">{{ $cart_length }}</span>)</a></li>
                     <li><a href="{{url('/admin')}}">Admin</a></li>
                     @if (Auth::guest())
                         <li><a href="{{ url('/login') }}">Вход</a></li>
                         <li><a href="{{ url('/register') }}">Регистрация</a></li>
                     @else
-                        <li><a href="#">Здравствуйте, {{ Auth::user()->name }}</a></li>
+                        <li><a href="{{ url('/home') }}">Личный кабинет</a></li>
                         <li><a href="{{ url('/logout') }}">Выйти</a></li>
                     @endif
                 </ul>

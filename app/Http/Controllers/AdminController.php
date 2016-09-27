@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class AdminController extends Controller
+class AdminController extends SharedController
 {
     public function index() {
         return view('admin.admin');
@@ -16,5 +16,11 @@ class AdminController extends Controller
     }
     public function view_news() {
         return view('admin.news');
+    }
+    public function view_users() {
+        return view('admin.users');
+    }
+    public function view_goods() {
+        return view('admin.goods');
     }
 }

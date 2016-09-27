@@ -8,7 +8,7 @@ use Validator;
 use Carbon\Carbon;
 use App\Http\Requests;
 use App\News;
-class NewsController extends Controller
+class NewsController extends SharedController
 {
     protected function validator(array $data)
     {

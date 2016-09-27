@@ -6,8 +6,8 @@
 @section('menu')
 <a id="rubric" class="menu-item" href="{{url('/admin/rubric')}}">Рубрики</a>
 <a id="news" class="menu-item" href="{{url('/admin/news')}}">Новости</a>
-<a id="3" class="menu-item" href="#">Пользователи</a>
-<a id="4" class="menu-item" href="#">Товары</a>
+<a id="3" class="menu-item" href="{{url('/admin/users')}}">Пользователи</a>
+<a id="4" class="menu-item" href="{{url('/admin/goods')}}">Товары</a>
 @endsection
 
 @section('js')

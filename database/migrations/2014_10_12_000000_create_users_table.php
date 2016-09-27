@@ -17,9 +17,9 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('city');
             $table->string('company');
-            $table->integer('post_index');
+            $table->string('post_index');
             $table->string('address');
-            $table->integer('phone');
+            $table->string('phone');
             $table->string('bank_name');
             $table->string('bank_account');
             $table->string('inn');
