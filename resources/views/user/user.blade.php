@@ -2,7 +2,7 @@
 
 @section('menu')
 <a class="menu-item active" href="{{ url('/home') }}">Аккаунт</a>
-<a class="menu-item" href="#">Мои заказы</a>
+<a class="menu-item" href="{{ url('/orders') }}">Мои заказы</a>
 @endsection
 @section('main')
 <div class="col s12 container">

@@ -6,8 +6,11 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-	"caouecs/laravel-lang": "~3.0",
-        "laravel/framework": "5.2.*"
+	    "caouecs/laravel-lang": "~3.0",
+        "laravel/framework": "5.2.*",
+        "socialiteproviders/vkontakte": "^2.0",
+        "laravel/socialite": "^2.0",
+        "socialiteproviders/google": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -12,19 +12,21 @@ class CartController extends SharedController
 {
     public function show_cart(Request $request) {
         $goods = "";
-        $gids = Cart::select('goods_id')->where('uid',$request->cookie('uid'))->get();
+        $gids = Cart::select('goods_id')->where('uid',session('uid'))->get();
         $gids = array_pluck($gids, 'goods_id');
         if ($gids) $goods = Goods::whereIn('id', $gids)->get();
         return view('util.show_cart', ['goods'=>$goods]);
     }
+
     public function add_to_cart(Request $request) {
         Cart::create([
-            'uid'=>$request->cookie('uid'),
+            'uid'=>session('uid'),
             'goods_id'=>$request['goods_id']
             //'count'=>$request->all()->count
         ]);
-        return "Ok";
+        return "Добавлено в корзину";
     }
+
     public function delete_from_cart(Request $request) {
         $ctd = $request['id'];
         Cart::destroy($ctd);
@@ -34,7 +36,7 @@ class CartController extends SharedController
     public function order_params(){ return view("util.order_params");}
 
     public function make_order(Request $request){
-        $uid = $request->cookie('uid');
+        $uid = session('uid');
         $goods = $request['order'];
         foreach($goods as $good) {
             $gid = $good['id'];

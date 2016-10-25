@@ -8,6 +8,11 @@ use App\Http\Requests;
 
 class AdminController extends SharedController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index() {
         return view('admin.admin');
     }

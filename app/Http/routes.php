@@ -13,6 +13,9 @@
 
 Route::auth();
 
+Route::get('/social_login/{provider}', 'SocialController@login');
+Route::get('/callback/{provider}', 'SocialController@callback');
+
 Route::get('/', 'IndexController@index');
 Route::post('/search', 'IndexController@search');
 
@@ -23,26 +26,33 @@ Route::get('/order_params', 'CartController@order_params');
 Route::post('/make_order', 'CartController@make_order');
 
 Route::get('/home', 'HomeController@index');
+Route::get('/orders', 'HomeController@show_orders');
 Route::post('/home', 'HomeController@update_user');
 
 Route::get('/test', function(){
     return view('test');
 });
 
-Route::get('/admin', 'AdminController@index');
-Route::get('/admin/rubric', 'AdminController@view_rubric');
-Route::get('/admin/news', 'AdminController@view_news');
-Route::get('/admin/users', 'AdminController@view_users');
-Route::get('/admin/goods', 'AdminController@view_goods');
+Route::group(['middleware' => 'admin'], function(){
+    Route::get('/admin', 'AdminController@index');
+    Route::get('/admin/rubric', 'AdminController@view_rubric');
+    Route::get('/admin/news', 'AdminController@view_news');
+    Route::get('/admin/users', 'AdminController@view_users');
+    Route::get('/admin/goods', 'AdminController@view_goods');
 
-Route::get('/admin/show_add_rubric', 'RubricController@show_add_rubric');
-Route::get('/admin/show_edit_rubric', 'RubricController@show_edit_rubric');
-Route::post('/admin/add_rubric', 'RubricController@add_rubric');
-Route::post('/admin/edit_rubric', 'RubricController@edit_rubric');
-Route::post('/admin/del_rubric', 'RubricController@del_rubric');
+    Route::get('/admin/show_add_rubric', 'RubricController@show_add_rubric');
+    Route::get('/admin/show_edit_rubric', 'RubricController@show_edit_rubric');
+    Route::post('/admin/add_rubric', 'RubricController@add_rubric');
+    Route::post('/admin/edit_rubric', 'RubricController@edit_rubric');
+    Route::post('/admin/del_rubric', 'RubricController@del_rubric');
 
-Route::get('/admin/show_add_news/{id?}', 'NewsController@show_add_news');
-Route::get('/admin/show_edit_news', 'NewsController@show_edit_news');
-Route::post('/admin/add_news', 'NewsController@add_news');
-Route::post('/admin/edit_news', 'NewsController@edit_news');
-Route::post('/admin/del_news', 'NewsController@del_news');
+    Route::get('/admin/show_add_news/{id?}', 'NewsController@show_add_news');
+    Route::get('/admin/show_edit_news', 'NewsController@show_edit_news');
+    Route::post('/admin/add_news', 'NewsController@add_news');
+    Route::post('/admin/edit_news', 'NewsController@edit_news');
+    Route::post('/admin/del_news', 'NewsController@del_news');
+});
+
+Route::group(['middleware' => 'storage'], function(){
+    Route::get('/storage', 'StorageController@index');
+});

@@ -6,17 +6,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    public $timestamps = false;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-
-    /*protected $fillable = [
-        'name', 'email', 'password',
-    ];*/
-    
     protected $guarded = [
         'remember_token',
     ];
@@ -27,6 +16,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'type',
     ];
+
+    public function isAdmin() {
+        return $this->type == "admin";
+    }
+    public function isStorage() {
+        return $this->type == "storage";
+    }
+    public function isUser() {
+        return $this->type == "user";
+    }
 }

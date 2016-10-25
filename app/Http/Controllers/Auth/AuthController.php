@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use Carbon\Carbon;
 use Validator;
+use Session;
 use App\Http\Controllers\SharedController;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -38,7 +39,7 @@ class AuthController extends SharedController
      */
     public function __construct()
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->middleware($this->guestMiddleware(), ['except' => ['logout', 'getLogout']]);
         parent::__construct();
     }
 
@@ -65,9 +66,16 @@ class AuthController extends SharedController
     protected function create(array $data)
     {
         return User::create([
+            'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'created' => Carbon::now()
+            'type' => 'user'
         ]);
+    }
+
+    public function logout(){
+        auth()->logout();
+        Session::flush();
+        return redirect('/');
     }
 }

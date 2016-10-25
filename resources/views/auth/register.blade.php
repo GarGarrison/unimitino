@@ -2,6 +2,11 @@
 
 @section('content')
 <h5>Регистрация</h5>
+<a href="{{url('/social_login/vkontakte')}}">VK</a>
+<a href="{{url('/social_login/google')}}">Google</a>
+<a href="{{url('/social_login/facebook')}}">Facebook</a>
+<ul></ul>
+или
 <form class="col s12" method="post" action="{{ url('/register') }}">
     {{ csrf_field() }}
     <div class="row">

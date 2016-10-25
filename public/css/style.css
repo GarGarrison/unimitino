@@ -46,8 +46,10 @@
     cursor: pointer;
 }
 .menu-item.menu-header {
-    border-bottom: 1px solid #ccc;
-    padding: 5px;
+    background-color: #2196F3;
+}
+.menu-item.menu-header a{
+    color: white;
 }
 .menu-item.active, .menu-item:hover{
     background: #ff5722;

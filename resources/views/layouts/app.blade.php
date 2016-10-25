@@ -18,15 +18,14 @@
     </script>
 </head>
 <body>
-
-=>{{ $cook }}
     <header>
         <nav class="blue">
             <div class="nav-wrapper">
                 <a class="brand-logo left" href="{{ url('/') }}">Unimitino</a>
                 <ul class="right">
-                    <li><a href="{{ url('/show_cart') }}">Корзина (<span class="cart-count">{{ $cart_length }}</span>)</a></li>
-                    <li><a href="{{url('/admin')}}">Admin</a></li>
+                    @if (Auth::user() && Auth::user()->isUser() || Auth::guest())
+                        <li><a href="{{ url('/show_cart') }}">Корзина (<span class="cart-count">{{ $cart_length }}</span>)</a></li>
+                    @endif
                     @if (Auth::guest())
                         <li><a href="{{ url('/login') }}">Вход</a></li>
                         <li><a href="{{ url('/register') }}">Регистрация</a></li>
@@ -38,6 +37,9 @@
             </div>
         </nav>
     </header>
+    @if (Auth::user())
+        <div class="right">Здравствуйте, {{ Auth::user()->name }}!</div>
+    @endif
     <div class="container">
         <div class="row">
                 @yield("content")

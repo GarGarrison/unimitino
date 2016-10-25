@@ -8,7 +8,7 @@ use App\Http\Requests;
 
 use Carbon\Carbon;
 use View;
-use Session;
+use DB;
 use App\Cart;
 
 class SharedController extends Controller
@@ -18,9 +18,11 @@ class SharedController extends Controller
     }
     public function updateUID($cook, $uid) {
         Cart::where('uid', $cook)->update(['uid'=>$uid]);
+        $duplicates = array_pluck(Cart::select('id', DB::raw('count(id) as count'))->groupBy('goods_id')->having('count', '>', 1)->get(), 'id');
+        Cart::whereIn('id', $duplicates)->delete();
     }
     public function getUID() {
-        $suid = Session::get('uid');
+        $suid = session('uid');
         $user = Auth::user();
         $uid = $suid;
         if (!$uid and !$user) $uid = $user ? $user->id: uniqid();
@@ -32,9 +34,7 @@ class SharedController extends Controller
     }
     public function __construct() {
         $uid = $this->getUID();
-        //Session::put('uid', $uid);
-        $cart_length = Cart::where('uid', $uid)->count();
-        View::share('cook', 'here!!'.$uid);
-        View::share('cart_length', $cart_length);
-    }    
+        session(['uid' => $uid]);
+        View::share('cart_length', Cart::where('uid', $uid)->count());
+    }
 }

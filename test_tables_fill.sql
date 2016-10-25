@@ -1,3 +1,5 @@
+INSERT INTO `users` (`id`, `name`, `city`, `company`, `post_index`, `address`, `phone`, `bank_name`, `bank_account`, `inn`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'name1', 'city', 'company1', 123456, 'address1', 123456, 'bank', '123456', '123456', 'q@q.ru', '$2y$10$SLEy0rwyeDFOgW.n83lQxOI9WbHm/6cRvDRTbBEEQmo.OPOxGezL.', 'XbvZVPKHnL7j6TbF86mlcAFVHh3wDySEzoVHHpbH6XIioM21tj5jFfKWmfov', '2016-09-25 21:22:23', '2016-09-25 21:22:23');
 
 INSERT INTO `rubrics` (`name`) VALUES ('test1');
 INSERT INTO `rubrics` (`name`) VALUES ('test2');

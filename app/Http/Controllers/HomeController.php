@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Validator;
+use Socialite;
+use Auth;
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Order;
 class HomeController extends SharedController
 {
     /**
@@ -38,7 +40,14 @@ class HomeController extends SharedController
      */
     public function index()
     {
-        return view('home');
+        $type = Auth::user()->type;
+        return view($type.'.'.$type);
+    }
+
+    public function show_orders()
+    {
+        $user = auth()->user();
+        return view('user.orders');
     }
 
     public function update_user(Request $request){
@@ -58,8 +67,7 @@ class HomeController extends SharedController
             'bank_account' => $request['bank_account'],
             'inn' => $request['inn'],
             'email' => $request['email']
-            //'password' => bcrypt($request['password'])
         ]);
-        return view('home');
+        return redirect('home.home');
     }
 }
