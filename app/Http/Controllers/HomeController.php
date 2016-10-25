@@ -47,11 +47,11 @@ class HomeController extends SharedController
     public function show_orders()
     {
         $user = auth()->user();
-        return view('user.orders');
+        return view('user.orders', ["orders"=>Order::where('uid', $user->id)->get()]);
     }
 
     public function update_user(Request $request){
-        $validator = $this->validator($request->all());
+        // $validator = $this->validator($request->all());
         // if ($validator->fails()) {
         //     return $validator->messages();
         // }

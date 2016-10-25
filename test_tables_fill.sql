@@ -1,33 +1,40 @@
-INSERT INTO `users` (`id`, `name`, `city`, `company`, `post_index`, `address`, `phone`, `bank_name`, `bank_account`, `inn`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'name1', 'city', 'company1', 123456, 'address1', 123456, 'bank', '123456', '123456', 'q@q.ru', '$2y$10$SLEy0rwyeDFOgW.n83lQxOI9WbHm/6cRvDRTbBEEQmo.OPOxGezL.', 'XbvZVPKHnL7j6TbF86mlcAFVHh3wDySEzoVHHpbH6XIioM21tj5jFfKWmfov', '2016-09-25 21:22:23', '2016-09-25 21:22:23');
+INSERT INTO `goods` (`id`, `name`, `count`, `description`, `price`, `new`, `created_at`, `updated_at`) VALUES
+(1, 'good1', 10, 'товар good1 очень хорош', 10.50, 1, '2016-09-09 21:00:00', '2016-09-09 21:00:00'),
+(2, 'good2', 20, 'товар good2 очень хорош', 111.50, 0, '2016-09-09 21:00:00', '2016-09-09 21:00:00'),
+(3, 'good33', 30, 'товар good33 очень хорош', 100.20, 1, '2016-09-09 21:00:00', '2016-09-09 21:00:00'),
+(4, 'good111', 1, 'товар good111 очень хорош', 90.50, 0, '2016-09-09 21:00:00', '2016-09-09 21:00:00'),
+(5, 'good231', 1, 'товар good231 очень хорош', 5.00, 1, '2016-09-09 21:00:00', '2016-09-09 21:00:00'),
+(6, 'good143', 2, 'товар good143 очень хорош', 50.10, 0, '2016-09-09 21:00:00', '2016-09-09 21:00:00'),
+(7, 'good333', 5, 'товар good333 очень хорош', 100.50, 1, '2016-09-09 21:00:00', '2016-09-09 21:00:00');
 
-INSERT INTO `rubrics` (`name`) VALUES ('test1');
-INSERT INTO `rubrics` (`name`) VALUES ('test2');
-INSERT INTO `rubrics` (`name`) VALUES ('test3');
-INSERT INTO `rubrics` (`name`) VALUES ('test11');
-INSERT INTO `rubrics` (`name`) VALUES ('test21');
-INSERT INTO `rubrics` (`name`) VALUES ('test12');
-INSERT INTO `rubrics` (`name`) VALUES ('test121');
+INSERT INTO `news` (`id`, `title`, `annotation`, `text`, `important`, `news_date`, `public_date`, `unpublic_date`) VALUES
+(1, 'Неважная новость 1', 'неважная аннотация 1', 'неважный текст 1', 0, '2016-09-10 00:00:00', '2016-09-10 00:00:00', '2016-09-30 00:00:00'),
+(2, 'Важная новость 1', 'важная аннотация 1', 'важный текст 1', 1, '2016-09-09 00:00:00', '2016-09-07 00:00:00', '2016-09-30 00:00:00'),
+(3, 'Важная новость 2', 'важная аннотация 2', 'важный текст 2', 1, '2016-09-09 00:00:00', '2016-09-15 00:00:00', '2016-09-30 00:00:00'),
+(4, 'Неважная новость 2', 'неважная аннотация 2', 'неважный текст 2', 0, '2016-09-08 00:00:00', '2016-09-15 00:00:00', '2016-09-30 00:00:00'),
+(5, 'Важная новость 3', 'важная аннотация 3', 'важный текст 3', 1, '2016-09-10 00:00:00', '2016-09-10 00:00:00', '2016-09-30 00:00:00'),
+(6, 'Неважная новость 3', 'неважная аннотация 3', 'неважный текст 3', 0, '2016-09-07 00:00:00', '2016-09-07 00:00:00', '2016-09-30 00:00:00');
 
-INSERT INTO `rubric_relations` (`rubric_id`, `rubric_parents`, `has_child`) VALUES (1, '1', TRUE);
-INSERT INTO `rubric_relations` (`rubric_id`, `rubric_parents`, `has_child`) VALUES (2, '2', TRUE);
-INSERT INTO `rubric_relations` (`rubric_id`, `rubric_parents`, `has_child`) VALUES (3, '3', FALSE);
-INSERT INTO `rubric_relations` (`rubric_id`, `rubric_parents`, `has_child`) VALUES (4, '1#4', FALSE);
-INSERT INTO `rubric_relations` (`rubric_id`, `rubric_parents`, `has_child`) VALUES (5, '1#5', TRUE);
-INSERT INTO `rubric_relations` (`rubric_id`, `rubric_parents`, `has_child`) VALUES (6, '2#6', FALSE);
-INSERT INTO `rubric_relations` (`rubric_id`, `rubric_parents`, `has_child`) VALUES (7, '1#5#7', FALSE);
+INSERT INTO `rubrics` (`id`, `name`) VALUES
+(1, 'test1'),
+(4, 'test11'),
+(6, 'test12'),
+(7, 'test121'),
+(2, 'test2'),
+(5, 'test21'),
+(3, 'test3');
 
-INSERT INTO `news` (`title`, `annotation`, `text`, `news_date`, `public_date`, `unpublic_date`, `important`) VALUES ('Неважная новость 1', 'неважная аннотация 1', 'неважный текст 1', '2016-09-10 00:00:00', '2016-09-10 00:00:00', '2016-09-30 00:00:00', FALSE);
-INSERT INTO `news` (`title`, `annotation`, `text`, `news_date`, `public_date`, `unpublic_date`, `important`) VALUES ('Важная новость 1', 'важная аннотация 1', 'важный текст 1', '2016-09-09 00:00:00', '2016-09-07 00:00:00', '2016-09-30 00:00:00', TRUE);
-INSERT INTO `news` (`title`, `annotation`, `text`, `news_date`, `public_date`, `unpublic_date`, `important`) VALUES ('Важная новость 2', 'важная аннотация 2', 'важный текст 2', '2016-09-09 00:00:00', '2016-09-15 00:00:00', '2016-09-30 00:00:00', TRUE);
-INSERT INTO `news` (`title`, `annotation`, `text`, `news_date`, `public_date`, `unpublic_date`, `important`) VALUES ('Неважная новость 2', 'неважная аннотация 2', 'неважный текст 2', '2016-09-08 00:00:00', '2016-09-15 00:00:00', '2016-09-30 00:00:00', FALSE);
-INSERT INTO `news` (`title`, `annotation`, `text`, `news_date`, `public_date`, `unpublic_date`, `important`) VALUES ('Важная новость 3', 'важная аннотация 3', 'важный текст 3', '2016-09-10 00:00:00', '2016-09-10 00:00:00', '2016-09-30 00:00:00', TRUE);
-INSERT INTO `news` (`title`, `annotation`, `text`, `news_date`, `public_date`, `unpublic_date`, `important`) VALUES ('Неважная новость 3', 'неважная аннотация 3', 'неважный текст 3', '2016-09-07 00:00:00', '2016-09-07 00:00:00', '2016-09-30 00:00:00', FALSE);
+-- 
+INSERT INTO `rubric_relations` (`id`, `rubric_id`, `rubric_parents`, `has_child`) VALUES
+(1, 1, '1', 1),
+(2, 2, '2', 1),
+(3, 3, '3', 0),
+(4, 4, '1#4', 0),
+(5, 5, '1#5', 1),
+(6, 6, '2#6', 0),
+(7, 7, '1#5#7', 0);
 
-INSERT INTO `goods`(`name`, `count`, `description`, `price`, `new`, `created_at`, `updated_at`) VALUES ('good1', 10, 'товар good1 очень хорош', 10.5 ,TRUE, '2016-09-10 00:00:00', '2016-09-10 00:00:00');
-INSERT INTO `goods`(`name`, `count`, `description`, `price`, `new`, `created_at`, `updated_at`) VALUES ('good2', 20, 'товар good2 очень хорош', 111.5 ,FALSE, '2016-09-10 00:00:00', '2016-09-10 00:00:00');
-INSERT INTO `goods`(`name`, `count`, `description`, `price`, `new`, `created_at`, `updated_at`) VALUES ('good33', 30, 'товар good33 очень хорош', 100.2 ,TRUE, '2016-09-10 00:00:00', '2016-09-10 00:00:00');
-INSERT INTO `goods`(`name`, `count`, `description`, `price`, `new`, `created_at`, `updated_at`) VALUES ('good111', 1, 'товар good111 очень хорош', 90.5 ,FALSE, '2016-09-10 00:00:00', '2016-09-10 00:00:00');
-INSERT INTO `goods`(`name`, `count`, `description`, `price`, `new`, `created_at`, `updated_at`) VALUES ('good231', 1, 'товар good231 очень хорош', 5 ,TRUE, '2016-09-10 00:00:00', '2016-09-10 00:00:00');
-INSERT INTO `goods`(`name`, `count`, `description`, `price`, `new`, `created_at`, `updated_at`) VALUES ('good143', 2, 'товар good143 очень хорош', 50.1 ,FALSE, '2016-09-10 00:00:00', '2016-09-10 00:00:00');
-INSERT INTO `goods`(`name`, `count`, `description`, `price`, `new`, `created_at`, `updated_at`) VALUES ('good333', 5, 'товар good333 очень хорош', 100.5 ,TRUE, '2016-09-10 00:00:00', '2016-09-10 00:00:00');
+INSERT INTO `users` (`id`, `name`, `city`, `company`, `post_index`, `address`, `phone`, `bank_name`, `bank_account`, `inn`, `email`, `password`, `type`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'user', 'city', 'company1', '123456', 'address1', '123456', 'bank', '123456', '123456', 'q@q.ru', '$2y$10$SLEy0rwyeDFOgW.n83lQxOI9WbHm/6cRvDRTbBEEQmo.OPOxGezL.', 'user', 'ZV3vGpR3CBS6LcyEoggBS14UnQTc1cc5pOWPdme2ktBP1J1Y561KpjPmqhK7', '2016-09-25 18:22:23', '2016-10-24 20:50:25'),
+(2, 'Admin', '', '', '', '', '', '', '', '', 'admin@uni.ru', '$2y$10$pNRxF54aWL0A.44fnFT7yuV0yTNs0k4VV2O3CSJfu9F99AF.z1a9.', 'admin', 'dx9HSLLuJW42KL4JZOjlBv3hCokA0px62f8u4SIOLsRGwdcou82ky4rIUCYr', '2016-10-24 19:49:23', '2016-10-25 12:35:42'),
+(3, 'Storage', '', '', '', '', '', '', '', '', 'storage@uni.ru', '$2y$10$RboE/J3woSh2GfWEQZXoYOgZjGTu9DEgkh1dZUICUkmzKSGFINKYa', 'storage', 'gMa06jargI75Vq0RABp0O4yUsdl9n64gjX4axShGGY4tY7wr5l7xGNl4RlhN', '2016-10-24 20:22:52', '2016-10-24 20:51:30');

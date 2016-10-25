@@ -38,7 +38,9 @@
         </nav>
     </header>
     @if (Auth::user())
-        <div class="right">Здравствуйте, {{ Auth::user()->name }}!</div>
+        <div class="row">
+            <div class="right">Здравствуйте, {{ Auth::user()->name }}!</div>
+        </div>
     @endif
     <div class="container">
         <div class="row">

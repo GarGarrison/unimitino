@@ -18,7 +18,7 @@ class SharedController extends Controller
     }
     public function updateUID($cook, $uid) {
         Cart::where('uid', $cook)->update(['uid'=>$uid]);
-        $duplicates = array_pluck(Cart::select('id', DB::raw('count(id) as count'))->groupBy('goods_id')->having('count', '>', 1)->get(), 'id');
+        $duplicates = array_pluck(Cart::select('id', DB::raw('count(id) as count'))->groupBy('gid')->having('count', '>', 1)->get(), 'id');
         Cart::whereIn('id', $duplicates)->delete();
     }
     public function getUID() {

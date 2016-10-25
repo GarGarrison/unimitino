@@ -4,7 +4,8 @@ function makeOrder() {
     $('.order-table tbody tr').each(function(){
         id = $(this).attr('name');
         count = $(this).find('div[name="count"]').text();
-        order.push({"id": id, "count": count});
+        price = $(this).find('td[name="price"]').text();
+        order.push({"id": id, "count": count, "price": price});
     })
     return order;
 }
@@ -34,10 +35,10 @@ $(document).on('click', '.to-cart', function(){
     $.ajax({
         'url': url,
         'type': 'post',
-        'data': {'goods_id': gid},
+        'data': {'gid': gid},
         'success': function(resp) {
-            alert(resp);
-            plusCart();
+            if (resp.success) plusCart();
+            alert(resp.message);   
         },
         'error': function(resp){
             $('body').prepend(resp.responseText);
@@ -65,22 +66,20 @@ $(document).on('click', '.delete-from-cart', function(event){
     })
 });
 
+// показать этапы заказа
+$(document).on('click', '.order-next-step', function(){
+    $(this).closest('.row').next('.order-step').slideDown('fast');
+});
+
 // отправить заказ
-$(document).on('click', '.do-order', function(){
-    if (!$(this).prev().hasClass('order-params')){
-        $(this).before("<div class='col s12 order-params'></div>");
-        $('.order-params').load("/order_params", function(){
-            $('.order-params input').each(function(){
-                if ($(this).val() != '') $(this).next('label').addClass('active');
-            });
-            $('.order-params').slideDown('fast');
-        });
-    }
-    else {
-        form = $('.order-params form')
-        url = form.attr('action');
-        data = serializeToObject(form);
-        data["order"] = makeOrder();
-        SendForm(url, data, alertSuccess)
-    }
-})
+$(document).on('click', '.do-order', function(event){
+    event.preventDefault();
+    form = $(this).closest('form');
+    url = form.attr('action');
+    data = serializeToObject(form);
+    data["order"] = makeOrder();
+    SendForm(url, data, function(resp) {
+        alert(resp);
+        document.location.reload();
+    });
+});

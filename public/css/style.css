@@ -101,3 +101,7 @@
 .order-params {
     display: none;
 }
+.order-step {
+    padding: 10px 0px;
+    display: none;
+}
