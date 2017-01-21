@@ -25,6 +25,7 @@ class SocialController extends Controller
             $login = new User;
             $login->name = $name;
             $login->email = $email;
+            $login->type = "user";
         }
         Auth::login($login, true);
         return redirect()->intended('/');

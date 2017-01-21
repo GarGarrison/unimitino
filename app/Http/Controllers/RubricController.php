@@ -31,7 +31,8 @@ class RubricController extends SharedController
             return $validator->messages();
         }
         $new_rubric = Rubric::create([
-                        'name' => $request['name']
+                        'name' => $request['name'],
+                        'url' => $this->translit($request['name'])
                     ]);
         $newid = $new_rubric->id;
         $parent = $request['parent'];

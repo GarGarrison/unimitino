@@ -18,20 +18,22 @@ Route::get('/callback/{provider}', 'SocialController@callback');
 
 Route::get('/', 'IndexController@index');
 Route::post('/search', 'IndexController@search');
+Route::get('/news', 'IndexController@show_news');
+Route::get('/new_goods', 'IndexController@show_new_goods');
+Route::get('/rubric/{url}', 'IndexController@show_rubric');
+Route::get('/kak-kupit', 'IndexController@how_buy');
+Route::get('/contacts', 'IndexController@contacts');
+Route::get('/about', 'IndexController@about');
 
-Route::get('/show_cart', 'CartController@show_cart');
+Route::get('/cart', 'CartController@show_cart');
 Route::post('/add_to_cart', 'CartController@add_to_cart');
-Route::post('/delete_from_cart', 'CartController@delete_from_cart');
+Route::get('/delete_from_cart/{ctd}', 'CartController@delete_from_cart');
 Route::get('/order_params', 'CartController@order_params');
 Route::post('/make_order', 'CartController@make_order');
 
 Route::get('/home', 'HomeController@index');
-Route::get('/orders', 'HomeController@show_orders');
 Route::post('/home', 'HomeController@update_user');
-
-Route::get('/test', function(){
-    return view('test');
-});
+Route::get('/orders', 'HomeController@show_orders');
 
 Route::group(['middleware' => 'admin'], function(){
     Route::get('/admin', 'AdminController@index');
@@ -39,6 +41,7 @@ Route::group(['middleware' => 'admin'], function(){
     Route::get('/admin/news', 'AdminController@view_news');
     Route::get('/admin/users', 'AdminController@view_users');
     Route::get('/admin/goods', 'AdminController@view_goods');
+    Route::get('/admin/params', 'AdminController@view_params');
 
     Route::get('/admin/show_add_rubric', 'RubricController@show_add_rubric');
     Route::get('/admin/show_edit_rubric', 'RubricController@show_edit_rubric');
@@ -55,4 +58,6 @@ Route::group(['middleware' => 'admin'], function(){
 
 Route::group(['middleware' => 'storage'], function(){
     Route::get('/storage', 'StorageController@index');
+    Route::get('/storage/reload', 'StorageController@reload');
+    Route::get('/storage/checknew', 'StorageController@checknew');
 });

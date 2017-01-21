@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Validator;
 use Socialite;
 use Auth;
+use DB;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\User;
 use App\Order;
+use App\Goods;
 class HomeController extends SharedController
 {
     /**
@@ -41,7 +43,20 @@ class HomeController extends SharedController
     public function index()
     {
         $type = Auth::user()->type;
-        return view($type.'.'.$type);
+        $data = array();
+        if ($type == "storage") {
+            $good = "";
+            $user = "";
+            $order = Order::where('status', 0)->first();
+            if ($order) {
+                $good = Goods::find($order->gid);
+                $user = User::find($order->uid);
+                //$order->status = 1;
+                //$order->save();
+            }
+            $data = ["order" => $order, "good"=>$good, "user"=>$user];
+        }
+        return view($type.'.'.$type, $data);
     }
 
     public function show_orders()

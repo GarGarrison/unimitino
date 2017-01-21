@@ -31,13 +31,12 @@ class CartController extends SharedController
         return response()->json(["success" => true,"message"=> "Добавлено в корзину"]);
     }
 
-    public function delete_from_cart(Request $request) {
-        $ctd = $request['id'];
+    public function delete_from_cart($ctd) {
         Cart::where('uid', session('uid'))->where('gid', $ctd)->delete();
         return response()->json(['success'=> 'Успешно удалено']);
     }
     // форма с параметрами заказа
-    public function order_params(){ return view("util.order_params");}
+    //public function order_params(){ return view("util.order_params");}
 
     public function make_order(Request $request){
         $uid = session('uid');
@@ -57,7 +56,7 @@ class CartController extends SharedController
             ]);
         }
         Cart::where('uid', $uid)->whereIn('gid', $gids)->delete();
-        return "Заказа отправлен в работу!";
+        return "Заказ отправлен в работу!";
     }
 
 }
