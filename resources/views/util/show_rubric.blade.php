@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @if ($params)
     @section('left_col')
     <div class="card-wrapper">
@@ -10,17 +9,17 @@
         <div class="card-body">
         @foreach($params as $p)
             <div class="param-item">
-                <b data-colname = "$p->col_name">{{ $p->name }}:</b>
+                <b>{{ $p->name }}:</b>
                 @if ($p->type=="integer")
-                <div class="param-box param-box-integer" contenteditable="true"></div>
+                <input type="text" class="param-box param-box-integer" data-colname = "{{ $p->column_name }}" data-operation=">=">
                 <span class="param-stick">-</span>
-                <div class="param-box param-box-integer" contenteditable="true"></div>
+                <input type="text" class="param-box param-box-integer" data-colname = "{{ $p->column_name }}" data-operation="<=">
                 @else
-                <div class="param-box param-box-varchar" contenteditable="true"></div>
+                <input type="text" class="param-box param-box-varchar" data-colname = "{{ $p->column_name }}" data-operation="LIKE">
                 @endif
             </div>
         @endforeach
-            <button class="btn btn-large btn-param">Выбрать</button>
+            <button class="btn btn-param" data-rid="{{ $rid }}">Выбрать</button>
         </div>
     </div>
     @parent
@@ -32,11 +31,15 @@
         <div class="card-head">
             <div class="bread">
             @foreach ($bread as $b)
-            <span class="bread-quote">»</span> {{ $rubrics[$b]['name'] }}
+                @if ($b != end($bread))
+                <span class="blue-text">{{ $rubrics[$b]['name'] }}</span><span class="bread-quote">»</span>
+                @else
+                    <b>{{ $rubrics[$b]['name'] }}</b>
+                @endif
             @endforeach
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body main-content">
             @foreach($goods as $g)
                 @include("util.goods_pattern")
             @endforeach

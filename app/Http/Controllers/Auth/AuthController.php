@@ -66,11 +66,24 @@ class AuthController extends SharedController
     protected function create(array $data)
     {
         return User::create([
+            'type' => $data['user_type'],
             'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'type' => 'user'
+            'city' => $data['city'],
+            'company' => $data['company'],
+            'post_index' => $data['post_index'],
+            'address' => $data['address'],
+            'phone' => $data['phone'],
+            'bank_name' => $data['bank_name'],
+            'bank_account' => $data['bank_account'],
+            'inn' => $data['inn'],
+            'email' => $data['email']
         ]);
+        // return User::create([
+        //     'name' => $data['name'],
+        //     'email' => $data['email'],
+        //     'password' => bcrypt($data['password']),
+        //     'type' => $data['user_type']
+        // ]);
     }
 
     public function logout(){

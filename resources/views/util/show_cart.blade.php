@@ -2,19 +2,19 @@
 
 @section('right_col')
 <div class="card-wrapper">
-    <div class="card-head">Ваша корзина</div>
+    <div class="card-head">Корзина <i class="material-icons head-icon">shopping_cart</i></div>
     <div class="card-body">
         @if ($goods)
             @foreach($goods as $g)
             <div class="card-item cart-item">
                 <div class="card-item-body">
-                    <div class="card-item-desc">{{ $g->name }} <span class="vert-stick">|</span>{{ $g->description }}
-                    <i class="material-icons delete-from-cart" title="Удалить из карзины" data-id="{{ $g->id }}">close</i>
+                    <div class="card-item-desc">{{ $g->goodsname }} <span class="vert-stick">|</span>{{ $g->producer }}
+                    <i class="material-icons delete-from-cart" title="Удалить из карзины" data-id="{{ $g->cid }}">close</i>
                     </div>
                     <div class="card-item-info">
-                        <div class="cart-price">{{ $g->price }}</div>
+                        <span class="good-card-lable">Цена:</span><div class="cart-price">{{ $g->price_retail_rub }}</div>
                         <div class="cart-count-wrapper">
-                            <span>Кол-во:</span><div class="goods-count" contenteditable="true">{{ $g->count }}</div>
+                            <span class="good-card-lable">Кол-во:</span><input type="text" class="goods-count" value="{{ $g->count }}">
                         </div>                                    
                     </div>
                 </div>
@@ -31,9 +31,9 @@
                     </div>
                 </div>
             </div>
-            <button class="btn left order-next-step">Далее</button>
+            <button class="btn right order-next-step">Оформить заказ</button>
         @else
-            <p>пуста</p>
+            <h5>Ваша корзина пока пуста</h5>
         @endif
     </div>
 </div>

@@ -42,28 +42,29 @@ class HomeController extends SharedController
      */
     public function index()
     {
-        $type = Auth::user()->type;
-        $data = array();
-        if ($type == "storage") {
-            $good = "";
-            $user = "";
-            $order = Order::where('status', 0)->first();
-            if ($order) {
-                $good = Goods::find($order->gid);
-                $user = User::find($order->uid);
-                //$order->status = 1;
-                //$order->save();
-            }
-            $data = ["order" => $order, "good"=>$good, "user"=>$user];
-        }
-        return view($type.'.'.$type, $data);
+        //$type = Auth::user()->type;
+        //$data = array();
+        // if ($type == "storage") {
+        //     $good = "";
+        //     $user = "";
+        //     $order = Order::where('status', 0)->first();
+        //     if ($order) {
+        //         $good = Goods::find($order->gid);
+        //         $user = User::find($order->uid);
+        //         //$order->status = 1;
+        //         //$order->save();
+        //     }
+        //     $data = ["order" => $order, "good"=>$good, "user"=>$user];
+        // }
+        //return view($type.'.'.$type, $data);
+        return view("user.user");
     }
 
-    public function show_orders()
-    {
-        $user = auth()->user();
-        return view('user.orders', ["orders"=>Order::where('uid', $user->id)->get()]);
-    }
+    // public function show_orders()
+    // {
+    //     $user = auth()->user();
+    //     return view('user.orders', ["orders"=>Order::where('uid', $user->id)->get()]);
+    // }
 
     public function update_user(Request $request){
         // $validator = $this->validator($request->all());
@@ -71,7 +72,9 @@ class HomeController extends SharedController
         //     return $validator->messages();
         // }
         $user = Auth::user();
-        $user->update([
+        $pass = $request['password'];
+        $data = [
+            'type' => $request['user_type'],
             'name' => $request['name'],
             'city' => $request['city'],
             'company' => $request['company'],
@@ -82,7 +85,14 @@ class HomeController extends SharedController
             'bank_account' => $request['bank_account'],
             'inn' => $request['inn'],
             'email' => $request['email']
-        ]);
-        return redirect('home.home');
+        ];
+        if ($pass) $data['password'] = bcrypt($pass);
+        $user->update($data);
+        return redirect('/home');
+    }
+
+    public function user_menu($url)
+    {
+        return view('user.'.$url);
     }
 }

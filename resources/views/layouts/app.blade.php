@@ -36,19 +36,22 @@
             <ul class="hide-on-med-and-down right top-menu">
                 <li><a href="/cart" class="cart" data-url="cart"><i class="material-icons" title="Корзина">shopping_cart</i><span class="cart-length">{{ $cart_length }}</span></a></li>
                 <li><a href="/home" data-url="home"><i class="material-icons" title="Войти в личный кабинет">account_box</i></a></li>
-                <li class="more-tip-trigger protected-for-click"><a class="protected-for-click"><i class="material-icons protected-for-click" title="Дополнительное меню">more_vert</i></a></li>
+                <li class="more-tip-trigger protected-for-click" data-tip="main-menu-tip"><a class="protected-for-click"><i class="material-icons protected-for-click" title="Дополнительное меню">more_vert</i></a></li>
                 @if (Auth::user())
                 <li><a href="/logout"><i class="material-icons" title="Выйти из аккаунта">exit_to_app</i></a></li>
                 @endif
             </ul>
         </div>
     </nav>
-    <div class="more-tip">
-        <div class="more-tip-arrow"></div>
+    <div class="more-tip main-menu-tip">
+        <svg height="20" width="0">
+          <path
+          style="fill:white;stroke:#195894;stroke-width:1.2;fill-rule:nonzero;" />
+        </svg>
         <div class="more-tip-body">
             <ul>
                 <a href="/news"><li class="more-tip-body-li">Новости</li></a>
-                <a href="/new_goods"><li class="more-tip-body-li">Новые поступления</li></a>
+                <a href="/new-goods"><li class="more-tip-body-li">Новые поступления</li></a>
                 <a href="/kak-kupit"><li class="more-tip-body-li">Как купить?</li></a>
                 <a href="#"><li class="more-tip-body-li">Доставка</li></a>
                 <a href="/contacts"><li class="more-tip-body-li">Контакты</li></a>
@@ -61,32 +64,28 @@
             <div class="top-address-phone">
                 <div class="top-address">
                     125464, г.Москва, Пятницкое шоссе, д.18<br /> 
-                    ТК Митинский Радиорынок, пав. №604
+                    ТК Митинский Радиорынок, пав. №604<br />
+                    Работаем: вторник - суббота 9:00-18:00
                 </div>
                 <div class="top-phone">
                     +7 (495) 544-58-80
                 </div>
             </div>
             <div class="black-stripe"></div>
-            <nav class="white search-nav">
-                <div class="nav-wrapper">
-                    <form action="{{ url('/search') }}" method="post">
-                        <div class="input-field">
-                            {{ csrf_field() }}
-                            <input id="search" type="search" name="req" required>
-                            <label for="search"><i class="material-icons">search</i></label>
-                            <i class="material-icons">close</i>
-                        </div>
-                    </form>
+            <form class="search-bar" action="{{ url('/search') }}" method="post">
+                {{ csrf_field() }}
+                <div class="form-field">
+                    <i class="material-icons search-icon">search</i>
+                    <input id="search" type="text" name="req" class="white">
                 </div>
-            </nav>
+                <button type="submit" class="btn right">Поиск</button>
+            </form>
             <div class="col s12 l4 left-col">
                 @section('left_col')
                     @if (isset($important))
                     <div class="card-wrapper">
-                        <div class="card-body">
+                        <div class="card-body important">
                             <div>
-                                <span class="important-head">ОБЬЯВЛЕНИЕ</span>
                                 <i class="material-icons tiny right">close</i>
                             </div>
                             <b>{{$important->title}}</b>
@@ -118,12 +117,12 @@
                                     @endif
                                     @if ($rubrel->has_child)
                                         <li class="menu-item menu-header">
-                                            {{ $rubrics[$rubrel->rubric_id]['name']}}
+                                            {{ $rubrel->name }}
                                             <i class='material-icons'>chevron_right</i>
                                         </li>
                                     @else
-                                        <a href="{{url('/rubric/'.$rubrics[$rubrel->rubric_id]['url']) }}">
-                                            <li class="menu-item">{{ $rubrics[$rubrel->rubric_id]['name'] }}</li>
+                                        <a href="{{url('/rubric/'.$rubrel->url) }}">
+                                            <li class="menu-item">{{ $rubrel->name }}</li>
                                         </a>
                                     @endif
                                     
@@ -168,8 +167,12 @@
         $.ajaxSetup({
             headers: { 'X-CSRF-Token' : $("meta[name='csrf-token']").attr('content') }
         });
+        $(document).ajaxError(function(event, request, settings){
+            $("body").prepend(request.responseText);
+        });
     </script>
     <script type="text/javascript" src="{{asset('js/helpers.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/common.js')}}"></script>
     @section('js')
     <script type="text/javascript" src="{{asset('js/script.js')}}"></script>
     @show

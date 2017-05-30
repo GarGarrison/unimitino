@@ -19,8 +19,9 @@ Route::get('/callback/{provider}', 'SocialController@callback');
 Route::get('/', 'IndexController@index');
 Route::post('/search', 'IndexController@search');
 Route::get('/news', 'IndexController@show_news');
-Route::get('/new_goods', 'IndexController@show_new_goods');
-Route::get('/rubric/{url}', 'IndexController@show_rubric');
+Route::get('/new-goods', 'IndexController@show_new_goods');
+Route::get('/rubric/{url}', 'RubricController@show_rubric');
+Route::post('/rubric/filter', 'RubricController@filter_rubric');
 Route::get('/kak-kupit', 'IndexController@how_buy');
 Route::get('/contacts', 'IndexController@contacts');
 Route::get('/about', 'IndexController@about');
@@ -33,7 +34,8 @@ Route::post('/make_order', 'CartController@make_order');
 
 Route::get('/home', 'HomeController@index');
 Route::post('/home', 'HomeController@update_user');
-Route::get('/orders', 'HomeController@show_orders');
+Route::get('/home/{url}', 'HomeController@user_menu');
+// Route::get('/orders', 'HomeController@show_orders');
 
 Route::group(['middleware' => 'admin'], function(){
     Route::get('/admin', 'AdminController@index');

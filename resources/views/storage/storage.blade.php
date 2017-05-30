@@ -1,8 +1,4 @@
-@extends('layouts.app')
-@section('left_col')
-@endsection
  <link rel="stylesheet" type="text/css" href="{{asset('css/newstorage.css')}}">
-@section('wide_content')
     <audio id="audio" loop>
         <source src="IncomingMessage.ogg"> 
     </audio>
@@ -12,7 +8,7 @@
         </div>
     </div>
     <div class="inner">
-        @include('/util/storage_table')
+        @include('/storage/storage_table')
         <div class="navigation">
             <img class="left-button grey" src="img/arrow-left-grey.png" />
             <img class="right-button grey" src="img/arrow-right-grey.png" />
@@ -21,4 +17,3 @@
         </div>
     </div>
 <script language="javascript" src="js/storage.js"></script>
-@endsection

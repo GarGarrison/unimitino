@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use DB;
 use Validator;
 use App\Rubric;
 use App\RubricRelation;
@@ -17,6 +17,34 @@ class RubricController extends SharedController
             'name' => 'required|max:255|unique:rubrics',
         ]);
     }
+
+    public function filter_rubric(Request $request) {
+        $rid = $request['rid'];
+        $params = $request['params'];
+        $filter = DB::table("goods_params")->where("rid", $rid);
+        foreach ($params as $p) {
+            $filter = $filter->where("goods_params.".$p["column"], $p["operation"], $p["value"]);
+        }
+        $goods = $filter->join('goods', 'goods_params.gid', '=', 'goods.id')->get();
+        return view('util.filter_rubric', ['goods' => $goods]);
+    }
+
+    public function show_rubric($url) {
+        $rubric = Rubric::whereUrl($url)->first();
+        //$params = false;
+        if (!$rubric) abort(404);
+        $bread = explode("#", $rubric->rubric_parents);
+        //if ($rubric->has_params) $params = DB::table("rubrics_params")
+        $params = DB::table("rubrics_params")
+            ->where('rid', $rubric->id)
+            ->join("params", "rubrics_params.pid", "=", "params.id")->get();
+
+        $goods = DB::table('rubrics_goods')
+        ->where('rid', $rubric->id)
+        ->join('goods', 'rubrics_goods.gid', '=', 'goods.id')->get();
+        return view('util.show_rubric', ['goods' => $goods, 'params' => $params, 'bread' => $bread, 'rid' => $rubric->id ]);
+    }
+
     public function show_add_rubric() {
         return view('admin.forms.add_rubric',['rubrics'=>Rubric::all()]);
     }
@@ -36,14 +64,15 @@ class RubricController extends SharedController
                     ]);
         $newid = $new_rubric->id;
         $parent = $request['parent'];
-        $fullparent = "";
-        if ($parent == "") $fullparent = $newid;
-        else $fullparent = RubricRelation::where('rubric_id', $parent)->first(['rubric_parents'])->rubric_parents.'#'.$newid;
-        RubricRelation::create([
-            'rubric_id' => $newid,
-            'rubric_parents' => $fullparent
-        ]);
-        if ($parent) RubricRelation::where('rubric_id',$parent)->update(['has_child'=>True]);
+        $fullparent = $newid;
+        if ($parent != "") {
+            $parent_rubric = Rubric::find($parent);
+            $fullparent = $parent_rubric->rubric_parents.'#'.$newid;
+            $parent_rubric->has_child = True;
+            $parent_rubric->save();
+        }
+        $new_rubric->rubric_parents = $fullparent;
+        $new_rubric->save();
         return response()->json(['success'=> 'Успешно сохранено', 'params'=>['name'=>$request['name'], 'id'=>$newid, 'parent'=>$request['parent']]]);
     }
     public function edit_rubric(Request $request) {
@@ -51,7 +80,7 @@ class RubricController extends SharedController
         if ($validator->fails()) {
             return $validator->messages();
         }
-        Rubric::find($request['rubric-to-change'])->update(['name' => $request['name']]);
+        Rubric::find($request['rubric-to-change'])->update(['name' => $request['name'], 'url'=> $this->translit($request['name'])]);
         return response()->json(['success'=> 'Успешно изменено', 'params'=>['name'=>$request['name'], 'id'=>$request['rubric-to-change']]]);
     }
     public function del_rubric(Request $request) {

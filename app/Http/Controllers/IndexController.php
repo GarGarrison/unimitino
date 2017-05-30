@@ -5,19 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use DB;
-use App\Http\Requests;
 use Carbon\Carbon;
 use App\News;
-use App\Cart;
 use App\Goods;
-use App\Rubric;
-use App\RubricRelation;
-use App\RubricsGoods;
+
+$long_desc = "
+<div>
+</div>
+";
+
 class IndexController extends SharedController
 {
+    public function prepare_bd() {
+        Goods::all()->update(['description_long' => $long_desc, 'new' => 1]);
+    }
     public function index(Request $request) {
-        //$uid = $this->getUID($request);
         $now = Carbon::now();
         $actual_news = News::where('unpublic_date','>', $now)->where('public_date','<=', $now)->orderBy('public_date');
         $important_news = clone($actual_news);
@@ -34,21 +36,8 @@ class IndexController extends SharedController
         $view = 'util.search_result';
         if ($request['target']) $view = 'util.search_for_admin';
         $req = $request['req'];
-        $result = Goods::where('name', 'like', $req.'%')->get();
+        $result = Goods::where('goodsname', 'like', '%'.$req.'%')->get();
         return view($view, ['result'=>$result, 'req'=>$req]);
-    }
-    public function show_rubric($url) {
-        $rubric = Rubric::whereUrl($url)->first();
-        $params = false;
-        if (!$rubric) abort(404);
-        $bread = explode("#", RubricRelation::find($rubric->id)->rubric_parents);
-        if ($rubric->has_params) $params = DB::table("rubrics_params")
-            ->where('rid', $rubric->id)
-            ->join("params", "rubrics_params.pid", "=", "params.id")->get();
-        $goods = DB::table('rubrics_goods')
-        ->where('rid', $rubric->id)
-        ->join('goods', 'rubrics_goods.gid', '=', 'goods.id')->get();
-        return view('util.show_rubric', ['goods' => $goods, 'params' => $params, 'bread' => $bread ]);
     }
     public function show_news() {
         $news = News::orderBy('news_date', 'desc')->get();

@@ -11,13 +11,15 @@ use View;
 use DB;
 use App\Cart;
 use App\Rubric;
-use App\RubricRelation;
 
 class SharedController extends Controller
 {
     public function translit($str) {
         $lit_dic = array(
             ' ' => '_',
+            ',' => '',
+            '/' => '',
+            '-' => '_',
             'а' => 'a',
             'б' => 'b',
             'в' => 'v',
@@ -52,7 +54,7 @@ class SharedController extends Controller
             'ю' => 'ju',
             'я' => 'ja'
         );
-        return strtr($str, $lit_dic);
+        return strtr(mb_strtolower($str), $lit_dic);
     }
     public function getCheckbox($var, $default=0) {
         return isset($var) ? 1: $default;
@@ -78,6 +80,6 @@ class SharedController extends Controller
         session(['uid' => $uid]);
         View::share('cart_length', Cart::where('uid', $uid)->count());
         View::share('rubrics', Rubric::getDict());
-        View::share('rubric_relations', RubricRelation::orderBy('rubric_parents')->get());
+        View::share('rubric_relations', Rubric::orderBy('rubric_parents')->get());
     }
 }

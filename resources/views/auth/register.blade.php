@@ -2,50 +2,67 @@
 
 @section('right_col')
 <div class="card-wrapper">
-    <div class="card-head">Вход</div>
+    <div class="card-head">Регистрация</div>
     <div class="card-body">
-        <a href="{{url('/social_login/vkontakte')}}">VK</a>
-        <a href="{{url('/social_login/google')}}">Google</a>
-        <a href="{{url('/social_login/facebook')}}">Facebook</a>
-        <ul></ul>
-        или
-        <form method="post" action="{{ url('/register') }}">
-            {{ csrf_field() }}
-            <div class="row">
-                <div class="input-field col s12">
-                    <input name="name" type="text" class="validate">
-                    <label for="name">Имя</label>
-                    @if ($errors->has('name'))
-                        <span class="error-block">{{ $errors->first('name') }}</span>
-                    @endif
+        <div class="row">
+            <div class="col s12 radio-block" name="user_type">
+                <div class="radio-item" data-val="fiz">
+                    <svg class="radio-svg">
+                        <circle class="radio-border" cx=11 cy=11 r=10 stroke="#ccc" fill="none" />
+                        <circle class="radio-heart" cx=11 cy=11 r=3 stroke="none" fill="#195894" />
+                    </svg>
+                    <span>Физическое лицо</span>
                 </div>
-                <div class="input-field col s12">
-                    <input name="email" type="text" class="validate" value="{{ old('email')}}">
-                    <label for="email">Электронная почта</label>
-                    @if ($errors->has('email'))
-                        <span class="error-block">{{ $errors->first('email') }}</span>
-                    @endif
-                </div>
-             </div>
-             <div class="row">   
-                <div class="input-field col s12">
-                    <input name="password" type="password" class="validate">
-                    <label for="password">Пароль</label>
-                    @if ($errors->has('password'))
-                        <span class="error-block">{{ $errors->first('password') }}</span>
-                    @endif
-                </div>
-                <div class="input-field col s12">
-                    <input name="password_confirmation" type="password" class="validate">
-                    <label for="password_confirmation">Подтверждение пароля</label>
-                    @if ($errors->has('password_confirmation'))
-                        <span class="error-block">{{ $errors->first('password_confirmation') }}</span>
-                    @endif
+                <div class="radio-item" data-val="jur">
+                    <svg class="radio-svg">
+                        <circle cx=11 cy=11 r=10 stroke="#ccc" fill="none" />
+                        <circle class="radio-heart" cx=11 cy=11 r=3 stroke="none" fill="#195894" />
+                    </svg>
+                    <span>Юридическое лицо</span>
                 </div>
             </div>
+        </div>
+        <form method="post" action="{{ url('/register') }}" class="toggle-form" data-target="fiz">
+            {{ csrf_field() }}
+            @include("user.user_fiz_data")
             <div class="row">
+                <div class="col s3">
+                    <div class="form-title">Пароль:</div>
+                </div>
+                <div class="form-field col s9">
+                    <input name="password" type="password">
+                </div>
+                <div class="col s3">
+                    <div class="form-title">Пароль еще раз:</div>
+                </div>
+                <div class="form-field col s9">
+                    <input name="password_confirmation" type="password">
+                </div>
                 <div class="col s12">
-                    <button type="submit" class="btn">
+                    <button type="submit" class="btn right">
+                        Регистрация
+                    </button>
+                </div>
+            </div>
+        </form>
+        <form method="post" action="{{ url('/register') }}" class="toggle-form" data-target="jur">
+            {{ csrf_field() }}
+            @include("user.user_jur_data")
+            <div class="row">
+                <div class="col s3">
+                    <div class="form-title">Пароль:</div>
+                </div>
+                <div class="form-field col s9">
+                    <input name="password" type="password">
+                </div>
+                <div class="col s3">
+                    <div class="form-title">Пароль еще раз:</div>
+                </div>
+                <div class="form-field col s9">
+                    <input name="password_confirmation" type="password">
+                </div>
+                <div class="col s12">
+                    <button type="submit" class="btn right">
                         Регистрация
                     </button>
                 </div>

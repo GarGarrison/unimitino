@@ -14,8 +14,8 @@ class CreateGoodsParamsTable extends Migration
     {
         Schema::create('goods_params', function (Blueprint $table) {
             $table->increments('id');
-            $table->smallInteger('gid'); // goods id
-            $table->smallInteger('rid'); // rubric id
+            $table->integer('gid'); // goods id
+            $table->integer('rid'); // rubric id
             $table->integer('height'); // Высота, мм
             $table->integer('width'); // Ширина, мм
             $table->integer('length_val'); // Длина вала, мм

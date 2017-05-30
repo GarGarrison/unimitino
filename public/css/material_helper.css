@@ -5,6 +5,9 @@
 nav ul a {
     padding: 0px 5px;
 }
+nav ul a:hover {
+    background: none;
+}
 form a {
     margin: 10px;
 }
@@ -16,16 +19,21 @@ ul.browser-default {
     padding: 0px 40px;
 }
 .btn, .btn-floating {
-    --background-color: #ff8200 !important;
+    width: 160px;
     background: #195894 !important; /* Для старых браузров */
     background: linear-gradient(to top, #195894, #90acc5) !important;
+    text-transform: none;
+    box-shadow: none;
+    font-size: 18px;
+    padding: 0px;
+    color: #e5e5e5;
 }
 .btn:hover, .btn-floating:hover {
     background-color: #e64a19 !important;
 }
 .btn-param {
     width: 100%;
-    font-size: 2em;
+    margin-bottom: 30px;
 }
 .btn-param:hover {
     background-color: #90acc5 !important;
@@ -52,11 +60,28 @@ label[for="search"] i {
     color: #195894;
 }
 /* label underline focus color */
-.input-field input[type=text]:focus,
-.input-field input[type=password]:focus,
-.input-field textarea:focus {
-    border-bottom: 1px solid #195894;
-    box-shadow: 0 1px 0 0 #195894;
+.form-field input[type="text"]:focus,
+input[type="text"]:focus,
+.form-field input[type="password"]:focus,
+.form-field textarea:focus {
+    border-bottom: 1px solid #e5e5e5 !important;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 2px 0 rgba(0,0,0,0.12) !important;
+}
+
+.form-field input {
+    height: 34px;
+    border: 1px solid #ccc;
+    text-indent: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+.form-title {
+    font-size: 18px;
+    margin-top: 5px;
+}
+.search-bar input {
+    text-indent: 45px;
+    margin: 0px;
 }
 /* valid color */
 /*.input-field input[type=text].valid,
@@ -76,4 +101,44 @@ label[for="search"] i {
 /* icon prefix focus color */
 .input-field .prefix.active {
     color: #ff8200;
+}
+
+[type="radio"].with-gap:checked + label:before {
+  border: 1px solid #308ce7 !important;
+}
+
+[type="radio"].with-gap:checked + label:after {
+  border: 1px solid #308ce7 !important;
+  background-color: #308ce7 !important;
+}
+
+[type="radio"].with-gap + label:before {
+  border: 2px solid #195894 !important;
+}
+
+[type="radio"].with-gap + label:after {
+  border: 2px solid #195894 !important;
+  background-color: #195894 !important;
+}
+
+.radio-block {
+    font-size: 16px;
+    margin: 20px 0px;
+}
+.radio-item {
+    float: left;
+    margin-right: 30px;
+    cursor: pointer;
+}
+svg.radio-svg {
+    width: 22px;
+    height: 22px;
+    float: left;
+    margin-right: 10px;
+}
+svg .radio-heart {
+    fill: none;
+}
+.radio-item.active .radio-heart {
+    fill: #195894;
 }

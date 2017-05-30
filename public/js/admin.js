@@ -13,6 +13,7 @@ $(document).ready(function(){
     url = document.location.href.split('/');
     $('.menu_item active').removeClass('active');
     $('#' + url[url.length -1].replace('#','')).addClass('active');
+    searchResize();
 });
 /*   переключение табов */
 $(document).on('click', '.tab', function(){

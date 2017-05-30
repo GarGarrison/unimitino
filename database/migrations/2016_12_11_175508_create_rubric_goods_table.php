@@ -14,8 +14,8 @@ class CreateRubricGoodsTable extends Migration
     {
         Schema::create('rubrics_goods', function (Blueprint $table) {
             $table->increments('id');
-            $table->smallInteger('rid'); // rubric id
-            $table->smallInteger('gid'); // goods id
+            $table->integer('rid'); // rubric id
+            $table->integer('gid'); // goods id
         });
     }
 
