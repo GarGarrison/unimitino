@@ -187,10 +187,11 @@ $(document).on('click', '.cart-result-resum', function(){
 $.fn.chooseRadio = function() {
     block = $(this).closest(".radio-block");
     v = $(this).attr("data-val");
-    targ = $(".toggle-form[data-target='" + v + "']");
+    group = $(this).attr("data-group");
+    targ = $(".toggle-form[data-target='" + v + "'][data-group='" + group + "']");
     block.find(".active").removeClass("active");
     $(this).addClass("active");
-    $(".toggle-form").hide();
+    $(".toggle-form[data-group='" + group + "']").hide();
     targ.show();
 }
 $(document).on('click', '.radio-item', function(){
@@ -222,4 +223,5 @@ $(document).ready(function(){
         resultSum();
     }
     checkRadio();
+    $('select.custom-select').initCustomSelect();
 });

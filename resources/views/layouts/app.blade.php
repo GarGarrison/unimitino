@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/material_helper.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/production.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('lib/jqgoodies/jqgoodies.css')}}">
 </head>
 <body>
     <div class="container">
@@ -172,6 +173,7 @@
         });
     </script>
     <script type="text/javascript" src="{{asset('js/helpers.js')}}"></script>
+    <script type="text/javascript" src="{{asset('lib/jqgoodies/jqgoodies.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/common.js')}}"></script>
     @section('js')
     <script type="text/javascript" src="{{asset('js/script.js')}}"></script>

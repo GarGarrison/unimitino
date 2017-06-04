@@ -48,12 +48,12 @@ class IndexController extends SharedController
         return view('util.show_new_goods', ['new_goods' => $new_goods]);
     }
     public function how_buy() {
-        return view('util.how_buy');
+        return view('how_buy');
     }
     public function contacts() {
-        return view('util.contacts');
+        return view('contacts');
     }
     public function about() {
-        return view('util.about');
+        return view('about');
     }
 }

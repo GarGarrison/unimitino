@@ -29,6 +29,7 @@ Route::get('/about', 'IndexController@about');
 Route::get('/cart', 'CartController@show_cart');
 Route::post('/add_to_cart', 'CartController@add_to_cart');
 Route::get('/delete_from_cart/{ctd}', 'CartController@delete_from_cart');
+Route::get('/checkout', 'CartController@checkout');
 Route::get('/order_params', 'CartController@order_params');
 Route::post('/make_order', 'CartController@make_order');
 

@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn right order-next-step">Оформить заказ</button>
+            <a href="/checkout"><button class="btn right">Оформить заказ</button></a>
         @else
             <h5>Ваша корзина пока пуста</h5>
         @endif

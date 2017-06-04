@@ -40,6 +40,10 @@ class CartController extends SharedController
     // форма с параметрами заказа
     //public function order_params(){ return view("util.order_params");}
 
+    public function checkout(Request $request){
+        return view('util.checkout');
+    }
+
     public function make_order(Request $request){
         $uid = session('uid');
         $goods = $request['order'];
