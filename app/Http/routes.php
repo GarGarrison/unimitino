@@ -27,10 +27,12 @@ Route::get('/contacts', 'IndexController@contacts');
 Route::get('/about', 'IndexController@about');
 
 Route::get('/cart', 'CartController@show_cart');
+Route::post('/cart/update_count', 'CartController@update_count');
 Route::post('/add_to_cart', 'CartController@add_to_cart');
 Route::get('/delete_from_cart/{ctd}', 'CartController@delete_from_cart');
 Route::get('/checkout', 'CartController@checkout');
-Route::get('/order_params', 'CartController@order_params');
+Route::get('/payment', 'CartController@payment');
+
 Route::post('/make_order', 'CartController@make_order');
 
 Route::get('/home', 'HomeController@index');

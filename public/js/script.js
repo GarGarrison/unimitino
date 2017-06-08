@@ -1,3 +1,8 @@
+select_settings = {
+    "arrow_color": "#195894",
+    "need_legend": false
+}
+
 // хорошее округление
 function round(d,n) {
     p = n || 2;
@@ -50,7 +55,12 @@ function resultSum() {
         cur_sum = parseFloat($(this).text());
         rez = rez + cur_sum;
     });
-    $(".cart-result-sum-price").text(rez);
+    $(".cart-result-sum-price").text(round(rez));
+}
+$.fn.updateCount = function() {
+    cid = $(this).attr("data-id");
+    v = $(this).val();
+    $.post("/cart/update_count", {cid:cid, value: v});
 }
 function checkRadio(){
     if ($(".radio-item.active").length ) $(".radio-item.active").chooseRadio();
@@ -178,6 +188,7 @@ $(document).on('click', '.user-menu-tip a', function(e){
 $(document).on('blur', '.goods-count', function(){
     sum = $(this).closest(".card-item").find(".cart-bottom .sum-price");
     currentSum(sum);
+    $(this).updateCount();
 });
 
 // пересчитать общую сумму
@@ -214,6 +225,26 @@ $(document).on('click', '.btn-param', function(){
     $(".main-content").load("/rubric/filter", data);
 });
 
+$(document).on('change', '#delivery-type', function(){
+    v = $(this).val();
+    if (v == "Транспортная компания") $("#transport-company").initCustomSelect(select_settings);
+    else $("#transport-company").destroyCustomSelect();
+});
+
+$(document).on('click', '#order', function(e){
+    e.preventDefault();
+    v = $(this).attr("data-val");
+    if (v == "paykeeper") $("#order").attr("data-url", "/payments");
+    else $("#order").attr("data-url", "");
+    user_form = serializeToObject($(".toggle-form:visible"));
+    pay = $(".radio-item.active[data-group='payment']").attr("data-val");
+    delivery_form = serializeToObject($(".delivery-form"));
+    delivery_type = $("#delivery-type[data-init='1']").val();
+    transport_company = $("#transport-company[data-init='1']").val() || "";
+    order = Object.assign(user_form, delivery_form, {"pay": pay, "delivery_type": delivery_type, "transport_company": transport_company});
+    console.log(order);
+});
+
 $(document).ready(function(){
     $(".button-collapse").sideNav();
     url = location.href.split("/").pop();
@@ -223,5 +254,5 @@ $(document).ready(function(){
         resultSum();
     }
     checkRadio();
-    $('select.custom-select').initCustomSelect();
+    $('#delivery-type').initCustomSelect(select_settings);
 });

@@ -10,11 +10,14 @@ use App\Goods;
 use App\Order;
 class CartController extends SharedController
 {
-    public function show_cart(Request $request) {
-        $goods = DB::table("carts")
-            ->where('uid',session('uid'))
-            ->leftJoin("goods", "carts.gid", "=", "goods.id")
-            ->select('carts.id as cid', 'carts.*', 'goods.*')->get();
+    public function get_cart() {
+        return DB::table("carts")
+                    ->where('uid',session('uid'))
+                    ->leftJoin("goods", "carts.gid", "=", "goods.id")
+                    ->select('carts.id as cid', 'carts.*', 'goods.*')->get();
+    }
+    public function show_cart() {
+        $goods = $this->get_cart();
         return view('util.show_cart', ['goods'=>$goods]);
     }
 
@@ -37,11 +40,20 @@ class CartController extends SharedController
         return response()->json(["success" => true, "message" => "Успешно удалено!"]);
     }
 
-    // форма с параметрами заказа
-    //public function order_params(){ return view("util.order_params");}
+    public function update_count(Request $request) {
+        $cid = $request['cid'];
+        $v = $request['value'];
+        Cart::find($cid)->update(['count' => $v]);
+        return response()->json(["success" => true, "message" => "Успешно изменено!"]);
+    }
 
-    public function checkout(Request $request){
+    public function checkout(){
         return view('util.checkout');
+    }
+
+    public function payment()
+    {
+        return view('util.payment');
     }
 
     public function make_order(Request $request){

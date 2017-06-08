@@ -2,6 +2,9 @@ textarea {
     border: 1px solid #ccc;
     min-height: 150px;
 }
+a {
+    color: #195894;
+}
 nav ul a {
     padding: 0px 5px;
 }

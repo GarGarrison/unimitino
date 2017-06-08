@@ -7,20 +7,18 @@
         <div class="row">
             @include("user.radioblock")
         </div>
-        <div class="toggle-form" data-target="fiz" data-group="user_type">
-            {{ csrf_field() }}
+        <form class="toggle-form" data-target="fiz" data-group="user_type">
             @include("user.user_fiz_data")
-        </div>
-        <div class="toggle-form" data-target="jur" data-group="user_type">
-            {{ csrf_field() }}
+        </form>
+        <form class="toggle-form" data-target="jur" data-group="user_type">
             @include("user.user_jur_data")
-        </div>
+        </form>
     </div>
 </div>
 <div class="card-wrapper">
     <div class="card-head">Оплата</div>
     <div class="card-body">
-        <div class="col s12 radio-block" name="delivery_type">
+        <div class="col s12 radio-block">
             <div class="radio-item fullstring" data-val="paykeeper" data-group="payment">
                 <svg class="radio-svg">
                     <circle class="radio-border" cx=11 cy=11 r=10 stroke="#ccc" fill="none" />
@@ -28,7 +26,7 @@
                 </svg>
                 <span>Банковская карта</span>
             </div>
-            <div class="radio-item fullstring" data-val="" data-group="payment">
+            <div class="radio-item fullstring" data-val="account" data-group="payment">
                 <svg class="radio-svg">
                     <circle cx=11 cy=11 r=10 stroke="#ccc" fill="none" />
                     <circle class="radio-heart" cx=11 cy=11 r=3 stroke="none" fill="#195894" />
@@ -47,23 +45,20 @@
             <div class="col s2"><div class="form-title">Телефон:</div></div>
             <div class="col s8"><input type="text" name="phone"></div>
         </div>
-        <div class="toggle-form" data-target="paykeeper" data-group="payment">
-            <iframe src="http://demo.paykeeper.ru/form/" style="width:100%; height: 500px; border: 1px solid #ccc;"></iframe>
-        </div>
     </div>
 </div>
 <div class="card-wrapper">
     <div class="card-head">Доставка</div>
-    <div class="card-body">
+    <form class="card-body delivery-form">
         <div class="form-title">Выберите способ доставки:</div>
-        <select class="custom-select">
-            <option>Транспортная компания</option>
+        <select id="delivery-type" class="custom-select">
             <option>Обычная почта</option>
+            <option>Транспортная компания</option>
             <option>Экспресс-почта</option>
             <option>Авиапочта</option>
             <option>Самовывоз из павильона 604 на Митинском Радиорынке</option>
         </select>
-        <select class="custom-select">
+        <select id="transport-company" class="custom-select">
             <option>Грузовозофф</option>
             <option>Автотрейдинг</option>
             <option>ЗАО "ФинАвто"</option>
@@ -82,10 +77,10 @@
             <option>ЗАО «ТРЭЙН»</option>
         </select>
         <div class="form-title">Уточните адрес доставки:</div>
-        <input type="text" name="clarift-address">
+        <input type="text" name="clarify-address">
         <div class="form-title">Комментарий к заказу:</div>
-        <textarea></textarea>
-        <button class="btn right">Завершить заказ</button>
-    </div>
+        <textarea name="comment"></textarea>
+        <button id="order" class="btn right">Завершить заказ</button>
+    </form>
 </div>
 @endsection
