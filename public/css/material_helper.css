@@ -46,6 +46,7 @@ ul.browser-default {
 }
 
 input[type="text"],
+input[type="text"]:disabled,
 input[type="password"] {
     height: 34px;
     border: 1px solid #ccc;
@@ -116,4 +117,19 @@ svg .radio-heart {
 }
 .radio-item.active .radio-heart {
     fill: #195894;
+}
+
+.pagination li {
+    line-height: 30px;
+}
+.pagination span {
+    padding: 0px 10px;
+}
+.pagination li.active {
+    background: #195894;
+    color: white;
+    font-weight: bolder;
+}
+.pagination li.disabled {
+    color: #ccc;
 }

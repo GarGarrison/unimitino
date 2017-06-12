@@ -247,35 +247,61 @@ body {
     font-weight: bold;
     margin: 0px 5px;
 }
-.card-item-info {
+.cart-item-info, .goods-item-info {
     display: inline-block;
     width: 100%;
     margin: 1em 0em;
 }
-.card-item-info i {
-    font-size: 3em;
+.goods-item-info-short {
+    width: auto;
+    margin: 1em 0em;
+}
+.cart-item-info i, .goods-item-info-short i {
+    font-size: 36px;
+    margin-left: 30px;
+}
+.goods-img {
+    padding: 10px;
+    float: left;
+    border: 1px solid #ccc;
+    margin-right: 20px;
 }
 .goods-price {
     color: #87aa6b;
-    font-size: 2em;
-    float: right;
+    font-size: 28px;
+    float: left;
 }
 input.goods-count {
     width: 80%;
-    max-width: 160px;
+    width: 140px;
     border: 1px solid #ccc;
     padding-right: 10px;
     float: right;
     text-align: right;
     color: #87aa6b;
-    font-size: 2em;
+    font-size: 20px;
 }
+input.goods-count.supply {
+    color: #195894;
+    text-align: center;
+}
+input.goods-count.empty {
+    color: red;
+    text-align: center;
+}
+
 .cart-count-wrapper input.goods-count {
     color: #195894;
 }
 input.goods-count.track {
     padding: 0px 15px;
-    width: 50%;
+    float: none;
+    max-width: 30%;
+    margin-bottom: 0px;
+}
+.goods-price.track {
+    display: inline-block;
+    float: none;
 }
 .user-block {
     padding: 20px;
@@ -285,18 +311,17 @@ input.goods-count.track {
 .user-block td {
     padding: 5px;
 }
-.user-block .track {
-    width: 50%;
-}
 .track-title {
     font-weight: bold;
     font-size: 1.2em;
 }
 .track-span {
-    float: left;
     font-size: 1.5em;
     margin-top: 5px;
     margin-right: 5px;
+}
+.track-not-status-img {
+    margin-top: 5px;
 }
 .blue-text {
     color: #195894 !important;
@@ -322,15 +347,20 @@ input.goods-count.track {
 }
 .cart-length {
     position: absolute;
-    top: -15px;
-    left: 2.5em;
+    top: -24px;
+    left: 1.6em;
     font-weight: bold;
-    font-size: 1.5em;
-    color: #eff4f8;
+    font-size: 1.2em;
+    color: #ff8200;
     text-shadow: 1px 1px 2px black, 0 0 1em #ccc;
 }
-.to-cart {
+.cart-icon {
     color: #195894;
+    font-size: 36px;
+}
+.cart-icon.empty {
+    color: #ccc;
+    cursor: initial;
 }
 .cart-price {
     color: #87aa6b;

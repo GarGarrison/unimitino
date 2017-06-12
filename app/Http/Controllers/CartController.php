@@ -25,12 +25,16 @@ class CartController extends SharedController
         $uid = session('uid');
         $gid = $request['gid'];
         $count = $request['count'];
+        $price = $request['price'];
+        $money = $request['money'];
         $exist = Cart::where('uid', $uid)->where('gid', $gid)->count();
         if ($exist) return response()->json(["success" => false, "message" => "Этот товар уже в корзине!"]);
         Cart::create([
             'uid'=>$uid,
             'gid'=>$gid,
-            'count'=>$count
+            'count'=>$count,
+            'price'=>$price,
+            'money'=>$money
         ]);
         return response()->json(["success" => true,"message" => "Добавлено в корзину!"]);
     }
@@ -58,23 +62,25 @@ class CartController extends SharedController
 
     public function make_order(Request $request){
         $uid = session('uid');
-        $goods = $request['order'];
-        $gids = array();
-        foreach($goods as $good) {
-            $gid = $good['id'];
-            $count = $good['count'];
-            $price = $good['price'];
-            array_push($gids, $gid);
-            Order::create([
-                'uid'=> $uid,
-                'gid'=> $gid,
-                'price'=> $price,
-                'count'=> $count,
-                'status'=> 0
-            ]);
-        }
-        Cart::where('uid', $uid)->whereIn('gid', $gids)->delete();
-        return "Заказ отправлен в работу!";
+        $data = $request->except("_token");
+        // $goods = $request['order'];
+        // $gids = array();
+        // foreach($goods as $good) {
+        //     $gid = $good['id'];
+        //     $count = $good['count'];
+        //     $price = $good['price'];
+        //     array_push($gids, $gid);
+        //     Order::create([
+        //         'uid'=> $uid,
+        //         'gid'=> $gid,
+        //         'price'=> $price,
+        //         'count'=> $count,
+        //         'status'=> 0
+        //     ]);
+        // }
+        // Cart::where('uid', $uid)->whereIn('gid', $gids)->delete();
+        if ($data['pay'] == "paykeeper" ) return redirect("/payment");
+        else return redirect("/")->with("MSG", "Заказ отправлен в работу!");
     }
 
 }

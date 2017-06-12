@@ -8,13 +8,13 @@
             @foreach($goods as $g)
             <div class="card-item cart-item">
                 <div class="card-item-body">
-                    <div class="card-item-desc">{{ $g->goodsname }} <span class="vert-stick">|</span>{{ $g->producer }}
+                    <div class="card-item-desc">{{ $g->typonominal }} <span class="vert-stick">|</span>{{ $g->producer }}
                     <i class="material-icons delete-from-cart" title="Удалить из карзины" data-id="{{ $g->cid }}">close</i>
                     </div>
-                    <div class="card-item-info">
-                        <span class="good-card-lable">Цена:</span><div class="cart-price">{{ $g->price_retail_rub }}</div>
+                    <div class="cart-item-info">
+                        <span class="good-card-lable">Цена:</span><div class="cart-price">{{ $g->price }} {{ $money }}</div>
                         <div class="cart-count-wrapper">
-                            <span class="good-card-lable">Кол-во:</span><input type="text" class="goods-count" value="{{ $g->count }}" data-id="{{ $g->cid }}">
+                            <span class="good-card-lable">Кол-во:</span><input type="text" class="goods-count cart-goods-count" value="{{ $g->count }}" data-id="{{ $g->cid }}">
                         </div>                                    
                     </div>
                 </div>
@@ -26,7 +26,7 @@
             <div class="card-item cart-item">
                 <div class="card-item-body">
                     <div class="cart-result-sum">
-                        Итого: <span class="cart-result-sum-price"></span>
+                        Итого: <span class="cart-result-sum-price"><span class="cart-result-sum-price-value"></span> {{ $money }}</span>
                         <i class="material-icons right cart-result-resum" title="Пересчитать корзину">autorenew</i>
                     </div>
                 </div>

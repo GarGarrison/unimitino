@@ -1,7 +1,7 @@
 function formSuccess(resp){
     if (resp.success) {
         alert(resp.success);
-        reloadTab();
+        //reloadTab();
     }
     else lightErrorsInForm(resp);
 }

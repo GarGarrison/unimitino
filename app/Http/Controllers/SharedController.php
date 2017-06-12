@@ -11,15 +11,45 @@ use View;
 use DB;
 use App\Cart;
 use App\Rubric;
+use App\RubricRelation;
 
 class SharedController extends Controller
 {
+    public $status = array(
+        0 => array(
+            "status" => "img/wait.png",
+            "maydelete" => "<img class = 'pointer delete-position' src='img/delete.png'>"),
+        1 => array(
+            "status" => "img/canceled.png",
+            "maydelete" => "<img class = 'pointer change-canceled' src='img/order.png'>"),
+        2 => array(
+            "status" => "img/building.png",
+            "maydelete" => ""),
+        3 => array(
+            "status" => "img/built.png",
+            "maydelete" => ""),
+        4 => array(
+            "status" => "img/built.png",
+            "maydelete" => ""),
+        5 => array(
+            "status" => "img/unavail.png",
+            "maydelete" => ""),
+        7 => array(
+            "status" => "img/not_ordered.png",
+            "maydelete" => "<img class = 'pointer delete-position' src='img/delete.png'>"),
+        8 => array(
+            "status" => "img/built.png",
+            "maydelete" => "")
+    );
+
     public function translit($str) {
         $lit_dic = array(
             ' ' => '_',
             ',' => '',
             '/' => '',
             '-' => '_',
+            '(' => '',
+            ')' => '',
             'а' => 'a',
             'б' => 'b',
             'в' => 'v',
@@ -80,6 +110,10 @@ class SharedController extends Controller
         session(['uid' => $uid]);
         View::share('cart_length', Cart::where('uid', $uid)->count());
         View::share('rubrics', Rubric::getDict());
-        View::share('rubric_relations', Rubric::orderBy('rubric_parents')->get());
+        View::share('rubric_relations', RubricRelation::orderBy('relation')->get());
+        View::share('money', Auth::user() ? Auth::user()->money : "руб");
+        View::share('price_level', Auth::user() ? Auth::user()->price_level : "price_retail_rub");
+        View::share('price_pack', array("$" => "price_pack_usd", "руб" => "price_pack_rub"));
+        View::share('status_img', $this->status);
     }
 }

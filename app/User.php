@@ -16,16 +16,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'type',
+        'password', 'remember_token', 'role',
     ];
 
     public function isAdmin() {
-        return $this->type == "admin";
+        return $this->role == "admin";
     }
     public function isStorage() {
-        return $this->type == "storage";
+        return $this->role == "storage";
     }
     public function isUser() {
-        return $this->type == "user";
+        return $this->role == "user";
     }
 }

@@ -16,6 +16,8 @@ class CreateCartTable extends Migration
             $table->increments('id');
             $table->string('uid');
             $table->integer('gid');
+            $table->float('price');
+            $table->string('money');
             $table->integer('count');
             $table->timestamps();
         });

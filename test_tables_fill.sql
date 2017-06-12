@@ -76,7 +76,7 @@ INSERT INTO `rubrics` (`id`, `name`, `url`, `rubric_parents`, `has_child`) VALUE
 (45, 'Варикапы', 'varikapi', '1#3#45', 0),
 (46, 'Полупроводниковые модули', 'poluprovodnikovie_moduli', '1#3#46', 0);
 
-INSERT INTO `users` (`id`, `name`, `city`, `company`, `post_index`, `address`, `phone`, `bank_name`, `bank_account`, `inn`, `email`, `password`, `type`, `remember_token`, `created_at`, `updated_at`) VALUES
+INSERT INTO `users` (`id`, `name`, `city`, `company`, `post_index`, `address`, `phone`, `bank_name`, `bank_account`, `inn`, `email`, `password`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'user', 'city', 'company1', '123456', 'address1', '123456', 'bank', '123456', '123456', 'q@q.ru', '$2y$10$SLEy0rwyeDFOgW.n83lQxOI9WbHm/6cRvDRTbBEEQmo.OPOxGezL.', 'user', 'ZV3vGpR3CBS6LcyEoggBS14UnQTc1cc5pOWPdme2ktBP1J1Y561KpjPmqhK7', '2016-09-25 18:22:23', '2016-10-24 20:50:25'),
 (2, 'Admin', '', '', '', '', '', '', '', '', 'admin@uni.ru', '$2y$10$pNRxF54aWL0A.44fnFT7yuV0yTNs0k4VV2O3CSJfu9F99AF.z1a9.', 'admin', 'dx9HSLLuJW42KL4JZOjlBv3hCokA0px62f8u4SIOLsRGwdcou82ky4rIUCYr', '2016-10-24 19:49:23', '2016-10-25 12:35:42'),
 (3, 'Storage', '', '', '', '', '', '', '', '', 'storage@uni.ru', '$2y$10$RboE/J3woSh2GfWEQZXoYOgZjGTu9DEgkh1dZUICUkmzKSGFINKYa', 'storage', 'gMa06jargI75Vq0RABp0O4yUsdl9n64gjX4axShGGY4tY7wr5l7xGNl4RlhN', '2016-10-24 20:22:52', '2016-10-24 20:51:30');

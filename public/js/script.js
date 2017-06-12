@@ -11,17 +11,25 @@ function round(d,n) {
     return Math.round(parseFloat(d) * count) / count;
 }
 
-// собрать заказ из таблицы в словарь
-function makeOrder() {
-    order = [];
-    $('.order-table tbody tr').each(function(){
-        id = $(this).attr('name');
-        count = $(this).find('div[name="count"]').text();
-        price = $(this).find('td[name="price"]').text();
-        order.push({"id": id, "count": count, "price": price});
-    })
-    return order;
+// отправить не ajax запрос с произвольными данными в словаре
+function magicDataSubmit(dic, action, method) {
+    var form = $("<form></form>", {action:action, method:method, style: "display: none;"});
+    if ($("meta[name='csrf-token']")) {
+        var token = $("meta[name='csrf-token']").attr('content');
+        var token_i = $("<input type='text' name='_token'>");
+        token_i.val(token);
+        form.append(token_i);
+    }
+    for (k in dic) {
+        var i = $("<input type='text'>");
+        i.attr("name", k);
+        i.attr("value", dic[k]);
+        form.append(i);
+    }
+
+    form.appendTo("body").submit();
 }
+
 // обновить количество товаров в корзине, после клика на товар
 function plusCart() {
     cur_count = parseInt($("span.cart-length").text());
@@ -55,7 +63,7 @@ function resultSum() {
         cur_sum = parseFloat($(this).text());
         rez = rez + cur_sum;
     });
-    $(".cart-result-sum-price").text(round(rez));
+    $(".cart-result-sum-price-value").text(round(rez));
 }
 $.fn.updateCount = function() {
     cid = $(this).attr("data-id");
@@ -86,17 +94,20 @@ $(document).on('click', '.card-head.drop-head', function(){
 });
 // добавить позицию из поиска в корзину
 $(document).on('click', '.to-cart', function(){
-    count = $(this).closest(".card-item-info").find(".goods-count").val()
+    if ($(this).hasClass("empty")) return false;
+    count = $(this).next(".goods-count").val()
     if ( count == 0 ) {
         alert("Укажите количество товара!");
         return false;
     }
     url = "/add_to_cart";
     gid = $(this).attr('data-id');
+    price = $(this).attr('data-price');
+    money = $(this).attr('data-money');
     $.ajax({
         'url': url,
         'type': 'post',
-        'data': {'gid': gid, 'count': count},
+        'data': {'gid': gid, 'count': count, 'price': price, 'money': money},
         'success': function(resp) {
             if (resp.success) plusCart();
             alert(resp.message);   
@@ -129,19 +140,6 @@ $(document).on('click', '.delete-from-cart', function(){
 $(document).on('click', '.order-next-step', function(){
     $(this).closest('.card-wrapper').next('.order-step').slideDown('fast');
     $(this).hide();
-});
-
-// отправить заказ
-$(document).on('click', '.do-order', function(event){
-    event.preventDefault();
-    form = $(this).closest('form');
-    url = form.attr('action');
-    data = serializeToObject(form);
-    data["order"] = makeOrder();
-    SendForm(url, data, function(resp) {
-        alert(resp);
-        document.location.reload();
-    });
 });
 
 // развернуть превью новости
@@ -185,7 +183,7 @@ $(document).on('click', '.user-menu-tip a', function(e){
     });
 })
 // обновить конкретную сумму
-$(document).on('blur', '.goods-count', function(){
+$(document).on('blur', '.cart-goods-count', function(){
     sum = $(this).closest(".card-item").find(".cart-bottom .sum-price");
     currentSum(sum);
     $(this).updateCount();
@@ -220,7 +218,6 @@ $(document).on('click', '.btn-param', function(){
         if (v) params.push(i);
     });
     data["params"] = params;
-    //data = JSON.stringify(data);
     if (!params.length) return false;
     $(".main-content").load("/rubric/filter", data);
 });
@@ -234,15 +231,17 @@ $(document).on('change', '#delivery-type', function(){
 $(document).on('click', '#order', function(e){
     e.preventDefault();
     v = $(this).attr("data-val");
-    if (v == "paykeeper") $("#order").attr("data-url", "/payments");
-    else $("#order").attr("data-url", "");
     user_form = serializeToObject($(".toggle-form:visible"));
     pay = $(".radio-item.active[data-group='payment']").attr("data-val");
     delivery_form = serializeToObject($(".delivery-form"));
     delivery_type = $("#delivery-type[data-init='1']").val();
     transport_company = $("#transport-company[data-init='1']").val() || "";
+    if (!pay) {
+        alert("Укажите способ оплаты!");
+        return false;
+    }
     order = Object.assign(user_form, delivery_form, {"pay": pay, "delivery_type": delivery_type, "transport_company": transport_company});
-    console.log(order);
+    magicDataSubmit(order, "/make_order", "post");
 });
 
 $(document).ready(function(){

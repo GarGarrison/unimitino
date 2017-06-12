@@ -16,8 +16,6 @@ class CreateRubricsTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('url');
-            $table->string('rubric_parents');
-            $table->boolean('has_child')->default(False);
         });
     }
 

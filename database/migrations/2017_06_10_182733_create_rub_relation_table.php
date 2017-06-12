@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRubricGoodsTable extends Migration
+class CreateRubRelationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class CreateRubricGoodsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rubrics_goods', function (Blueprint $table) {
+        Schema::create('rubric_relations', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('rid'); // rubric id
-            $table->integer('gid'); // goods id
+            $table->string('relation');
+            $table->boolean('has_child')->default(False);
         });
     }
 
@@ -26,6 +26,6 @@ class CreateRubricGoodsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('rubrics_goods');
+        Schema::drop('rubric_relations');
     }
 }

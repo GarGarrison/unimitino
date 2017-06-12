@@ -89,6 +89,6 @@ class AuthController extends SharedController
     public function logout(){
         auth()->logout();
         Session::flush();
-        return redirect('/');
+        return redirect()->back();
     }
 }

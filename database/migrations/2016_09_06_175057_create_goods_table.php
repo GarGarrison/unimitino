@@ -11,10 +11,11 @@ class CreateGoodsTable extends Migration
     public function up()
     {
         Schema::create('goods', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->integer('rid');
             $table->string('num', 32);
             $table->string('address');
-            $table->string('goodsname');
+            $table->string('typonominal');
             $table->string('mark');
             $table->string('producer');
             $table->string('case');
@@ -32,7 +33,8 @@ class CreateGoodsTable extends Migration
             $table->string('cell', 32);
             $table->text('description');
             $table->text('description_long');
-            $table->boolean('new');
+            $table->boolean('new')->default(False);
+            $table->boolean('supply')->default(False);
             $table->string('img');
             $table->timestamps();
         });

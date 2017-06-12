@@ -25,7 +25,7 @@
                 <i class="material-icons head-icon cabin_icon more-tip-trigger protected-for-click" data-tip="user-menu-tip">more_vert</i>
             </div>
             <div class="card-body user-menu-container">
-                @include("user.profile")
+                @include("user.track")
             </div>
         </div>
     @show

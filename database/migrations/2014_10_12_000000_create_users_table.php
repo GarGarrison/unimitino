@@ -26,6 +26,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('type');
+            $table->string('role');
+            $table->string('money')->default("руб");
+            $table->string('price_level')->default("price_retail_rub");
             $table->rememberToken();
             $table->timestamps();
         });

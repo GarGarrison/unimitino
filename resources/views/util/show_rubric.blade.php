@@ -40,9 +40,15 @@
             </div>
         </div>
         <div class="card-body main-content">
-            @foreach($goods as $g)
-                @include("util.goods_pattern")
-            @endforeach
+            @if (count($goods))
+                {{ $goods->links() }}
+                @foreach($goods as $g)
+                    @include("util.goods_pattern")
+                @endforeach
+                {{ $goods->links() }}
+            @else
+                <h5>Не найдено товаров этой категории</h5>
+            @endif
         </div>
     </div>
 @endsection

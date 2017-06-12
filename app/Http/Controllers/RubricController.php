@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use DB;
 use Validator;
+use App\Goods;
 use App\Rubric;
 use App\RubricRelation;
 
@@ -29,19 +30,22 @@ class RubricController extends SharedController
         return view('util.filter_rubric', ['goods' => $goods]);
     }
 
-    public function show_rubric($url) {
+    public function show_rubric($relid, $url) {
         $rubric = Rubric::whereUrl($url)->first();
+        $relation = RubricRelation::find($relid);
         //$params = false;
         if (!$rubric) abort(404);
-        $bread = explode("#", $rubric->rubric_parents);
+        $bread = explode("#", $relation->relation);
         //if ($rubric->has_params) $params = DB::table("rubrics_params")
         $params = DB::table("rubrics_params")
             ->where('rid', $rubric->id)
             ->join("params", "rubrics_params.pid", "=", "params.id")->get();
 
-        $goods = DB::table('rubrics_goods')
-        ->where('rid', $rubric->id)
-        ->join('goods', 'rubrics_goods.gid', '=', 'goods.id')->get();
+        // $goods = DB::table('rubrics_goods')
+        // ->where('rid', $rubric->id)
+        // ->join('goods', 'rubrics_goods.gid', '=', 'goods.id')->get();
+        $goods = Goods::where('rid', $rubric->id)->paginate(40);
+        //dd($goods);
         return view('util.show_rubric', ['goods' => $goods, 'params' => $params, 'bread' => $bread, 'rid' => $rubric->id ]);
     }
 

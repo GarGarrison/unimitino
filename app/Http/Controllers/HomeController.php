@@ -42,21 +42,21 @@ class HomeController extends SharedController
      */
     public function index()
     {
-        //$type = Auth::user()->type;
-        //$data = array();
-        // if ($type == "storage") {
-        //     $good = "";
-        //     $user = "";
-        //     $order = Order::where('status', 0)->first();
-        //     if ($order) {
-        //         $good = Goods::find($order->gid);
-        //         $user = User::find($order->uid);
-        //         //$order->status = 1;
-        //         //$order->save();
-        //     }
-        //     $data = ["order" => $order, "good"=>$good, "user"=>$user];
-        // }
-        //return view($type.'.'.$type, $data);
+        $role = Auth::user()->role;
+        $data = array();
+        if ($role == "storage") {
+            $good = "";
+            $user = "";
+            $order = Order::where('status', 0)->first();
+            if ($order) {
+                $good = Goods::find($order->gid);
+                $user = User::find($order->uid);
+                //$order->status = 1;
+                //$order->save();
+            }
+            $data = ["order" => $order, "good"=>$good, "user"=>$user];
+        }
+        return view($role.'.'.$role, $data);
         return view("user.user");
     }
 
