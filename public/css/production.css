@@ -486,6 +486,44 @@ input.param-box-varchar {
 .cabin_icon.active, .cabin_icon:hover {
     color: #ff8200;
 }
+
+.history-more {
+    display: none;
+}
+.history-loupe {
+    cursor: pointer;
+}
+.order-table {
+    border-collapse: initial;
+    border-spacing: 5px;
+}
+.order-table th {
+    padding: 10px;
+    background: #195894;
+    color: white;
+    border: 1px solid #195894;
+    text-align: center;
+}
+.order-table th:first-child {
+    text-align: left;
+}
+.order-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+.order-table td:nth-child(3n), .order-table td:nth-child(4n) {
+    text-align: center;
+}
+.order-table tr:nth-child(2n) {
+    background: #eff4f8;
+}
+.error-block {
+    font-size: 12px;
+    color: red;
+    margin-top: -18px;
+    margin-bottom: 18px;
+    display: block;
+}
 footer {
     text-align: center;
     border-top: 5px solid black;

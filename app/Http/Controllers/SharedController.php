@@ -105,6 +105,7 @@ class SharedController extends Controller
         }
         return $uid;
     }
+    
     public function __construct() {
         $uid = $this->getUID();
         session(['uid' => $uid]);

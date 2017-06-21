@@ -53,10 +53,13 @@ class AuthController extends SharedController
     {
         return Validator::make($data, [
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:3|confirmed'
+            'password' => 'required|min:3|confirmed',
+            'name' => 'max:255',
+            'post_index' => 'integer',
+            'inn' => 'integer',
+            'bank_account' => 'integer'
         ]);
     }
-
     /**
      * Create a new user instance after a valid registration.
      *
@@ -76,6 +79,7 @@ class AuthController extends SharedController
             'bank_name' => $data['bank_name'],
             'bank_account' => $data['bank_account'],
             'inn' => $data['inn'],
+            #'password' => bcrypt($data['password']),
             'email' => $data['email']
         ]);
         // return User::create([

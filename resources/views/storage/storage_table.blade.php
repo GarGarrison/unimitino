@@ -6,7 +6,7 @@
     if ($user->storage == 'offlinecount') $ordercount = $order->offlinecount;
     else $ordercount = $order->onlinecount;
 ?>
-<table class="table storage" id = '{{ $order->orderid }}'>
+<table class="table storage" id = '{{ $order->oid }}'>
     <tr>
         <td colspan="3" class="thead">
             <span class="client">{{ $client->name }}</span>
@@ -18,7 +18,7 @@
     <tr>
         <td class="cell">{{ $order->address }}</td>
         <td class="goodsname">
-            <b>{{ $order->goodsname }}</b> {{ $order->mark  }}<br />
+            <b>{{ $order->typonominal }}</b> {{ $order->mark  }}<br />
             {{ $order->case }} {{ $order->producer }}
         </td>
         <td class="storage_count">{{ $ordercount }}</td>

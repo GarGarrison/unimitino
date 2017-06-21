@@ -63,22 +63,26 @@ class CartController extends SharedController
     public function make_order(Request $request){
         $uid = session('uid');
         $data = $request->except("_token");
-        // $goods = $request['order'];
-        // $gids = array();
-        // foreach($goods as $good) {
-        //     $gid = $good['id'];
-        //     $count = $good['count'];
-        //     $price = $good['price'];
-        //     array_push($gids, $gid);
-        //     Order::create([
-        //         'uid'=> $uid,
-        //         'gid'=> $gid,
-        //         'price'=> $price,
-        //         'count'=> $count,
-        //         'status'=> 0
-        //     ]);
-        // }
-        // Cart::where('uid', $uid)->whereIn('gid', $gids)->delete();
+        //dd($data);
+        $goods = $this->get_cart();
+        foreach($goods as $good) {
+            $gid = $good->id;
+            $count = $good->count;
+            $price = $good->price;
+            Order::create([
+                'uid'=> $uid,
+                'gid'=> $gid,
+                'price'=> $price,
+                'countorder'=> $count,
+                'status'=> 0,
+                'money' => $request['money'],
+                'payment' => $request['pay'],
+                'payment_status' => 0,
+                'delivery_type' => $request['delivery_type'],
+                'transport_company' => $request['transport_company']
+            ]);
+        }
+        Cart::where('uid', $uid)->delete();
         if ($data['pay'] == "paykeeper" ) return redirect("/payment");
         else return redirect("/")->with("MSG", "Заказ отправлен в работу!");
     }

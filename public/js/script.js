@@ -244,6 +244,13 @@ $(document).on('click', '#order', function(e){
     magicDataSubmit(order, "/make_order", "post");
 });
 
+$(document).on("click", ".history-loupe", function(){
+    shadow_settings = {
+        "max_width": "900px"
+    }
+    $(this).closest("table").next(".history-more").initShadow(shadow_settings);
+})
+
 $(document).ready(function(){
     $(".button-collapse").sideNav();
     url = location.href.split("/").pop();

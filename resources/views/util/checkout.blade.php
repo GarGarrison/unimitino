@@ -80,6 +80,7 @@
         <input type="text" name="clarify-address">
         <div class="form-title">Комментарий к заказу:</div>
         <textarea name="comment"></textarea>
+        <input type="hidden" name="money" value="{{ $money }}">
         <button id="order" class="btn right">Завершить заказ</button>
     </form>
 </div>

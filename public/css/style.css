@@ -11,12 +11,7 @@
     padding-bottom: 20px;
 }
                                         /* some styles */
-.error-block {
-    font-size: 12px;
-    color: red;
-    margin-top: 0px;
-    display: block;
-}
+
 .delete-entity {
     display: none;
 }

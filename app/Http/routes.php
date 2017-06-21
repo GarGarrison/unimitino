@@ -62,7 +62,9 @@ Route::group(['middleware' => 'admin'], function(){
 });
 
 Route::group(['middleware' => 'storage'], function(){
-    Route::get('/storage', 'StorageController@index');
-    Route::get('/storage/reload', 'StorageController@reload');
-    Route::get('/storage/checknew', 'StorageController@checknew');
+    Route::get('/storage/reloadstorage', 'StorageController@reloadstorage');
+    Route::get('/storage/checkneworders', 'StorageController@checkneworders');
+    Route::post('/storage/changedonecount', 'StorageController@changedonecount');
+    Route::post('/storage/changetakeplace', 'StorageController@changetakeplace');
+    Route::post('/storage/changestatus', 'StorageController@changestatus');
 });
