@@ -16,6 +16,9 @@
                 </div>
                 <div class="col s9">
                     <input name="password" type="password">
+                    @if ($errors->has('password'))
+                        <span class="error-block">{{ $errors->first('password') }}</span>
+                    @endif
                 </div>
                 <div class="col s3">
                     <div class="form-title">Пароль еще раз:</div>
@@ -39,6 +42,9 @@
                 </div>
                 <div class="col s9">
                     <input name="password" type="password">
+                    @if ($errors->has('password'))
+                        <span class="error-block">{{ $errors->first('password') }}</span>
+                    @endif
                 </div>
                 <div class="col s3">
                     <div class="form-title">Пароль еще раз:</div>

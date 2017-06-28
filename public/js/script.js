@@ -95,7 +95,12 @@ $(document).on('click', '.card-head.drop-head', function(){
 // добавить позицию из поиска в корзину
 $(document).on('click', '.to-cart', function(){
     if ($(this).hasClass("empty")) return false;
-    count = $(this).next(".goods-count").val()
+    count = $(this).next(".goods-count").val();
+    max_count = $(this).next(".goods-count").attr("data-max-count");
+    if (parseInt(count) > parseInt(max_count)) {
+        alert("На складе есть только " + max_count);
+        return false;
+    }
     if ( count == 0 ) {
         alert("Укажите количество товара!");
         return false;

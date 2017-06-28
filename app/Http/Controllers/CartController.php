@@ -55,8 +55,7 @@ class CartController extends SharedController
         return view('util.checkout');
     }
 
-    public function payment()
-    {
+    public function payment(){
         return view('util.payment');
     }
 

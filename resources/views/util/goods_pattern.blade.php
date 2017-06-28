@@ -9,7 +9,7 @@
             <div class="goods-price green-text">{{ $g[$price_level] }} {{ $money }}</div>
             @if ($g->onlinecount)
                 <i class="material-icons right to-cart cart-icon" data-id="{{ $g->id }}" data-price="{{ $g[$price_level] }}" data-money="{{ $money }}" title="В корзину">shopping_cart</i>
-                <input class="goods-count" type="text" value="{{ $g->onlinecount }}" />
+                <input class="goods-count" type="text" data-max-count="{{ $g->onlinecount }}" value="{{ $g->onlinecount }}" />
             @elseif ($g->supply)
                 <i class="material-icons right to-mail" title="В корзину">mail</i>
                 <input class="goods-count supply" type="text" value="Сообщить о поставке" disabled="disabled" />

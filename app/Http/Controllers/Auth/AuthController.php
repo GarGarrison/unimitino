@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Carbon\Carbon;
-use Validator;
 use Session;
 use App\Http\Controllers\SharedController;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -51,14 +50,7 @@ class AuthController extends SharedController
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:3|confirmed',
-            'name' => 'max:255',
-            'post_index' => 'integer',
-            'inn' => 'integer',
-            'bank_account' => 'integer'
-        ]);
+        return $this->new_user_validator($data);
     }
     /**
      * Create a new user instance after a valid registration.
@@ -69,6 +61,7 @@ class AuthController extends SharedController
     protected function create(array $data)
     {
         return User::create([
+            'id' => $this->gen_uniq_id(),
             'type' => $data['user_type'],
             'name' => $data['name'],
             'city' => $data['city'],
@@ -79,15 +72,9 @@ class AuthController extends SharedController
             'bank_name' => $data['bank_name'],
             'bank_account' => $data['bank_account'],
             'inn' => $data['inn'],
-            #'password' => bcrypt($data['password']),
+            'password' => bcrypt($data['password']),
             'email' => $data['email']
         ]);
-        // return User::create([
-        //     'name' => $data['name'],
-        //     'email' => $data['email'],
-        //     'password' => bcrypt($data['password']),
-        //     'type' => $data['user_type']
-        // ]);
     }
 
     public function logout(){

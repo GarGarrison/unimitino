@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use Socialite;
 use Auth;
 use DB;
@@ -24,31 +23,6 @@ class HomeController extends SharedController
         parent::__construct();
     }
 
-    protected function update_validator(array $data)
-    {
-        $rules = [
-            'name' => 'max:255',
-            'company' => 'max:255',
-            'city' => 'max:255',
-            'address' => 'max:255',
-            'email' => 'required|email|max:255',
-            'password' => 'min:3|confirmed',
-            'post_index' => 'integer',
-            'inn' => 'integer',
-            'bank_account' => 'integer',
-            'bank_name' => 'max:255'
-        ];
-        $messages = [
-            'email.unique' => 'Такая электронная почта уже зарегистрирована',
-            'email.required' => 'Поле E-mail должно быть заполнено',
-            'max' => 'Это поле не может превышать 255 символов',
-            'integer' => 'Это поле должно содержать только цифры',
-            'password.min' => 'Пароль должен содержать не менее 3 символов'
-
-        ];
-        return Validator::make($data, $rules, $messages);
-    }
-
     public function full_order() {
             return DB::table("orders")
                         ->where('status',0)
@@ -66,10 +40,10 @@ class HomeController extends SharedController
         $role = $user->role;
         $data = array();
         if ($role == "storage") {
+            $client = "";
             $new_orders = $this->full_order();
             $order = $new_orders->first();
             if ($order) {
-                //$good = Goods::find($order->gid);
                 $client = User::find($order->uid);
                 //$order->status = 1;
                 //$order->save();
@@ -87,7 +61,7 @@ class HomeController extends SharedController
     // }
 
     public function update_user(Request $request){
-        $validator = $this->update_validator($request->all());
+        $validator = $this->update_user_validator($request->all());
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->messages());
         }

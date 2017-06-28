@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
+@section('right_col')
 <h4>Сброс пароля</h4>
 <form class="col s12" method="POST" action="{{ url('/password/reset') }}">
     {{ csrf_field() }}
