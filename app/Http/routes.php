@@ -32,12 +32,15 @@ Route::post('/add_to_cart', 'CartController@add_to_cart');
 Route::get('/delete_from_cart/{ctd}', 'CartController@delete_from_cart');
 Route::get('/checkout', 'CartController@checkout');
 Route::get('/payment', 'CartController@payment');
-
 Route::post('/make_order', 'CartController@make_order');
 
 Route::get('/home', 'HomeController@index');
 Route::post('/home', 'HomeController@update_user');
-Route::get('/home/{url}', 'HomeController@user_menu');
+Route::get('/home/profile', 'HomeController@user_menu_profile');
+Route::get('/home/track', 'HomeController@user_menu_track');
+Route::post('/home/delete_order/{oid}', 'HomeController@delete_order');
+Route::post('/home/back_to_order/{oid}', 'HomeController@back_to_order');
+Route::get('/home/history', 'HomeController@user_menu_history');
 // Route::get('/orders', 'HomeController@show_orders');
 
 Route::group(['middleware' => 'admin'], function(){
@@ -62,7 +65,7 @@ Route::group(['middleware' => 'admin'], function(){
 });
 
 Route::group(['middleware' => 'storage'], function(){
-    Route::get('/storage/reloadstorage', 'StorageController@reloadstorage');
+    Route::post('/storage/reloadstorage', 'StorageController@reloadstorage');
     Route::get('/storage/checkneworders', 'StorageController@checkneworders');
     Route::post('/storage/changedonecount', 'StorageController@changedonecount');
     Route::post('/storage/changetakeplace', 'StorageController@changetakeplace');

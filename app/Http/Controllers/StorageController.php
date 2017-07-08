@@ -53,9 +53,9 @@ class StorageController extends SharedController
             })
             ->leftJoin('goods', 'orders.gid', '=', 'goods.id')
             ->select('orders.id as oid', 'orders.*', 'goods.*')
-            ->where($user->storage, '<>', 0)
+            //->where($user->storage, '<>', 0)
             ->orderBy('orders.created_at', 'desc')->first();
-        $this->updateOrder($order);
+        //$this->updateOrder($order);
         return $order;
     }
 
@@ -64,18 +64,16 @@ class StorageController extends SharedController
             ->where('status', 0)
             ->leftJoin('goods', 'orders.gid', '=', 'goods.id')
             ->select('orders.id as oid', 'orders.*', 'goods.*')
-            ->where($user->storage, '<>', 0)
+            //->where($user->storage, '<>', 0)
             ->orderBy('orders.created_at', 'desc')->first();
-        $this->updateOrder($order);
+        //$this->updateOrder($order);
         return $order;
     }
 
-    public function getStorageOrder($user, $isIndex) {
+    public function getStorageOrder($user) {
         $client = "";
-        $order = "";
-        if ($isIndex) $order = $this->getStorageOrderNoTime($user);
-        else $order = $this->getStorageOrderTime($user);
-        if ($order) $client = User::find($order->user);
+        $order = $this->getStorageOrderTime($user);
+        if ($order) $client = User::find($order->uid);
         return array($order, $client);
     }
     /* WEB PART*/
@@ -88,6 +86,7 @@ class StorageController extends SharedController
     }
 
     public function checkneworders(Request $request) {
+        $user = Auth::user();
         list($order, $client) = $this->getStorageOrder($user);
         if ($order) return "1";
         else return "0";

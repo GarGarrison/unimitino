@@ -517,6 +517,9 @@ input.param-box-varchar {
 .order-table tr:nth-child(2n) {
     background: #eff4f8;
 }
+.delete-order, .back-to-order {
+    cursor: pointer;
+}
 .error-block {
     font-size: 12px;
     color: red;

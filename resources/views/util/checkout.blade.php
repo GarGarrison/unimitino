@@ -40,10 +40,16 @@
                 </svg>
                 <span>Выставить счет в QIWI</span>
             </div>
+            @if ($errors->has('payment'))
+                <span class="error-block">{{ $errors->first('payment') }}</span>
+            @endif
         </div>
         <div class="toggle-form" data-target="qiwi" data-group="payment">
             <div class="col s2"><div class="form-title">Телефон:</div></div>
-            <div class="col s8"><input type="text" name="phone"></div>
+            <div class="col s8"><input type="text" name="qiwi_phone"></div>
+            @if ($errors->has('qiwi_phone'))
+                <span class="error-block">{{ $errors->first('qiwi_phone') }}</span>
+            @endif
         </div>
     </div>
 </div>
@@ -76,8 +82,6 @@
             <option>Экспресс-Авто</option>
             <option>ЗАО «ТРЭЙН»</option>
         </select>
-        <div class="form-title">Уточните адрес доставки:</div>
-        <input type="text" name="clarify-address">
         <div class="form-title">Комментарий к заказу:</div>
         <textarea name="comment"></textarea>
         <input type="hidden" name="money" value="{{ $money }}">

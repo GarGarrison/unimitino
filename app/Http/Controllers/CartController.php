@@ -61,28 +61,40 @@ class CartController extends SharedController
 
     public function make_order(Request $request){
         $uid = session('uid');
-        $data = $request->except("_token");
-        //dd($data);
-        $goods = $this->get_cart();
-        foreach($goods as $good) {
-            $gid = $good->id;
-            $count = $good->count;
-            $price = $good->price;
+        $carts = Cart::where('uid', $uid)->get();
+        if ($carts->isEmpty()) return redirect('/');
+        $validator = $this->get_validator($request->all(), "order_validator");
+        if ($validator->fails()) return redirect()->back()->withErrors($validator->messages());
+        
+        foreach($carts as $cart) {
             Order::create([
                 'uid'=> $uid,
-                'gid'=> $gid,
-                'price'=> $price,
-                'countorder'=> $count,
+                'type' => $request['user_type'],
+                'name' => $request['name'],
+                'city' => $request['city'],
+                'company' => $request['company'],
+                'post_index' => $request['post_index'],
+                'address' => $request['address'],
+                'phone' => $request['phone'],
+                'qiwi_phone' => $request['qiwi_phone'],
+                'bank_name' => $request['bank_name'],
+                'bank_account' => $request['bank_account'],
+                'inn' => $request['inn'],
+                'email' => $request['email'],
+                'gid'=> $cart->gid,
+                'price'=> $cart->price,
+                'countorder'=> $cart->count,
                 'status'=> 0,
-                'money' => $request['money'],
-                'payment' => $request['pay'],
+                'money' => $cart->money,
+                'payment' => $request['payment'],
                 'payment_status' => 0,
                 'delivery_type' => $request['delivery_type'],
-                'transport_company' => $request['transport_company']
+                'transport_company' => $request['transport_company'],
+                'comment' => $request['comment']
             ]);
         }
         Cart::where('uid', $uid)->delete();
-        if ($data['pay'] == "paykeeper" ) return redirect("/payment");
+        if ($request['pay'] == "paykeeper" ) return redirect("/payment");
         else return redirect("/")->with("MSG", "Заказ отправлен в работу!");
     }
 

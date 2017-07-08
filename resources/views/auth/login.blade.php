@@ -27,7 +27,7 @@
                     <a href="{{url('/social_login/vkontakte')}}"><img src="/img/logo_vk.png"></a>
                     <a href="{{url('/social_login/facebook')}}"><img src="/img/logo_fb.png"></a>
                     <a href="{{url('/social_login/google')}}"><img src="/img/logo_goog.png"></a>  
-                    <div class="right"><a href="{{ url('/password/reset') }}">Забыли пароль?</a> | <a href="{{ url('/register') }}">Регистрация</a></div>
+                    <div class="right"><a href="{{ url('/password/reset') }}">Забыли пароль?</a> <span class="vert-stick">|</span> <a href="{{ url('/register') }}">Регистрация</a></div>
                 </div>
                 <div class="col s12">
                     <button type="submit" class="btn right">Войти</button>

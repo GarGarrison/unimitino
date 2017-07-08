@@ -14,14 +14,15 @@
     <link rel="stylesheet" type="text/css" href="{{asset('lib/jqgoodies/jqgoodies.css')}}">
 </head>
 <body>
+    {{ var_dump($errors->messages())}}
     <div class="container">
         <img src="/img/triangle_big_cut.png" class="triangle_big_cut">
         <img src="/img/triangle_big.png" class="triangle_big">
     </div>
     <ul class="side-nav blue" id="collapse_menu">
-        <a href="/cart"><li>Корзина ({{ $cart_length }})</li></a>
+        <a href="/cart"><li>Корзина ( <span class="cart-length-simple">{{ $cart_length }}</span> )</li></a>
         <a href="/home"><li>Личный кабинет</li></a>
-        <a href="/news"><li>Новости</li></a>
+        <!-- <a href="/news"><li>Новости</li></a> -->
         <a href="/new_goods"><li>Новые поступления</li></a>
         <a href="/kak-kupit"><li>Как купить?</li></a>
         <a href="#"><li>Доставка</li></a>
@@ -51,7 +52,7 @@
         </svg>
         <div class="more-tip-body">
             <ul>
-                <a href="/news"><li class="more-tip-body-li">Новости</li></a>
+                <!-- <a href="/news"><li class="more-tip-body-li">Новости</li></a> -->
                 <a href="/new-goods"><li class="more-tip-body-li">Новые поступления</li></a>
                 <a href="/kak-kupit"><li class="more-tip-body-li">Как купить?</li></a>
                 <a href="#"><li class="more-tip-body-li">Доставка</li></a>
@@ -170,9 +171,6 @@
         $.ajaxSetup({
             headers: { 'X-CSRF-Token' : $("meta[name='csrf-token']").attr('content') }
         });
-        $(document).ajaxError(function(event, request, settings){
-            $("body").prepend(request.responseText);
-        });
     </script>
     <script type="text/javascript" src="{{asset('js/helpers.js')}}"></script>
     <script type="text/javascript" src="{{asset('lib/jqgoodies/jqgoodies.js')}}"></script>
@@ -180,10 +178,10 @@
     @section('js')
     <script type="text/javascript" src="{{asset('js/script.js')}}"></script>
     @show
+</body>
     @if (session("MSG"))
     <script type="text/javascript">
         alert("{{ session('MSG') }}");
     </script>
     @endif
-</body>
 </html>

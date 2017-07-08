@@ -35,7 +35,7 @@
                 <img class="left-button grey" src="/storage/img/arrow-left-grey.png" />
                 <img class="right-button grey" src="/storage/img/arrow-right-grey.png" />
                 <img class="unavail-button send-status" src="/storage/img/unavail-button-big.png" status="5" />
-                <img class="built-button send-status" src="/storage/img/built-button-big.png" status="3" />
+                <img class="built-button send-status" src="/storage/img/built-button-big.png" status="4" />
             </div>
         </div>
     <script language="javascript" src="/storage/js/storage.js"></script>

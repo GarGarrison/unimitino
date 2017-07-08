@@ -17,6 +17,15 @@ use App\RubricRelation;
 
 class SharedController extends Controller
 {
+    # order statuses
+    # 0 - ожидание
+    # 1 - отменено
+    # 2 - в наборе
+    # 3 - набрано (не полностью)
+    # 4 - набрано (полностью)
+    # 5 - нет на складе
+    # 6 - отгружено
+    # //7 - набирать
     public $status = array(
         0 => array(
             "status" => "img/wait.png",
@@ -88,48 +97,99 @@ class SharedController extends Controller
         );
         return strtr(mb_strtolower($str), $lit_dic);
     }
+     //    *
+     // * 
+     // * Generate v4 UUID
+     // * 
+     // * Version 4 UUIDs are pseudo-random.
+     
+    public static function v4() 
+    {
+        return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+
+            // 32 bits for "time_low"
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+
+            // 16 bits for "time_mid"
+            mt_rand(0, 0xffff),
+
+            // 16 bits for "time_hi_and_version",
+            // four most significant bits holds version number 4
+            mt_rand(0, 0x0fff) | 0x4000,
+
+            // 16 bits, 8 bits for "clk_seq_hi_res",
+            // 8 bits for "clk_seq_low",
+            // two most significant bits holds zero and one for variant DCE1.1
+            mt_rand(0, 0x3fff) | 0x8000,
+
+            // 48 bits for "node"
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+        );
+    }
     public $validator_messages = [
             'email.unique' => 'Такая электронная почта уже зарегистрирована',
             'email.required' => 'Поле E-mail должно быть заполнено',
-            'max' => 'Это поле не может превышать 255 символов',
+            'max' => 'Это поле не может превышать :max символов',
             'integer' => 'Это поле должно содержать только цифры',
-            'password.min' => 'Пароль должен содержать не менее 3 символов',
-            'password.confirmed' => 'Пароль и его подтверждение не совпадают'
-
+            'password.min' => 'Пароль должен содержать не менее :min символов',
+            'password.confirmed' => 'Пароль и его подтверждение не совпадают',
+            'qiwi_phone.required_if' => 'Для выставления счета в QIWI нужно заполнить телефон'
         ];
 
-    protected function update_user_validator(array $data)
-    {
-        $rules = [
-            'name' => 'max:255',
-            'company' => 'max:255',
-            'city' => 'max:255',
-            'address' => 'max:255',
-            'email' => 'required|email|max:255',
-            'password' => 'min:3|confirmed',
-            'post_index' => 'integer',
-            'inn' => 'integer',
-            'bank_account' => 'integer',
-            'bank_name' => 'max:255'
-        ];
-        return Validator::make($data, $rules, $this->validator_messages);
-    }
+    public $rules = [
+        "reset_password_validator" => [
+                                        'token' => 'required',
+                                        'email' => 'required|email',
+                                        'password' => 'required|confirmed|min:6',
+                                    ],
+        "update_user_validator" => [
+                                        'name' => 'max:255',
+                                        'company' => 'max:255',
+                                        'city' => 'max:255',
+                                        'address' => 'max:255',
+                                        'email' => 'required|email|max:255',
+                                        'phone' => 'max:255',
+                                        'password' => 'min:6|confirmed',
+                                        'post_index' => 'integer',
+                                        'inn' => 'integer',
+                                        'bank_account' => 'integer',
+                                        'bank_name' => 'max:255'
+                                    ],
+        "new_user_validator" => [
+                                        'name' => 'max:255',
+                                        'company' => 'max:255',
+                                        'city' => 'max:255',
+                                        'address' => 'max:255',
+                                        'phone' => 'max:255',
+                                        'email' => 'required|email|max:255|unique:users',
+                                        'password' => 'required|min:6|confirmed',
+                                        'post_index' => 'integer',
+                                        'inn' => 'integer',
+                                        'bank_account' => 'integer',
+                                        'bank_name' => 'max:255'
+                                    ],
+        "order_validator" => [
+                                        'name' => 'required|max:255',
+                                        'company' => 'required_if:type,jur|max:255',
+                                        'city' => 'required|max:255',
+                                        'address' => 'required|max:255',
+                                        'phone' => 'required|max:255',
+                                        'qiwi_phone' => 'required_if:payment,qiwi|max:255',
+                                        'email' => 'required|email|max:255',
+                                        'post_index' => 'required|integer',
+                                        'inn' => 'required_if:type,jur|integer',
+                                        'bank_account' => 'required_if:type,jur|integer',
+                                        'bank_name' => 'required_if:type,jur|max:255',
+                                        'payment' => 'required|max:16',
+                                        'delivery_type' => 'required|max:255',
+                                        'transport_company' => 'required_if:delivery_type,Транспортная компания|max:255',
+                                        'comment' => 'max:255'
+                                    ]
 
-    protected function new_user_validator(array $data)
-    {
-        $rules = [
-            'name' => 'max:255',
-            'company' => 'max:255',
-            'city' => 'max:255',
-            'address' => 'max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:3|confirmed',
-            'post_index' => 'integer',
-            'inn' => 'integer',
-            'bank_account' => 'integer',
-            'bank_name' => 'max:255'
-        ];
-        return Validator::make($data, $rules, $this->validator_messages);
+    ];
+
+    public function get_validator(array $data, $type) {
+        return Validator::make($data, $this->rules[$type], $this->validator_messages);
     }
 
     public function getCheckbox($var, $default=0) {
@@ -147,16 +207,11 @@ class SharedController extends Controller
         $duplicates = array_pluck(Cart::select('id', DB::raw('count(id) as count'))->groupBy('gid')->having('count', '>', 1)->get(), 'id');
         Cart::whereIn('id', $duplicates)->delete();
     }
-
-    public function gen_uniq_id() {
-        return str_replace(".", "", uniqid("",true));
-    }
-
     public function getUID() {
         $suid = session('uid');
         $user = Auth::user();
         $uid = $suid;
-        if (!$suid and !$user) $uid = $this->gen_uniq_id();
+        if (!$suid and !$user) $uid = $this->v4();
         elseif ($user) {
             if ( $user->id != $suid) $this->updateCart($suid, $user);
             $uid = $user->id;

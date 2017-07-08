@@ -23,17 +23,13 @@ class HomeController extends SharedController
         parent::__construct();
     }
 
-    public function full_order() {
-            return DB::table("orders")
-                        ->where('status',0)
-                        ->leftJoin("goods", "orders.gid", "=", "goods.id")
-                        ->select('orders.id as oid', 'orders.*', 'goods.*');
-    }    
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function index()
     {
         $user = Auth::user();
@@ -41,27 +37,24 @@ class HomeController extends SharedController
         $data = array();
         if ($role == "storage") {
             $client = "";
-            $new_orders = $this->full_order();
-            $order = $new_orders->first();
+            $order = DB::table("orders")
+                        ->where('status',0)
+                        ->leftJoin("goods", "orders.gid", "=", "goods.id")
+                        ->select('orders.id as oid', 'orders.*', 'goods.*')->first();
             if ($order) {
                 $client = User::find($order->uid);
-                //$order->status = 1;
-                //$order->save();
+                //dd($client);
+                $order_to_save = Order::find($order->oid);
+                $order_to_save->status = 2;
+                $order_to_save->save();
             }
             $data = ["order" => $order, "client"=>$client, "user"=>$user];
-            //dd($data);
         }
         return view($role.'.'.$role, $data);
     }
 
-    // public function show_orders()
-    // {
-    //     $user = auth()->user();
-    //     return view('user.orders', ["orders"=>Order::where('uid', $user->id)->get()]);
-    // }
-
     public function update_user(Request $request){
-        $validator = $this->update_user_validator($request->all());
+        $validator = $this->get_validator($request->all(), "update_user_validator");
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->messages());
         }
@@ -85,8 +78,63 @@ class HomeController extends SharedController
         return redirect('/home');
     }
 
-    public function user_menu($url)
-    {
-        return view('user.'.$url);
+    public function user_menu_profile() {
+        return view('user.profile');
+    }
+
+    public function user_menu_track() {
+        $orders = DB::table("orders")
+                    ->where('uid', session('uid'))
+                    ->where('status', '<', 6)
+                    ->leftJoin("goods", "orders.gid", "=", "goods.id")
+                    ->select('orders.id as oid', 'orders.*', 'goods.*')->get();
+
+        return view('user.track', ['orders' => $orders]);
+    }
+
+    public function user_menu_history() {
+        /*
+            dic item:
+            [   
+                items => array()
+                sum =>
+                money =>
+                date =>
+            ]
+        */
+        $dic = array();
+        $orders = DB::table("orders")
+                    ->where('uid', session('uid'))
+                    ->where('billid', '<>', 0)
+                    ->leftJoin("goods", "orders.gid", "=", "goods.id")
+                    ->select('orders.id as oid', 'orders.created_at as order_created_at', 'orders.*', 'goods.*')->get();
+
+        foreach ($orders as $o) {
+            if (array_key_exists($o->billid, $dic)) {
+                array_push($dic[$o->billid]["items"], $o);
+                $dic[$o->billid]["sum"] += $o->price * $o->countdone;
+            }
+            else {
+                $dic[$o->billid]["items"] = [$o];
+                $dic[$o->billid]["sum"] = $o->price * $o->countdone;
+                $dic[$o->billid]["money"] = $o->money;
+                $dic[$o->billid]["date"] = $o->order_created_at;
+            }
+        }
+        return view('user.history', ["bills" => $dic]);
+    }
+
+    public function delete_order($oid) {
+        $order = Order::find($oid);
+        $order->status = 1;
+        $order->save();
+        return "Успешно удалено!";
+    }
+
+    public function back_to_order($oid) {
+        $order = Order::find($oid);
+        $order->status = 0;
+        $order->save();
+        return "Позиция возвращена в заказ!";
     }
 }

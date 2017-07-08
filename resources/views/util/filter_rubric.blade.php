@@ -1,4 +1,4 @@
-@if (count($goods)>0)
+@if (count($goods) > 0)
     <p>Найдено <b>{{ count($goods) }}</b> товаров:</p>
     @foreach($goods as $g)
         @include("util.goods_pattern")

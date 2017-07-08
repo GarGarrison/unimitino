@@ -23,7 +23,6 @@
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <!-- <button type="submit" class="btn btn-primary">Send Password Reset Link</button> -->
                         <button type="submit" class="btn btn-primary right">Отправить ссылку</button>
                     </div>
                 </div>

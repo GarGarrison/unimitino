@@ -1,14 +1,14 @@
 <div class="card-item">
     <div class="card-item-body">
         <div class="card-item-desc"><b>{{ $g->typonominal }} <span class="vert-stick">|</span>{{ $g->producer }}</b>
-        <div class="goods-img"><img src="/img/goods_img.png"></div>
+        <div class="goods-img"><img src="{{ $g->img }}"></div>
         </div>
         <div class="goods-item-info-short">
             <p>{{ $g->description }}</p>
             <p>Термостойкое (до +500°С) защитное покрытие на силиконовой основе для печатных плат.</p>
-            <div class="goods-price green-text">{{ $g[$price_level] }} {{ $money }}</div>
+            <div class="goods-price green-text">{{ $g->$price_level }} {{ $money }}</div>
             @if ($g->onlinecount)
-                <i class="material-icons right to-cart cart-icon" data-id="{{ $g->id }}" data-price="{{ $g[$price_level] }}" data-money="{{ $money }}" title="В корзину">shopping_cart</i>
+                <i class="material-icons right to-cart cart-icon" data-id="{{ $g->id }}" data-price="{{ $g->$price_level }}" data-money="{{ $money }}" title="В корзину">shopping_cart</i>
                 <input class="goods-count" type="text" data-max-count="{{ $g->onlinecount }}" value="{{ $g->onlinecount }}" />
             @elseif ($g->supply)
                 <i class="material-icons right to-mail" title="В корзину">mail</i>
@@ -19,8 +19,9 @@
             @endif
         </div>
         <div class="goods-item-info">
+            <?php $price_pack_money = $price_pack[$money]; ?>
             <b>Кол-во в упаковке: <span class="green-text">{{ $g->packcount }}шт</span>
-             | Цена при покупке упаковки: <span class="green-text">{{ $g[$price_pack[$money]] }}</span></b>
+             | Цена при покупке упаковки: <span class="green-text">{{ $g->$price_pack_money }}</span></b>
         </div>
         <div class="card-more-info">
             <table>

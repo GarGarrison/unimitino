@@ -50,7 +50,7 @@ class AuthController extends SharedController
      */
     protected function validator(array $data)
     {
-        return $this->new_user_validator($data);
+        return $this->get_validator($data, "new_user_validator");
     }
     /**
      * Create a new user instance after a valid registration.

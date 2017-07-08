@@ -1,8 +1,21 @@
+var reloadinterval;
 select_settings = {
     "arrow_color": "#195894",
     "need_legend": false
 }
+function DoSetInterval(){
+    //reloadinterval = setInterval(ReloadTracker, 3000);
+}
+function StopReloadTracker(){
+    //clearInterval(reloadinterval);
+}
+$(document).ajaxError(function(event, request, settings){
+    $("body").prepend(request.responseText);
+});
 
+function ReloadTracker() {
+    $(".user-menu-container").load("/home/track");
+}
 // хорошее округление
 function round(d,n) {
     p = n || 2;
@@ -34,6 +47,7 @@ function magicDataSubmit(dic, action, method) {
 function plusCart() {
     cur_count = parseInt($("span.cart-length").text());
     $("span.cart-length").text(cur_count + 1);
+    $("span.cart-length-simple").text(cur_count + 1);
 }
 
 // обновить количество товаров в корзине, после клика на товар
@@ -128,7 +142,6 @@ $(document).on('click', '.delete-from-cart', function(){
         'url': "/delete_from_cart/" + id,
         'type': 'get',
         'success': function(resp){
-            //console.log(resp.success, resp.message);
             if (resp.success) {
                 par.remove();
                 minusCart();
@@ -141,24 +154,18 @@ $(document).on('click', '.delete-from-cart', function(){
     })
 });
 
-// показать этапы заказа
-$(document).on('click', '.order-next-step', function(){
-    $(this).closest('.card-wrapper').next('.order-step').slideDown('fast');
-    $(this).hide();
-});
-
-// развернуть превью новости
-$(document).on('click', '.card-item-bottom', function(){
-    if ($(this).children("i").text() == "arrow_drop_up") {
-        $(".card-more-info").slideUp("fast");
-        $(this).find("i").text("arrow_drop_down");
-        return false;
-    }
-    $(".card-more-info").slideUp("fast");
-    $(".card-item-bottom i").text("arrow_drop_down");
-    $(this).closest(".card-item").find(".card-more-info").slideDown("fast");
-    $(this).find("i").text("arrow_drop_up");
-});
+// // развернуть превью новости
+// $(document).on('click', '.card-item-bottom', function(){
+//     if ($(this).children("i").text() == "arrow_drop_up") {
+//         $(".card-more-info").slideUp("fast");
+//         $(this).find("i").text("arrow_drop_down");
+//         return false;
+//     }
+//     $(".card-more-info").slideUp("fast");
+//     $(".card-item-bottom i").text("arrow_drop_down");
+//     $(this).closest(".card-item").find(".card-more-info").slideDown("fast");
+//     $(this).find("i").text("arrow_drop_up");
+// });
 // показать доп меню
 $(document).on('click', '.more-tip-trigger', function(){
     $(".more-tip").hide();
@@ -227,12 +234,14 @@ $(document).on('click', '.btn-param', function(){
     $(".main-content").load("/rubric/filter", data);
 });
 
+// показать транспортные компании, если выбрана такая доставка
 $(document).on('change', '#delivery-type', function(){
     v = $(this).val();
     if (v == "Транспортная компания") $("#transport-company").initCustomSelect(select_settings);
     else $("#transport-company").destroyCustomSelect();
 });
 
+// отправить заказ в работу
 $(document).on('click', '#order', function(e){
     e.preventDefault();
     v = $(this).attr("data-val");
@@ -241,14 +250,34 @@ $(document).on('click', '#order', function(e){
     delivery_form = serializeToObject($(".delivery-form"));
     delivery_type = $("#delivery-type[data-init='1']").val();
     transport_company = $("#transport-company[data-init='1']").val() || "";
+    qiwi_phone = $("input[name='qiwi_phone']").val() || "";
     if (!pay) {
         alert("Укажите способ оплаты!");
         return false;
     }
-    order = Object.assign(user_form, delivery_form, {"pay": pay, "delivery_type": delivery_type, "transport_company": transport_company});
+    order = Object.assign(user_form, delivery_form, {"payment": pay, "qiwi_phone": qiwi_phone, "delivery_type": delivery_type, "transport_company": transport_company});
     magicDataSubmit(order, "/make_order", "post");
 });
 
+// удалить позицию из заказа
+$(document).on("click", ".delete-order", function(){
+    oid = $(this).attr("data-oid");
+    $.post("/home/delete_order/" + oid, function(resp) {
+        alert(resp);
+        ReloadTracker();
+    });
+});
+
+// вернуть удаленную позицию назад в заказ
+$(document).on("click", ".back-to-order", function(){
+    oid = $(this).attr("data-oid");
+    $.post("/home/back_to_order/" + oid, function(resp) {
+        alert(resp);
+        ReloadTracker();
+    });
+});
+
+// посмотреть подробную информацию о накладной (нажав на лупу)
 $(document).on("click", ".history-loupe", function(){
     shadow_settings = {
         "max_width": "900px"
@@ -265,5 +294,6 @@ $(document).ready(function(){
         resultSum();
     }
     checkRadio();
+    StopReloadTracker();
     $('#delivery-type').initCustomSelect(select_settings);
 });

@@ -14,21 +14,32 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('uid',22);
+            $table->string('uid',36);
+            $table->string('name');
+            $table->string('city');
+            $table->string('company');
+            $table->string('post_index');
+            $table->string('address');
+            $table->string('phone');
+            $table->string('qiwi_phone')->nullable();
+            $table->string('bank_name');
+            $table->string('bank_account');
+            $table->string('inn');
+            $table->string('email');
+            $table->string('type');
+            $table->string('money',16);
             $table->integer('gid');
             $table->integer('countorder');
             $table->integer('countdone');
             $table->float('price');
-            $table->string('money',16);
             $table->string('payment',16);
             $table->boolean('payment_status');
             $table->string('delivery_type');
-            $table->string('transport_company');
+            $table->string('transport_company')->nullable();
             $table->char('delivery_status', 1);
             $table->char('status', 1);
-            $table->string('clarify_address');
             $table->string('takeplace', 32);
-            //$table->integer('storage_time');
+            $table->string('comment')->nullable();
             $table->integer('storage_user');
             $table->integer('billid');
             $table->timestamps();

@@ -22,7 +22,7 @@ class RubricController extends SharedController
     public function filter_rubric(Request $request) {
         $rid = $request['rid'];
         $params = $request['params'];
-        $filter = DB::table("goods_params")->where("rid", $rid);
+        $filter = DB::table("goods_params")->where("goods_params.rid", $rid);
         foreach ($params as $p) {
             $filter = $filter->where("goods_params.".$p["column"], $p["operation"], $p["value"]);
         }
@@ -33,19 +33,12 @@ class RubricController extends SharedController
     public function show_rubric($relid, $url) {
         $rubric = Rubric::whereUrl($url)->first();
         $relation = RubricRelation::find($relid);
-        //$params = false;
         if (!$rubric) abort(404);
         $bread = explode("#", $relation->relation);
-        //if ($rubric->has_params) $params = DB::table("rubrics_params")
         $params = DB::table("rubrics_params")
             ->where('rid', $rubric->id)
             ->join("params", "rubrics_params.pid", "=", "params.id")->get();
-
-        // $goods = DB::table('rubrics_goods')
-        // ->where('rid', $rubric->id)
-        // ->join('goods', 'rubrics_goods.gid', '=', 'goods.id')->get();
         $goods = Goods::where('rid', $rubric->id)->paginate(40);
-        //dd($goods);
         return view('util.show_rubric', ['goods' => $goods, 'params' => $params, 'bread' => $bread, 'rid' => $rubric->id ]);
     }
 
