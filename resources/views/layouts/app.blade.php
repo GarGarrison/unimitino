@@ -87,9 +87,9 @@
                     @if (isset($important))
                     <div class="card-wrapper">
                         <div class="card-body important">
-                            <div>
+                            <!-- <div>
                                 <i class="material-icons tiny right">close</i>
-                            </div>
+                            </div> -->
                             <b>{{$important->title}}</b>
                             <p>{{$important->annotation}}</p>
 
