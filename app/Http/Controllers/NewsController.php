@@ -26,18 +26,14 @@ class NewsController extends SharedController
         if ($setToZero) return Carbon::createFromFormat($format, $date)->setTime(0,0,0);
         else return Carbon::createFromFormat($format, $date);
     }
-    public function show_add_news($id = "") {
-        $current_news = '';
-        if ($id) $current_news = News::find($id);
-        return view('admin.forms.add_news',['current_news'=>$current_news]);
+    public function show_add_news() {
+        return view('admin.forms.add_news');
     }
     public function show_edit_news() {
-        //return "ololo";
         return view('admin.forms.edit_news',['news'=>News::all()]);
     }
 
     public function add_news(Request $request) {
-        //return response()->json(['success'=> 'Успешно сохранено']);
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
             return $validator->messages();
@@ -46,30 +42,31 @@ class NewsController extends SharedController
             'title' => $request['title'],
             'annotation' => $request['annotation'],
             'text' => $request['text'],
-            'important' => $this->getCheckbox($request['important']),
             'news_date' => $this->doDateFromFormat($request['news_date_submit']),
             'public_date' => $this->doDateFromFormat($request['public_date_submit']),
             'unpublic_date' => $this->doDateFromFormat($request['unpublic_date_submit'])
         ]);
-        return response()->json(['success'=> 'Успешно сохранено']);
+        return redirect()->back()->with("MSG", "Новость успешно добавлена!");
     }
     public function edit_news(Request $request) {
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            return $validator->messages();
+        }
         $news = News::find($request['id']);
         $news->update([
             'title' => $request['title'],
             'annotation' => $request['annotation'],
             'text' => $request['text'],
-            'important' => $this->getCheckbox($request['important']),
             'news_date' => $this->doDateFromFormat($request['news_date_submit']),
             'public_date' => $this->doDateFromFormat($request['public_date_submit']),
             'unpublic_date' => $this->doDateFromFormat($request['unpublic_date_submit'])
         ]);
         $news->save();
-        return response()->json(['success'=> 'Успешно изменено', 'params'=>['name'=>$request['new-name'], 'id'=>$request['rubric-to-change']]]);
+        return redirect()->back()->with("MSG", "Новость успешно изменена!");
     }
-    public function del_news(Request $request) {
-        $ntd = $request['id'];
-        News::destroy($ntd);
-        return response()->json(['success'=> 'Успешно удалено', 'params'=>['id'=>$ntd]]);
+    public function del_news($nid) {
+        News::destroy($nid);
+        return redirect()->back()->with("MSG", "Новость успешно удалена!");
     }
 }

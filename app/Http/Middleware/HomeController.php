@@ -30,7 +30,7 @@ class HomeController extends SharedController
      */
 
 
-    public function index(Request $request)
+    public function index()
     {
         $user = Auth::user();
         $role = $user->role;
@@ -51,12 +51,7 @@ class HomeController extends SharedController
             $data = ["order" => $order, "client"=>$client, "user"=>$user];
         }
         if ($role == "admin"){
-            $orders = DB::table("orders");
-            foreach ($request->all() as $k => $v) {
-                if ($v && $k != "page") $orders = $orders->where($k, 'like', '%'.$v.'%');
-            }
-            $orders = $orders->paginate(30);
-            $orders->setPath($request->fullUrl());
+            $orders = Order::paginate(40);
             $data = ["orders"=>$orders];
         }
         return view($role.'.'.$role, $data);

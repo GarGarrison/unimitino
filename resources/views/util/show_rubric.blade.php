@@ -32,9 +32,9 @@
             <div class="bread">
             @foreach ($bread as $b)
                 @if ($b != end($bread))
-                <span class="blue-text">{{ $rubrics[$b]['name'] }}</span><span class="bread-quote">»</span>
+                <span class="blue-text">{{ $rubrics_dict[$b]['name'] }}</span><span class="bread-quote">»</span>
                 @else
-                    <b>{{ $rubrics[$b]['name'] }}</b>
+                    <b>{{ $rubrics_dict[$b]['name'] }}</b>
                 @endif
             @endforeach
             </div>

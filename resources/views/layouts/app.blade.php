@@ -102,13 +102,13 @@
                             <img class="right" src="/img/catalog-icon.png" />
                         </div>
                         <div class="card-body menu">
-                            @if ( isset($rubrics) && isset($rubric_relations))
+                            @if ( isset($rubrics_dict) && isset($rubric_relations))
                                 <?php $curlevel = 1; ?>
                                 @foreach ($rubric_relations as $rubrel)
                                     <?php
                                         $arr = explode('#', $rubrel->relation);
                                         $level = count($arr);
-                                        $rubric = $rubrics[$arr[$level - 1]];
+                                        $rubric = $rubrics_dict[$arr[$level - 1]];
                                     ?>
                                     @if ($level > $curlevel)
                                         <?php $curlevel = $level; ?>
@@ -125,7 +125,7 @@
                                             <i class='material-icons'>chevron_right</i>
                                         </li>
                                     @else
-                                        <a href="{{url('/rubric/'.$rubrel->id.'/'.$rubric['url']) }}">
+                                        <a href="{{url('/rubric/'.$rubrel->rid.'/'.$rubric['url']) }}">
                                             <li class="menu-item">{{ $rubric["name"] }}</li>
                                         </a>
                                     @endif
@@ -146,7 +146,7 @@
             @show
         </div>
     </div>
-    <footer class="page-footer blue">
+    <footer class="row page-footer blue">
         <div class="container">
             <div class="footer_social">
                 <img src="/img/footer_vk.png">

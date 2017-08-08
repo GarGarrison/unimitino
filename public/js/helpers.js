@@ -44,15 +44,23 @@ function lightErrorsInForm(errors) {
 function selectReload() {
     $('select').material_select();
 }
-//перезагрузка разных объектов
-function reloadSomeJS(){
-    selectReload();
+
+// загрузка datepicker
+function reloadDatePicker(){
     $('.datepicker').pickadate({
         today: 'Сегодня',
         clear: '',
         close: 'Закрыть',
-        onSet: function(context) {this.close();}
+        onSet: function(context) {
+            if (context.select) this.close();
+        }
     });
+}
+
+//перезагрузка разных объектов
+function reloadSomeJS(){
+    selectReload();
+    reloadDatePicker();
 }
 // загрузка данных таба
 function loadTab(url) {
@@ -72,9 +80,6 @@ function SendForm(url, data, callback) {
         'data': data,
         'success': function(resp){
             if (callback && typeof(callback) === "function") callback(resp);
-        },
-        'error': function(resp) {
-            $('body').prepend(resp.responseText);
         }
     });
 }

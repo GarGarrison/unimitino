@@ -1,3 +1,7 @@
+select_settings = {
+    "arrow_color": "#195894",
+    "need_legend": false
+}
 function formSuccess(resp){
     if (resp.success) {
         alert(resp.success);
@@ -8,53 +12,71 @@ function formSuccess(resp){
 
 /*  инициализация  */
 $(document).ready(function(){    
-    reloadTab();
 /* переключение бокового меню */
     url = document.location.href.split('/');
     $('.menu_item active').removeClass('active');
     $('#' + url[url.length -1].replace('#','')).addClass('active');
     searchResize();
-});
-/*   переключение табов */
-$(document).on('click', '.tab', function(){
-    url = $(this).children('a').attr('href');
-    loadTab(url);
+    reloadDatePicker();
+    $('.custom-select').initCustomSelect(select_settings);
 });
 /* Запрос на удаление чего-либо */
+// $(document).on('click', '.delete-entity', function(event){
+//     event.preventDefault();
+//     if (confirm("Вы уверены?")){
+//         id = $(this).attr('name');
+//         url = "/admin/del_rubric/" + id;
+//         $.post(url, function(respText){
+//             success = respText.success;
+//             if (success) alert(success);
+//         });
+//     }
+// });
 $(document).on('click', '.delete-entity', function(event){
-    event.preventDefault();
-    if (confirm("Вы уверены?")){
-        id = $(this).attr('name');
-        url = $(this).attr('href');
-        SendForm(url, {'id': id}, formSuccess);
-    }
+    if (!confirm("Вы уверены?")) return false;
 });
+
 /* Отправка формы */
-$(document).on('submit', '[id$="_form"]', function(event){
-    event.preventDefault();
-    id = $(this).attr('id');
-    url = id.replace('_form','');
-    data = serializeToObject($(this));
-    SendForm(url, data, formSuccess);
-});
+// $(document).on('submit', '[id$="_form"]', function(event){
+//     event.preventDefault();
+//     id = $(this).attr('id');
+//     url = id.replace('_form','');
+//     data = serializeToObject($(this));
+//     SendForm(url, data, formSuccess);
+// });
 /*   открыть инпут ввода нового имени рубрики  */
-$(document).on('change', 'select', function(){
+$(document).on('change', 'select[name="rubric-to-change"]', function(){
     rid = $(this).val();
-    if (rid) {
-        $('.on-change-input').slideDown('fast');
-        $('.delete-entity').css({'display': 'block'}).attr('name', $(this).val());
-    }
-    else {
-        $('.on-change-input').slideUp('fast');
-        $('.delete-entity').hide().removeAttr('name');
-    }
+    link = $('.delete-entity').attr('data-href');
+    $('.delete-entity').attr('href', link+rid);
 });
 /*   просмотр редактируемой новости */
 $(document).on('click', '.edit-news-item', function(){
-    url = $(this).attr('href');
-    $('.show-current-news').slideUp('fast', function(){$(this).remove()})
-    $(this).after("<div class='show-current-news'></div>");
-    $('.show-current-news').load(url + " #edit_news_form", function(){
-        reloadSomeJS();
+    if (!$(this).hasClass("active")) {
+        $(".edit-news-item.active").next(".edit-news-item-more").slideUp("fast");
+        $(this).next(".edit-news-item-more").slideDown("fast");
+        $(".edit-news-item.active").removeClass("active");
+        $(this).addClass("active"); 
+    }
+});
+
+$(document).on('click', '.order-table tr', function(){
+    if ($(this).hasClass("filter-string")) return true;
+    $('.order-table tr').removeClass("active");
+    $(this).addClass("active");
+    var uid = $(this).attr("data-id");
+    var actions = $(".user-actions");
+    var link = actions.find(".delete-entity");
+    var form = actions.find("form");
+    link.attr("href", link.attr("data-href") + uid);
+    form.attr("action", form.attr("data-href") + uid);
+    $(this).find("td").each(function(i){
+        rel = $(this).attr("data-relation");
+        val = $(this).text();
+        if (rel == "name") actions.find("span[data-relation='name']").text(val);
+        else if (rel) actions.find("select[data-relation='" + rel + "']").val(val);
+        console.log(val);
     })
+    actions.show();
+    if ($(".user-actions").offset().top < window.scrollY) $('html,body').scrollTop($(".user-actions").prev("h5").offset().top - 100);
 });

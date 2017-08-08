@@ -3,23 +3,6 @@
     blue: #0a6cce;
     #0a6cce
 */
-                                        /* tab part */
-.on-change-input {
-    display: none;
-}
-.tab-container h5 {
-    padding-bottom: 20px;
-}
-                                        /* some styles */
-
-.delete-entity {
-    display: none;
-}
-.edit-news-item .delete-entity {
-    position: absolute;
-    right: 15px;
-    top: 5px;
-}
                                         /* main part */
 .main-container {
     padding: 10px;
@@ -34,34 +17,12 @@
     margin-right: 20px;
     margin-left: 20px;
 }
-.edit-news-item {
-    padding: 10px;
-}
-.edit-news-item:hover .delete-entity {
-    display: block;
-    float: right;
-}
-.edit-news-title {
-    float: left;
-}
-.edit-news-item {
-    position: relative;
-    padding: 15px 10px;
-    cursor: pointer;
-}
 .new-goods-item-title {
     border-bottom: 1px solid #e5e5e5;
 }
 .to-cart {
     cursor: pointer;
 }
-.order-table {
-    margin-bottom: 20px;
-}
 .order-params {
-    display: none;
-}
-.order-step {
-    padding: 10px 0px;
     display: none;
 }

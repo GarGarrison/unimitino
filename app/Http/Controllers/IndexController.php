@@ -12,7 +12,7 @@ use App\User;
 class IndexController extends SharedController
 {
     public function index(Request $request) {
-        $important = News::where('important', True)->orderBy('public_date')->first();
+        $important = News::orderBy('public_date')->first();
         $new_goods = Goods::where('new', 1)->orderBy('updated_at', 'desc')->take(4)->get();
         return view('index', ['important'=>$important, 'new_goods'=>$new_goods]);
     }
@@ -22,10 +22,6 @@ class IndexController extends SharedController
         $req = $request['req'];
         $result = Goods::where('typonominal', 'like', '%'.$req.'%')->get();
         return view($view, ['result'=>$result, 'req'=>$req]);
-    }
-    public function show_news() {
-        $news = News::orderBy('news_date', 'desc')->get();
-        return view('util.show_news', ['news' => $news]);
     }
     public function show_new_goods() {
         $new_goods = Goods::where('new', 1)->orderBy('updated_at', 'desc')->get();

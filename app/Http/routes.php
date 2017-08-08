@@ -18,7 +18,6 @@ Route::get('/callback/{provider}', 'SocialController@callback');
 
 Route::get('/', 'IndexController@index');
 Route::post('/search', 'IndexController@search');
-Route::get('/news', 'IndexController@show_news');
 Route::get('/new_goods', 'IndexController@show_new_goods');
 Route::get('/rubric/{relid}/{url}', 'RubricController@show_rubric');
 Route::post('/rubric/filter', 'RubricController@filter_rubric');
@@ -41,27 +40,25 @@ Route::get('/home/track', 'HomeController@user_menu_track');
 Route::post('/home/delete_order/{oid}', 'HomeController@delete_order');
 Route::post('/home/back_to_order/{oid}', 'HomeController@back_to_order');
 Route::get('/home/history', 'HomeController@user_menu_history');
-// Route::get('/orders', 'HomeController@show_orders');
 
 Route::group(['middleware' => 'admin'], function(){
-    Route::get('/admin', 'AdminController@index');
-    Route::get('/admin/rubric', 'AdminController@view_rubric');
-    Route::get('/admin/news', 'AdminController@view_news');
-    Route::get('/admin/users', 'AdminController@view_users');
-    Route::get('/admin/goods', 'AdminController@view_goods');
-    Route::get('/admin/params', 'AdminController@view_params');
+    Route::get('/admin', 'HomeController@index');
 
-    Route::get('/admin/show_add_rubric', 'RubricController@show_add_rubric');
-    Route::get('/admin/show_edit_rubric', 'RubricController@show_edit_rubric');
+    Route::get('/admin/add_rubric', 'RubricController@show_add_rubric');
+    Route::get('/admin/edit_rubric', 'RubricController@show_edit_rubric');
     Route::post('/admin/add_rubric', 'RubricController@add_rubric');
     Route::post('/admin/edit_rubric', 'RubricController@edit_rubric');
-    Route::post('/admin/del_rubric', 'RubricController@del_rubric');
+    Route::get('/admin/del_rubric/{rtd}', 'RubricController@del_rubric');
 
-    Route::get('/admin/show_add_news/{id?}', 'NewsController@show_add_news');
-    Route::get('/admin/show_edit_news', 'NewsController@show_edit_news');
+    Route::get('/admin/add_news', 'NewsController@show_add_news');
+    Route::get('/admin/edit_news', 'NewsController@show_edit_news');
     Route::post('/admin/add_news', 'NewsController@add_news');
     Route::post('/admin/edit_news', 'NewsController@edit_news');
-    Route::post('/admin/del_news', 'NewsController@del_news');
+    Route::get('/admin/del_news/{nid}', 'NewsController@del_news');
+
+    Route::get('/admin/users', 'UsersController@show_users');
+    Route::get('/admin/del_user/{uid}', 'UsersController@del_user');
+    Route::post('/admin/save_user/{uid}', 'UsersController@save_user');
 });
 
 Route::group(['middleware' => 'storage'], function(){
@@ -71,3 +68,6 @@ Route::group(['middleware' => 'storage'], function(){
     Route::post('/storage/changetakeplace', 'StorageController@changetakeplace');
     Route::post('/storage/changestatus', 'StorageController@changestatus');
 });
+
+// scripts
+Route::post('/backoffice', 'ScriptsController@backoffice');

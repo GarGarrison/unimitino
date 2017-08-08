@@ -50,10 +50,9 @@ class RubricController extends SharedController
     }
 
     public function add_rubric(Request $request) {
-        //return response()->json(['success'=> 'Успешно сохранено']);
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
-            return $validator->messages();
+            return redirect()->back()->withErrors($validator->messages());
         }
         $new_rubric = Rubric::create([
                         'name' => $request['name'],
@@ -63,33 +62,38 @@ class RubricController extends SharedController
         $parent = $request['parent'];
         $fullparent = $newid;
         if ($parent != "") {
-            $parent_rubric = Rubric::find($parent);
-            $fullparent = $parent_rubric->rubric_parents.'#'.$newid;
-            $parent_rubric->has_child = True;
-            $parent_rubric->save();
+            $parent_relation = RubricRelation::find($parent);
+            $fullparent = $parent_relation->relation.'#'.$newid;
+            $parent_relation->update(['has_child' => 1]);
         }
-        $new_rubric->rubric_parents = $fullparent;
-        $new_rubric->save();
-        return response()->json(['success'=> 'Успешно сохранено', 'params'=>['name'=>$request['name'], 'id'=>$newid, 'parent'=>$request['parent']]]);
+        RubricRelation::create([
+                'rid' => $newid,
+                'relation' => $fullparent
+            ]);
+        return redirect()->back()->with("MSG", "Рубрика успешно добавлена!");
     }
     public function edit_rubric(Request $request) {
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
-            return $validator->messages();
+            return redirect()->back()->withErrors($validator->messages());
         }
         Rubric::find($request['rubric-to-change'])->update(['name' => $request['name'], 'url'=> $this->translit($request['name'])]);
-        return response()->json(['success'=> 'Успешно изменено', 'params'=>['name'=>$request['name'], 'id'=>$request['rubric-to-change']]]);
+        return redirect()->back()->with("MSG", "Рубрика успешно изменена!");
     }
-    public function del_rubric(Request $request) {
-        $rtd = $request['id'];
-        $rubric_to_update = RubricRelation::where('rubric_parents', 'LIKE', "$rtd#%")
-                                          ->orWhere('rubric_parents', 'LIKE', "%#$rtd#%")->get();
+    public function del_rubric($rtd) {
+        $rubric_to_delete = RubricRelation::find($rtd);
+        $rubric_to_update = RubricRelation::where('relation', 'LIKE', "$rtd#%")
+                                          ->orWhere('relation', 'LIKE', "%#$rtd#%")->get();
+
         foreach ($rubric_to_update as $rtu) {
-            $rtu->rubric_parents = str_replace("$rtd#", "", $rtu->rubric_parents);
+            $new_relation = "";
+            if ($rubric_to_delete->relation == $rtd) $new_relation =  preg_replace("/^$rtd#/", "", $rtu->relation, 1);
+            else $new_relation = str_replace("#$rtd#", "#", $rtu->relation);
+            $rtu->relation = $new_relation;
             $rtu->save();
         }
         Rubric::destroy($rtd);
-        RubricRelation::where('rubric_id', $rtd)->delete();
-        return response()->json(['success'=> 'Успешно удалено', 'params'=>['id'=>$rtd]]);
+        RubricRelation::destroy($rtd);
+        return redirect()->back()->with("MSG", "Рубрика успешно удалена!");
     }
 }

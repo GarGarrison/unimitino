@@ -496,6 +496,7 @@ input.param-box-varchar {
 .order-table {
     border-collapse: initial;
     border-spacing: 5px;
+    margin-bottom: 20px;
 }
 .order-table th {
     padding: 10px;
@@ -514,8 +515,26 @@ input.param-box-varchar {
 .order-table td:nth-child(3n), .order-table td:nth-child(4n) {
     text-align: center;
 }
+.order-table tr {
+    cursor: pointer;
+}
 .order-table tr:nth-child(2n) {
     background: #eff4f8;
+}
+.order-table tr.filter-string {
+    background: white;
+}
+.order-table tr.active {
+    background: #195894;
+    color: white;
+}
+.order-table .filter-string td {
+    padding: 0px;
+    margin: 0px;
+    border: none;
+}
+.order-table .filter-string input {
+    margin-bottom: 0px; 
 }
 .delete-order, .back-to-order {
     cursor: pointer;
@@ -555,4 +574,22 @@ footer {
 
 .tabs .tab a {
     color: #ff8200;
+}
+
+.edit-news-item {
+    padding: 15px 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.edit-news-item.active, .edit-news-item:hover {
+    background: #195894;
+    color: white;
+}
+.edit-news-item-more {
+    display: none;
+    margin-top: 10px;
+    border-bottom: 1px solid black;
+}
+.user-actions {
+    display: none;
 }

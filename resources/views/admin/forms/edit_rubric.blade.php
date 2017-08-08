@@ -1,32 +1,37 @@
+@extends('admin.a')
+
+@section('admin_right_col')
 <h5>Изменение рубрики</h5>
-<form id="edit_rubric_form" class="col s12" method="POST" action="{{ url('/admin/edit_rubric') }}">
+<form id="edit_rubric_form" class="col s12" method="POST">
     {{ csrf_field() }}
     <div class="row">
-        <div class="input-field col s6 l3">
-            <select name="rubric-to-change">
+        <div class="col s3">
+            <div class="form-title">Выберете рубрику:</div>
+        </div>
+        <div class="col s9">
+            <select class="custom-select" name="rubric-to-change">
                 <option value="" selected>Не выбрано</option>
                 @foreach ($rubrics as $rubric)
                    <option value="{{ $rubric->id }}">{{ $rubric->name }}</option>
                 @endforeach
             </select>
-            <label>Выберете рубрику</label>
-        </div>
-        <div class="col s6 l3">
-            <a class="btn-floating delete-entity" href="{{ url('/admin/del_rubric') }}"><i class="material-icons">delete</i></a>
         </div>
     </div>
     <div class="on-change-input">
         <div class="row">
-            <div class="input-field col s6 l3">
-                    <input name="name" type="text" class="validate">
-                    <label for="name">Новое название рубрики</label>
+            <div class="col s3">
+                <div class="form-title">Новое название рубрики:</div>
+            </div>
+            <div class="col s9">
+                <input name="name" type="text">
             </div>
         </div>
         <div class="row">
             <div class="col s12">
-                <button type="submit" class="btn">Сохранить
-                </button>
+                <button type="submit" class="btn">Сохранить</button>
+                <a data-href="/admin/del_rubric/" class="delete-entity">Удалить</a>
             </div>
         </div>
     </div>
 </form>
+@endsection
