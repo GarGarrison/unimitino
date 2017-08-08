@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Validator;
-use Carbon\Carbon;
 use App\Http\Requests;
 use App\News;
 class NewsController extends SharedController
@@ -20,11 +19,6 @@ class NewsController extends SharedController
             'public_date' => 'required',
             'unpublic_date' => 'required',
         ]);
-    }
-    protected function doDateFromFormat ($date, $setToZero=True) {
-        $format = "Y/m/d";
-        if ($setToZero) return Carbon::createFromFormat($format, $date)->setTime(0,0,0);
-        else return Carbon::createFromFormat($format, $date);
     }
     public function show_add_news() {
         return view('admin.forms.add_news');
@@ -62,7 +56,6 @@ class NewsController extends SharedController
             'public_date' => $this->doDateFromFormat($request['public_date_submit']),
             'unpublic_date' => $this->doDateFromFormat($request['unpublic_date_submit'])
         ]);
-        $news->save();
         return redirect()->back()->with("MSG", "Новость успешно изменена!");
     }
     public function del_news($nid) {

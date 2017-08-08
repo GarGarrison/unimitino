@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Uniserv</title>
+    <title>Uniservice</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('lib/jqgoodies/jqgoodies.css')}}">
 </head>
 <body>
-    {{ var_dump($errors->messages())}}
+    <div style="position: absolute;">{{ var_dump($errors->messages())}}</div>
     <div class="container">
         <img src="/img/triangle_big_cut.png" class="triangle_big_cut">
         <img src="/img/triangle_big.png" class="triangle_big">

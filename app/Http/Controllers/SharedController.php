@@ -195,6 +195,13 @@ class SharedController extends Controller
     public function getCheckbox($var, $default=0) {
         return isset($var) ? 1: $default;
     }
+
+    protected function doDateFromFormat ($date, $setToZero=True) {
+        $format = "Y/m/d";
+        if ($setToZero) return Carbon::createFromFormat($format, $date)->setTime(0,0,0);
+        else return Carbon::createFromFormat($format, $date);
+    }
+    
     public function updateCart($cook, $user) {
         $price_level = $user->price_level;
         $old_items = Cart::where('uid', $cook)->get();
@@ -218,7 +225,6 @@ class SharedController extends Controller
         }
         return $uid;
     }
-
     public function __construct() {
         $uid = $this->getUID();
         session(['uid' => $uid]);

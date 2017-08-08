@@ -7,58 +7,56 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Goods;
 use App\Order;
+use App\News;
 use DB;
 
-class ScriptsController extends Controller
+class ScriptsController extends SharedController
 {
     public function backoffice(Request $request) {
         $req = $request->all();
         try {
-                if ($req['action']=='test') {
-                    $goods = Goods::find($req['id']);
-                    $goods->mark = $req['mark'];
-                    $goods->save();
-                    echo 'ok';
-                }
                 if ($req['action']=='updategoodscount') {
                     $goods = Goods::find($req['id']);
-                    $goods->offlinecount = $req['offlinecount'];
-                    $goods->onlinecount = $req['onlinecount'];
-                    $goods->save();
+                    $goods->update([
+                        "offlinecount" => $req['offlinecount'],
+                        "onlinecount" => $req['onlinecount']
+                    ]);
                     echo 'ok';
                 }
 
                 if ($req['action']=='updategoodsdata') {
                     $goods = Goods::find($req['id']);
-                    $goods->address = $req['address'];
-                    $goods->typonominal = $req['typonominal'];
-                    $goods->mark = $req['mark'];
-                    $goods->producer = $req['producer'];
-                    $goods->case = $req['case'];
-                    $goods->price_retail_usd = $req['price_retail_usd'];
-                    $goods->price_retail_rub = $req['price_retail_rub'];
-                    $goods->price_minitrade_usd = $req['price_minitrade_usd'];
-                    $goods->price_minitrade_rub = $req['price_minitrade_rub'];
-                    $goods->price_trade_usd = $req['price_trade_usd'];
-                    $goods->price_trade_rub = $req['price_trade_rub'];
-                    $goods->price_pack_usd = $req['price_pack_usd'];
-                    $goods->price_pack_rub = $req['price_pack_rub'];
-                    $goods->packcount = $req['packcount'];
-                    $goods->save();
+                    $goods->update([
+                        "address" => $req['address'],
+                        "typonominal" => $req['typonominal'],
+                        "mark" => $req['mark'],
+                        "producer" => $req['producer'],
+                        "case" => $req['case'],
+                        "price_retail_usd" => $req['price_retail_usd'],
+                        "price_retail_rub" => $req['price_retail_rub'],
+                        "price_minitrade_usd" => $req['price_minitrade_usd'],
+                        "price_minitrade_rub" => $req['price_minitrade_rub'],
+                        "price_trade_usd" => $req['price_trade_usd'],
+                        "price_trade_rub" => $req['price_trade_rub'],
+                        "price_pack_usd" => $req['price_pack_usd'],
+                        "price_pack_rub" => $req['price_pack_rub'],
+                        "packcount" => $req['packcount']
+                    ]);
                     echo 'ok';
                 }
 
                 if ($req['action']=='updategoodsprice') {
                     $goods = Goods::find($req['id']);
-                    $goods->price_retail_usd = $req['price_retail_usd'];
-                    $goods->price_retail_rub = $req['price_retail_rub'];
-                    $goods->price_minitrade_usd = $req['price_minitrade_usd'];
-                    $goods->price_minitrade_rub = $req['price_minitrade_rub'];
-                    $goods->price_trade_usd = $req['price_trade_usd'];
-                    $goods->price_trade_rub = $req['price_trade_rub'];
-                    $goods->price_pack_usd = $req['price_pack_usd'];
-                    $goods->price_pack_rub = $req['price_pack_rub'];
-                    $goods->save();
+                    $goods->update([
+                        "price_retail_usd" => $req['price_retail_usd'],
+                        "price_retail_rub" => $req['price_retail_rub'],
+                        "price_minitrade_usd" => $req['price_minitrade_usd'],
+                        "price_minitrade_rub" => $req['price_minitrade_rub'],
+                        "price_trade_usd" => $req['price_trade_usd'],
+                        "price_trade_rub" => $req['price_trade_rub'],
+                        "price_pack_usd" => $req['price_pack_usd'],
+                        "price_pack_rub" => $req['price_pack_rub']
+                    ]);
                     echo 'ok';
                 }
 
@@ -102,10 +100,39 @@ class ScriptsController extends Controller
 
                 if ($req['action']==='setorderstatus') {
                     $order = Order::find($req['id']);
-                    $order->status = $req['status'];
-                    $order->billid = $req['billid'];
-                    if (isset($req['countdone'])) $order->countdone = $req['countdone'];
-                    $order->save();
+                    $order->update([
+                        "status" => $req['status'];
+                        "billid" => $req['billid'];
+                        "payment_status" => $req['payment_status'];
+                    ]);
+                    //$order->status = $req['status'];
+                    //$order->billid = $req['billid'];
+                    //if (isset($req['countdone'])) $order->countdone = $req['countdone'];
+                    //$order->save();
+                    echo 'ok';
+                }
+
+                if ($req['action']==='insertnews') {
+                    News::create([
+                        'title' => $req['title'],
+                        'annotation' => $req['annotation'],
+                        'text' => $req['text'],
+                        'news_date' => $this->doDateFromFormat($req['news_date_submit']),
+                        'public_date' => $this->doDateFromFormat($req['public_date_submit']),
+                        'unpublic_date' => $this->doDateFromFormat($req['unpublic_date_submit'])
+                    ]);
+                    echo 'ok';
+                }
+                if ($req['action']==='updatenews') {
+                    $news = News::find($req['id']);
+                    $news->update([
+                        'title' => $req['title'],
+                        'annotation' => $req['annotation'],
+                        'text' => $req['text'],
+                        'news_date' => $this->doDateFromFormat($req['news_date_submit']),
+                        'public_date' => $this->doDateFromFormat($req['public_date_submit']),
+                        'unpublic_date' => $this->doDateFromFormat($req['unpublic_date_submit'])
+                    ]);
                     echo 'ok';
                 }
 
