@@ -11,7 +11,10 @@
                     <div class="form-title">E-mail:</div>
                 </div>
                 <div class="form-field col s10">
-                    <input name="email" type="text">
+                    <input name="email" type="text" value="{{ old('email') }}">
+                    @if ($errors->has('email'))
+                        <span class="error-block">{{ $errors->first('email') }}</span>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -20,6 +23,9 @@
                 </div>
                 <div class="form-field col s10">
                     <input name="password" type="password">
+                    @if ($errors->has('password'))
+                        <span class="error-block">{{ $errors->first('password') }}</span>
+                    @endif
                 </div>
             </div>
             <div class="row">

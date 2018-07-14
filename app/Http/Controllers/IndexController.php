@@ -8,13 +8,14 @@ use Illuminate\Support\Facades\Auth;
 use App\News;
 use App\Goods;
 use App\User;
-
+use Carbon\Carbon;
 class IndexController extends SharedController
 {
     public function index(Request $request) {
-        $important = News::orderBy('public_date')->first();
+        $now = Carbon::now();
+        $important = News::where('unpublic_date', '>', $now)->where('important', 1)->orderBy('public_date')->first();
         $new_goods = Goods::where('new', 1)->orderBy('updated_at', 'desc')->take(4)->get();
-        return view('index', ['important'=>$important, 'new_goods'=>$new_goods]);
+        return view('index', ['important'=>$important, 'new_goods'=>$new_goods, "now"=>$now]);
     }
     public function search(Request $request) {
         $view = 'util.search_result';

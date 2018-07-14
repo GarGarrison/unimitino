@@ -1,4 +1,10 @@
 {
+    "repositories": [
+        {
+          "url": "git@github.com:SocialiteProviders/VKontakte.git",
+          "type": "git"
+        }
+    ],
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
@@ -8,9 +14,10 @@
         "php": ">=5.5.9",
 	    "caouecs/laravel-lang": "~3.0",
         "laravel/framework": "5.2.*",
-        "socialiteproviders/vkontakte": "^2.0",
+        "socialiteproviders/vkontakte": "dev-master",
         "laravel/socialite": "^2.0",
-        "socialiteproviders/google": "^2.0"
+        "socialiteproviders/google": "^2.0",
+        "vkcom/vk-php-sdk": "^0.2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

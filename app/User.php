@@ -8,8 +8,24 @@ class User extends Authenticatable
 {
     public $incrementing = false;
     
-    protected $guarded = [
-        'remember_token',
+    // protected $guarded = ['remember_token',];
+
+    protected $fillable = [
+        "name",
+        "city",
+        "company",
+        "post_index",
+        "address",
+        "phone",
+        "bank_name",
+        "bank_account",
+        "inn",
+        "email",
+        "password",
+        "type",
+        "role",
+        "money",
+        "price_level",
     ];
 
     /**
@@ -18,7 +34,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'role',
+        'password', 'remember_token',
     ];
 
     public function isAdmin() {

@@ -10,5 +10,14 @@ class News extends Model
 
     public $timestamps = false;
 
-    protected $guarded = ['id',];
+    // protected $guarded = ['id',];
+    protected $fillable = [
+        "title",
+        "annotation",
+        "text",
+        "important",
+        "news_date",
+        "public_date",
+        "unpublic_date",
+    ];
 }
