@@ -34,8 +34,8 @@ class ScriptsController extends SharedController
                 echo 'ok';
             }
             if ($req['action']=='create_goods') {
-                Goods::create($req);
-                echo 'ok';
+                $e = Goods::create($req);
+                echo $e->id;
             }
             if ($req['action']=='update_goods') {
                 $goods = Goods::find($req['id']);
@@ -47,8 +47,8 @@ class ScriptsController extends SharedController
                 echo 'ok';
             }
             if ($req['action']=='create_news') {
-                News::create($req);
-                echo 'ok';
+                $e = News::create($req);
+                echo $e->id;
             }
             if ($req['action']=='update_news') {
                 $news = News::find($req['id']);

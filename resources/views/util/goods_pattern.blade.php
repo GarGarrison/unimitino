@@ -5,7 +5,7 @@
         </div>
         <div class="goods-item-info-short">
             <p>{{ $g->description }}</p>
-            <p>Термостойкое (до +500°С) защитное покрытие на силиконовой основе для печатных плат.</p>
+            {{-- <p>Термостойкое (до +500°С) защитное покрытие на силиконовой основе для печатных плат.</p> --}}
             <div class="goods-price green-text">{{ $g->$price_level }} {{ $money }}</div>
             @if ($g->onlinecount)
                 <i class="material-icons right to-cart cart-icon" data-id="{{ $g->id }}" data-price="{{ $g->$price_level }}" data-money="{{ $money }}" title="В корзину">shopping_cart</i>
