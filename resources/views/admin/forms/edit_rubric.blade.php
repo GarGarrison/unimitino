@@ -30,6 +30,7 @@
             <div class="col s12">
                 <button type="submit" class="btn">Сохранить</button>
                 <a data-href="/admin/del_rubric/" class="delete-entity">Удалить</a>
+                <p style="font-size: 0.8rem">Если у рубрики есть потомки, то при удалении они так же будут удалены</p>
             </div>
         </div>
     </div>

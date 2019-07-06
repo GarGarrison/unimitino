@@ -15,6 +15,8 @@ class ScriptsController extends SharedController
 {
     public function backoffice(Request $request) {
         $req = $request->all();
+        $secret = $req["secret"];
+        if ($secret != "ceiFa2aequaezairaiPhiewae4ahgeem7ra9eegha5Ee5yah6ohchah9yaeth7ji") die("ALARM!");
         try {
             if ($req['action']==='getmaxorder') {
                 echo DB::table('orders')->max('id');

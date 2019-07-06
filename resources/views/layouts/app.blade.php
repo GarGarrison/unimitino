@@ -102,35 +102,8 @@
                             <img class="right" src="/img/catalog-icon.png" />
                         </div>
                         <div class="card-body menu">
-                            @if ( isset($rubrics_dict) && isset($rubric_relations))
-                                <?php $curlevel = 1; ?>
-                                @foreach ($rubric_relations as $rubrel)
-                                    <?php
-                                        $arr = explode('#', $rubrel->relation);
-                                        $level = count($arr);
-                                        $rubric = $rubrics_dict[$arr[$level - 1]];
-                                    ?>
-                                    @if ($level > $curlevel)
-                                        <?php $curlevel = $level; ?>
-                                        <ul>
-                                    @elseif ( $level < $curlevel)
-                                        <?php
-                                            echo str_repeat("</ul>", $curlevel-$level); 
-                                            $curlevel = $level;
-                                        ?>
-                                    @endif
-                                    @if ($rubrel->has_child)
-                                        <li class="menu-item menu-header">
-                                            {{ $rubric["name"] }}
-                                            <i class='material-icons'>chevron_right</i>
-                                        </li>
-                                    @else
-                                        <a href="{{url('/rubric/'.$rubrel->rid.'/'.$rubric['url']) }}">
-                                            <li class="menu-item">{{ $rubric["name"] }}</li>
-                                        </a>
-                                    @endif
-                                    
-                                @endforeach
+                            @if ( isset($rubrics_dict) && isset($relations_dict))
+                                @include('util/recursive_menu', ["parentID" => 0])
                             @endif
                         </div>
                     </div>

@@ -225,12 +225,14 @@ class SharedController extends Controller
         }
         return $uid;
     }
+
     public function __construct() {
         $uid = $this->getUID();
         session(['uid' => $uid]);
         View::share('cart_length', Cart::where('uid', $uid)->count());
         View::share('rubrics_dict', Rubric::getDict());
-        View::share('rubric_relations', RubricRelation::orderBy('relation')->get());
+        View::share('relations_by_id', RubricRelation::getDict());
+        View::share('relations_dict', RubricRelation::getRelationDict());
         View::share('money', Auth::user() ? Auth::user()->money : "руб");
         View::share('price_level', Auth::user() ? Auth::user()->price_level : "price_retail_rub");
         View::share('price_pack', array("$" => "price_pack_usd", "руб" => "price_pack_rub"));

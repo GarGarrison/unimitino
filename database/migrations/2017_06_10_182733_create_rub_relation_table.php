@@ -14,7 +14,7 @@ class CreateRubRelationTable extends Migration
     {
         Schema::create('rubric_relations', function (Blueprint $table) {
             $table->integer('rid')->unique();
-            $table->string('relation');
+            $table->integer('parent');
             $table->boolean('has_child')->default(False);
         });
     }

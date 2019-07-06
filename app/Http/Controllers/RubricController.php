@@ -59,16 +59,21 @@ class RubricController extends SharedController
                         'url' => $this->translit($request['name'])
                     ]);
         $newid = $new_rubric->id;
-        $parent = $request['parent'];
-        $fullparent = $newid;
-        if ($parent != "") {
+        $parent = 0;
+        // $fullparent = $newid;
+        // if ($parent != "") {
+        //     $parent_relation = RubricRelation::find($parent);
+        //     $fullparent = $parent_relation->relation.'#'.$newid;
+        //     $parent_relation->update(['has_child' => 1]);
+        // }
+        if ($request['parent'] != "") {
+            $parent = $request['parent'];
             $parent_relation = RubricRelation::find($parent);
-            $fullparent = $parent_relation->relation.'#'.$newid;
             $parent_relation->update(['has_child' => 1]);
         }
         RubricRelation::create([
                 'rid' => $newid,
-                'relation' => $fullparent
+                'parent' => $parent
             ]);
         return redirect()->back()->with("MSG", "Рубрика успешно добавлена!");
     }
@@ -81,19 +86,9 @@ class RubricController extends SharedController
         return redirect()->back()->with("MSG", "Рубрика успешно изменена!");
     }
     public function del_rubric($rtd) {
-        $rubric_to_delete = RubricRelation::find($rtd);
-        $rubric_to_update = RubricRelation::where('relation', 'LIKE', "$rtd#%")
-                                          ->orWhere('relation', 'LIKE', "%#$rtd#%")->get();
-
-        foreach ($rubric_to_update as $rtu) {
-            $new_relation = "";
-            if ($rubric_to_delete->relation == $rtd) $new_relation =  preg_replace("/^$rtd#/", "", $rtu->relation, 1);
-            else $new_relation = str_replace("#$rtd#", "#", $rtu->relation);
-            $rtu->relation = $new_relation;
-            $rtu->save();
-        }
         Rubric::destroy($rtd);
         RubricRelation::destroy($rtd);
+        RubricRelation::where("parent", "=", $rtd)->delete();
         return redirect()->back()->with("MSG", "Рубрика успешно удалена!");
     }
 }
