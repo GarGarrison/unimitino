@@ -21,7 +21,7 @@
         </div>
         <div class="col s9">
             <select class="custom-select" name="parent">
-                <option value="" selected>Не выбрано</option>
+                <option value="0" selected>Не выбрано</option>
                 @foreach ($rubrics as $rubric)
                    <option value="{{ $rubric->id }}">{{ $rubric->name }}</option>
                 @endforeach

@@ -46,9 +46,15 @@ $(document).on('click', '.delete-entity', function(event){
 // });
 /*   открыть инпут ввода нового имени рубрики  */
 $(document).on('change', 'select[name="rubric-to-change"]', function(){
-    rid = $(this).val();
+    var rid = $(this).val();
+    var name = $(this).find("option:selected").text();
     link = $('.delete-entity').attr('data-href');
     $('.delete-entity').attr('href', link+rid);
+    $("#relations_dict").val(rid);
+    $("input[name='name']").val(name);
+    var parent = $("#relations_dict option:selected").text();
+    $('select[name="parent"]').val(parent);
+    $('select[name="parent"]').trigger( "change" );
 });
 /*   просмотр редактируемой новости */
 $(document).on('click', '.edit-news-item', function(){

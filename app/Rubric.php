@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\RubricRelation;
 
 class Rubric extends Model
 {
@@ -23,4 +24,9 @@ class Rubric extends Model
         }
         return $rez;
     }
+    // public function delete() {
+    //     $id = $this->id;
+    //     RubricRelation::find($id)->delete();
+    //     return parent::delete();
+    // }
 }

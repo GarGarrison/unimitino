@@ -2,7 +2,8 @@
 @if(count($children) > 0)
     <ul>
         @foreach($children as $i => $id)
-            @if($relations_by_id[$id]["has_child"])
+            {{-- @if($relations_by_id[$id]["has_child"]) --}}
+            @if( count(array_keys($relations_dict, $id)) > 0 )
                 <li class="menu-item menu-header">
                     {{ $rubrics_dict[$id]["name"] }}
                     <i class='material-icons'>chevron_right</i>

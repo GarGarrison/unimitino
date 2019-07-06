@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Rubric;
 
 class RubricRelation extends Model
 {
@@ -34,4 +35,16 @@ class RubricRelation extends Model
         }
         return $rez;
     }
+    // public function delete() {
+    //     $rid = $this->rid;
+    //     //RubricRelation::find($id)->delete();
+    //     $childs = RubricRelation::where("parent", "=", $rid)->pluck('rid')->toArray();
+    //     // dd(Rubric::find($childs));
+    //     // dd( Rubric::whereIn('id', $childs) );
+    //     if (count($childs) > 0) {
+    //         Rubric::whereIn('id', $childs)->delete();
+    //         //Rubric::find($childs)->delete();
+    //     }
+    //     return parent::delete();
+    // }
 }

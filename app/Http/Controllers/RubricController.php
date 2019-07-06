@@ -12,11 +12,40 @@ use App\RubricRelation;
 
 class RubricController extends SharedController
 {
-    protected function validator(array $data)
+    // public function __construct(){
+    //     $this->rubricDict = RubricRelation::getRelationDict();
+    // }
+
+    protected $recursive_counter = 0;
+    protected $fordelete = array();
+
+    protected function uniqValidator(array $data)
     {
         return Validator::make($data, [
             'name' => 'required|max:255|unique:rubrics',
+            'parent' => 'numeric'
         ]);
+    }
+
+    protected function notUniqValidator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => 'required|max:255',
+            'parent' => 'numeric'
+        ]);
+    }
+
+    public function rubric_tree($id) {
+        $this->recursive_counter ++;
+        if ($this->recursive_counter > 100) dd("RECURSIVE ERROR");
+        
+        $children = array_keys( RubricRelation::getRelationDict(), $id);
+        if ( count($children) > 0 ) {
+            foreach ($children as $child) {
+                $this->fordelete = array_merge($this->fordelete, $children);
+                $this->rubric_tree( $child );
+            }
+        }
     }
 
     public function filter_rubric(Request $request) {
@@ -50,7 +79,7 @@ class RubricController extends SharedController
     }
 
     public function add_rubric(Request $request) {
-        $validator = $this->validator($request->all());
+        $validator = $this->uniqValidator($request->all());
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->messages());
         }
@@ -59,18 +88,7 @@ class RubricController extends SharedController
                         'url' => $this->translit($request['name'])
                     ]);
         $newid = $new_rubric->id;
-        $parent = 0;
-        // $fullparent = $newid;
-        // if ($parent != "") {
-        //     $parent_relation = RubricRelation::find($parent);
-        //     $fullparent = $parent_relation->relation.'#'.$newid;
-        //     $parent_relation->update(['has_child' => 1]);
-        // }
-        if ($request['parent'] != "") {
-            $parent = $request['parent'];
-            $parent_relation = RubricRelation::find($parent);
-            $parent_relation->update(['has_child' => 1]);
-        }
+        $parent = $request['parent'];
         RubricRelation::create([
                 'rid' => $newid,
                 'parent' => $parent
@@ -78,17 +96,38 @@ class RubricController extends SharedController
         return redirect()->back()->with("MSG", "Рубрика успешно добавлена!");
     }
     public function edit_rubric(Request $request) {
-        $validator = $this->validator($request->all());
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator->messages());
+        // $validator = $this->uniqValidator($request->all());
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withErrors($validator->messages());
+        // }
+        $rubric = Rubric::find($request['rubric-to-change']);
+        if ( $rubric->id == $request['parent'] ) {
+            return redirect()->back()->withErrors(array("parent" => "Рубрика не может быть родительской сама себе"));
         }
-        Rubric::find($request['rubric-to-change'])->update(['name' => $request['name'], 'url'=> $this->translit($request['name'])]);
+        if ($rubric->name != $request['name']) {
+            $validator = $this->uniqValidator($request->all());
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator->messages());
+            }
+        }
+        else {
+            $validator = $this->notUniqValidator($request->all());
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator->messages());
+            } 
+        }
+        $rubric->update(['name' => $request['name'], 'url'=> $this->translit($request['name'])]);
+        RubricRelation::find($request['rubric-to-change'])->update(['parent' => $request['parent'] ]);
         return redirect()->back()->with("MSG", "Рубрика успешно изменена!");
     }
     public function del_rubric($rtd) {
-        Rubric::destroy($rtd);
-        RubricRelation::destroy($rtd);
-        RubricRelation::where("parent", "=", $rtd)->delete();
+        $this->fordelete = array($rtd);
+        $this->rubric_tree($rtd);
+        $array_to_delete = array_unique($this->fordelete);
+        $this->fordelete = array();
+        $this->recursive_counter = 0;
+        Rubric::whereIn('id', $array_to_delete)->delete();
+        RubricRelation::whereIn('rid', $array_to_delete)->delete();
         return redirect()->back()->with("MSG", "Рубрика успешно удалена!");
     }
 }
