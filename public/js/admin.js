@@ -51,6 +51,7 @@ $(document).on('change', 'select[name="rubric-to-change"]', function(){
     link = $('.delete-entity').attr('data-href');
     $('.delete-entity').attr('href', link+rid);
     $("#relations_dict").val(rid);
+    $("#rubric_id").text("Id рубрики: " + rid);
     $("input[name='name']").val(name);
     var parent = $("#relations_dict option:selected").text();
     $('select[name="parent"]').val(parent);

@@ -23,6 +23,11 @@
             </select>
         </div>
     </div>
+    <div class="row">
+            <div class="col s3">
+                <p id="rubric_id"></p>
+            </div>
+    </div>
     <div class="on-change-input">
         <div class="row">
             <div class="col s3">
