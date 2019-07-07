@@ -17,7 +17,7 @@ class RubricController extends SharedController
     // }
 
     protected $recursive_counter = 0;
-    protected $fordelete = array();
+    protected $rubric_storage = array();
 
     protected function uniqValidator(array $data)
     {
@@ -42,10 +42,30 @@ class RubricController extends SharedController
         $children = array_keys( RubricRelation::getRelationDict(), $id);
         if ( count($children) > 0 ) {
             foreach ($children as $child) {
-                $this->fordelete = array_merge($this->fordelete, $children);
+                $this->rubric_storage = array_merge($this->rubric_storage, $children);
                 $this->rubric_tree( $child );
             }
         }
+    }
+
+    public function rubric_parents($id) {
+        $this->recursive_counter ++;
+        if ($this->recursive_counter > 100) dd("RECURSIVE ERROR");
+        $parent = RubricRelation::getRelationDict()[$id];
+        if ( $parent != 0 ) {
+            array_push( $this->rubric_storage, $parent );
+            $this->rubric_parents($parent);
+        }
+    }
+
+    public function recursive($id, $func_name) {
+        $this->recursive_counter = 0;
+        $this->rubric_storage = array();
+        $this->{$func_name}($id);
+        $rez = $this->rubric_storage;
+        $this->rubric_storage = array();
+        $this->recursive_counter = 0;
+        return $rez;
     }
 
     public function filter_rubric(Request $request) {
@@ -63,11 +83,17 @@ class RubricController extends SharedController
         $rubric = Rubric::whereUrl($url)->first();
         $relation = RubricRelation::find($relid);
         if (!$rubric) abort(404);
-        $bread = explode("#", $relation->relation);
+        $bread = $this->recursive($rubric->id, "rubric_parents");
+        // dd($bread);
+        // $bread = explode("#", $relation->relation);
+
+        // $bread = array($rubric->id);
+        $goods = array();
         $params = DB::table("rubrics_params")
             ->where('rid', $rubric->id)
             ->join("params", "rubrics_params.pid", "=", "params.id")->get();
         $goods = Goods::where('rid', $rubric->id)->paginate(40);
+        // dd($goods);
         return view('util.show_rubric', ['goods' => $goods, 'params' => $params, 'bread' => $bread, 'rid' => $rubric->id ]);
     }
 
@@ -121,10 +147,10 @@ class RubricController extends SharedController
         return redirect()->back()->with("MSG", "Рубрика успешно изменена!");
     }
     public function del_rubric($rtd) {
-        $this->fordelete = array($rtd);
+        $this->rubric_storage = array($rtd);
         $this->rubric_tree($rtd);
-        $array_to_delete = array_unique($this->fordelete);
-        $this->fordelete = array();
+        $array_to_delete = array_unique($this->rubric_storage);
+        $this->rubric_storage = array();
         $this->recursive_counter = 0;
         Rubric::whereIn('id', $array_to_delete)->delete();
         RubricRelation::whereIn('rid', $array_to_delete)->delete();

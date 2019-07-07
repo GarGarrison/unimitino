@@ -3,9 +3,9 @@
         <div class="card-item-desc"><b>{{ $g->typonominal }} <span class="vert-stick">|</span>{{ $g->producer }}</b>
         <div class="goods-img"><img src="{{ $g->img }}"></div>
         </div>
+        
         <div class="goods-item-info-short">
             <p>{{ $g->description }}</p>
-            {{-- <p>Термостойкое (до +500°С) защитное покрытие на силиконовой основе для печатных плат.</p> --}}
             <div class="goods-price green-text">{{ $g->$price_level }} {{ $money }}</div>
             @if ($g->onlinecount)
                 <i class="material-icons right to-cart cart-icon" data-id="{{ $g->id }}" data-price="{{ $g->$price_level }}" data-money="{{ $money }}" title="В корзину">shopping_cart</i>
@@ -18,8 +18,9 @@
                 <input class="goods-count empty" type="text" value="Нет в наличии" disabled="disabled" />
             @endif
         </div>
+
         <div class="goods-item-info">
-            <?php $price_pack_money = $price_pack[$money]; ?>
+            @php($price_pack_money = $price_pack[$money])
             <b>Кол-во в упаковке: <span class="green-text">{{ $g->packcount }}шт</span>
              | Цена при покупке упаковки: <span class="green-text">{{ $g->$price_pack_money }}</span></b>
         </div>

@@ -202,6 +202,18 @@ class SharedController extends Controller
         else return Carbon::createFromFormat($format, $date);
     }
     
+    public function getPriceLevel() {
+        $price_level = "price_retail_rub";
+        if (Auth::user() && Auth::user()->price_level != "") $price_level = Auth::user()->price_level;
+        return $price_level;
+    }
+
+    public function getMoney() {
+        $money = "руб";
+        if ( Auth::user() && Auth::user()->money != "") $money = Auth::user()->money;
+        return $money;
+    }
+
     public function updateCart($cook, $user) {
         $price_level = $user->price_level;
         $old_items = Cart::where('uid', $cook)->get();
@@ -233,8 +245,8 @@ class SharedController extends Controller
         View::share('rubrics_dict', Rubric::getDict());
         View::share('relations_by_id', RubricRelation::getDict());
         View::share('relations_dict', RubricRelation::getRelationDict());
-        View::share('money', Auth::user() ? Auth::user()->money : "руб");
-        View::share('price_level', Auth::user() ? Auth::user()->price_level : "price_retail_rub");
+        View::share('money', $this->getMoney());
+        View::share('price_level',$this->getPriceLevel());
         View::share('price_pack', array("$" => "price_pack_usd", "руб" => "price_pack_rub"));
         View::share('status_img', $this->status);
     }
