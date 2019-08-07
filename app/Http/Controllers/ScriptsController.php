@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use DateTime;
 use App\Http\Requests;
 use App\User;
 use App\Goods;
@@ -13,6 +14,12 @@ use DB;
 
 class ScriptsController extends SharedController
 {
+    private function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        // The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
+        return $d && ($d->format($format) === $date);
+    }
     public function backoffice(Request $request) {
         $req = $request->all();
         $secret = $req["secret"];
@@ -25,6 +32,11 @@ class ScriptsController extends SharedController
                 $order = Order::find($req['id']);
                 $order->update($req);
                 echo 'ok';
+            }
+            if ($req['action']=='get_orders_updated_after') {
+                if (! $this->validateDate( $req["after"] )) die("either no date param specified or bad date 'after'");
+                $orders = Order::where('updated_at', '>', $req["after"])->get();
+                echo json_encode($orders);
             }
             if ($req['action']==='getorder') {
                 $order = Order::find($req['id']);
