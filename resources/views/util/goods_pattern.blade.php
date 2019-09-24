@@ -9,7 +9,18 @@
             <div class="goods-price green-text">{{ $g->$price_level }} {{ $money }}</div>
             @if ($g->onlinecount)
                 <i class="material-icons right to-cart cart-icon" data-id="{{ $g->id }}" data-price="{{ $g->$price_level }}" data-money="{{ $money }}" title="В корзину">shopping_cart</i>
-                <input class="goods-count" type="text" data-max-count="{{ $g->onlinecount }}" value="{{ $g->onlinecount }}" />
+                <div class="goods-count-container">
+                    <input class="goods-count" type="text" 
+                        data-max-count="{{ $g->onlinecount }}"
+                        placeholder="{{ $g->onlinecount }}"
+                        onfocus="this.placeholder=''"
+                        onblur="this.placeholder='{{ $g->onlinecount }}'" 
+                    />
+                    @if (isset ($cart_dict[$g->id]))
+                        <div class="goods-in-cart-count">Заказано: {{ $cart_dict[$g->id] }}</div>
+                    @endif
+                </div>
+                
             @elseif ($g->supply)
                 <i class="material-icons right to-mail" title="В корзину">mail</i>
                 <input class="goods-count supply" type="text" value="Сообщить о поставке" disabled="disabled" />

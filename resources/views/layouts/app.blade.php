@@ -14,7 +14,9 @@
     <link rel="stylesheet" type="text/css" href="{{asset('lib/jqgoodies/jqgoodies.css')}}">
 </head>
 <body>
-    <div style="position: absolute;">{{ var_dump($errors->messages())}}</div>
+    {{-- <div style="position: absolute;">{{ var_dump($errors->messages())}}</div> --}}
+    {{-- <div style="position: absolute;">uid={{ uniqid($prefix="", $more_entropy = True) }}</div> --}}
+    <div style="position: absolute;">uid={{ session("uid") }}</div>
     <div class="container">
         <img src="/img/triangle_big_cut.png" class="triangle_big_cut">
         <img src="/img/triangle_big.png" class="triangle_big">

@@ -62,9 +62,10 @@ class CartController extends SharedController
     public function make_order(Request $request){
         $uid = session('uid');
         $carts = Cart::where('uid', $uid)->get();
+        $data = $request->all();
         if ($carts->isEmpty()) return redirect('/');
-        $validator = $this->get_validator($request->all(), "order_validator");
-        if ($validator->fails()) return redirect()->back()->withErrors($validator->messages());
+        $validator = $this->get_validator($data, "order_validator");
+        if ($validator->fails()) return redirect()->back()->withInput($data)->withErrors($validator->messages());
         
         foreach($carts as $cart) {
             Order::create([

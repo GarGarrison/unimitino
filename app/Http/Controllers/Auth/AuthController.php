@@ -61,7 +61,7 @@ class AuthController extends SharedController
     protected function create(array $data)
     {
         return User::create([
-            'id' => $this->gen_uniq_id(),
+            'id' => $this->getUID(),
             'type' => $data['user_type'],
             'name' => $data['name'],
             'city' => $data['city'],

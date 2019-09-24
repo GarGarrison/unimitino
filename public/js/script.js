@@ -39,7 +39,7 @@ function magicDataSubmit(dic, action, method) {
         i.attr("value", dic[k]);
         form.append(i);
     }
-
+    print(dic)
     form.appendTo("body").submit();
 }
 
@@ -69,6 +69,23 @@ function allSum() {
         sum = $(this);
         currentSum(sum);
     })
+}
+function checkGoodsCount(obj) {
+    var count = obj.val();
+    var max_count = obj.attr("data-max-count");
+    if ( isNaN( parseInt(count) ) ) {
+        alert("Количество должно быть числом!")
+        return false;
+    }
+    if (parseInt(count) > parseInt(max_count)) {
+        alert("На складе есть только " + max_count);
+        return false;
+    }
+    if ( count == 0 ) {
+        alert("Укажите количество товара!");
+        return false;
+    }
+    return true;
 }
 // Подсчет общей итоговой суммы
 function resultSum() {
@@ -109,20 +126,17 @@ $(document).on('click', '.card-head.drop-head', function(){
 // добавить позицию из поиска в корзину
 $(document).on('click', '.to-cart', function(){
     if ($(this).hasClass("empty")) return false;
-    count = $(this).next(".goods-count").val();
-    max_count = $(this).next(".goods-count").attr("data-max-count");
-    if (parseInt(count) > parseInt(max_count)) {
-        alert("На складе есть только " + max_count);
-        return false;
-    }
-    if ( count == 0 ) {
-        alert("Укажите количество товара!");
-        return false;
-    }
-    url = "/add_to_cart";
-    gid = $(this).attr('data-id');
-    price = $(this).attr('data-price');
-    money = $(this).attr('data-money');
+
+    var obj = $(this).next(".goods-count-container").find(".goods-count");
+    var count = obj.val()
+    var check = checkGoodsCount(obj);
+    
+    if (!check) return false;
+
+    var url = "/add_to_cart";
+    var gid = $(this).attr('data-id');
+    var price = $(this).attr('data-price');
+    var money = $(this).attr('data-money');
     $.ajax({
         'url': url,
         'type': 'post',
@@ -136,8 +150,8 @@ $(document).on('click', '.to-cart', function(){
 
 // удаление позиции из корзины
 $(document).on('click', '.delete-from-cart', function(){
-    par = $(this).closest(".card-item");
-    id = $(this).attr('data-id');
+    var par = $(this).closest(".card-item");
+    var id = $(this).attr('data-id');
     $.ajax({
         'url': "/delete_from_cart/" + id,
         'type': 'get',
@@ -196,7 +210,12 @@ $(document).on('click', '.user-menu-tip a', function(e){
 })
 // обновить конкретную сумму
 $(document).on('blur', '.cart-goods-count', function(){
-    sum = $(this).closest(".card-item").find(".cart-bottom .sum-price");
+    var obj = $(this);
+    var check = checkGoodsCount(obj);
+
+    if (!check) return false;
+
+    var sum = $(this).closest(".card-item").find(".cart-bottom .sum-price");
     currentSum(sum);
     $(this).updateCount();
 });

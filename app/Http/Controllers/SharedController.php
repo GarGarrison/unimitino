@@ -26,6 +26,7 @@ class SharedController extends Controller
     # 5 - нет на складе
     # 6 - отгружено
     # //7 - набирать
+
     public $status = array(
         0 => array(
             "status" => "img/wait.png",
@@ -103,29 +104,29 @@ class SharedController extends Controller
      // * 
      // * Version 4 UUIDs are pseudo-random.
      
-    public static function v4() 
-    {
-        return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+    // public static function v4() 
+    // {
+    //     return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
 
-            // 32 bits for "time_low"
-            mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+    //         // 32 bits for "time_low"
+    //         mt_rand(0, 0xffff), mt_rand(0, 0xffff),
 
-            // 16 bits for "time_mid"
-            mt_rand(0, 0xffff),
+    //         // 16 bits for "time_mid"
+    //         mt_rand(0, 0xffff),
 
-            // 16 bits for "time_hi_and_version",
-            // four most significant bits holds version number 4
-            mt_rand(0, 0x0fff) | 0x4000,
+    //         // 16 bits for "time_hi_and_version",
+    //         // four most significant bits holds version number 4
+    //         mt_rand(0, 0x0fff) | 0x4000,
 
-            // 16 bits, 8 bits for "clk_seq_hi_res",
-            // 8 bits for "clk_seq_low",
-            // two most significant bits holds zero and one for variant DCE1.1
-            mt_rand(0, 0x3fff) | 0x8000,
+    //         // 16 bits, 8 bits for "clk_seq_hi_res",
+    //         // 8 bits for "clk_seq_low",
+    //         // two most significant bits holds zero and one for variant DCE1.1
+    //         mt_rand(0, 0x3fff) | 0x8000,
 
-            // 48 bits for "node"
-            mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
-        );
-    }
+    //         // 48 bits for "node"
+    //         mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+    //     );
+    // }
     public $validator_messages = [
             'email.unique' => 'Такая электронная почта уже зарегистрирована',
             'email.required' => 'Поле E-mail должно быть заполнено',
@@ -140,7 +141,7 @@ class SharedController extends Controller
         "reset_password_validator" => [
                                         'token' => 'required',
                                         'email' => 'required|email',
-                                        'password' => 'required|confirmed|min:6',
+                                        'password' => 'required|confirmed|min:3',
                                     ],
         "update_user_validator" => [
                                         'name' => 'max:255',
@@ -149,7 +150,7 @@ class SharedController extends Controller
                                         'address' => 'max:255',
                                         'email' => 'required|email|max:255',
                                         'phone' => 'max:255',
-                                        'password' => 'min:6|confirmed',
+                                        'password' => 'min:3|confirmed',
                                         'post_index' => 'integer',
                                         'inn' => 'integer',
                                         'bank_account' => 'integer',
@@ -162,14 +163,14 @@ class SharedController extends Controller
                                         'address' => 'max:255',
                                         'phone' => 'max:255',
                                         'email' => 'required|email|max:255|unique:users',
-                                        'password' => 'required|min:6|confirmed',
+                                        'password' => 'required|min:3|confirmed',
                                         'post_index' => 'integer',
                                         'inn' => 'integer',
                                         'bank_account' => 'integer',
                                         'bank_name' => 'max:255'
                                     ],
         "order_validator" => [
-                                        'name' => 'required|max:255',
+                                        'name' => 'required_if:type,fiz|max:255',
                                         'company' => 'required_if:type,jur|max:255',
                                         'city' => 'required|max:255',
                                         'address' => 'required|max:255',
@@ -216,11 +217,13 @@ class SharedController extends Controller
 
     public function updateCart($cook, $user) {
         $price_level = $user->price_level;
+        $money = $user->money;
         $old_items = Cart::where('uid', $cook)->get();
         foreach ($old_items as $oi) {
             $g = Goods::find($oi->gid);
             $oi->price = $g[$price_level];
             $oi->uid = $user->id;
+            $oi->money = $money;
             $oi->save();
         }
         $duplicates = array_pluck(Cart::select('id', DB::raw('count(id) as count'))->groupBy('gid')->having('count', '>', 1)->get(), 'id');
@@ -230,7 +233,8 @@ class SharedController extends Controller
         $suid = session('uid');
         $user = Auth::user();
         $uid = $suid;
-        if (!$suid and !$user) $uid = $this->v4();
+        // if (!$suid and !$user) $uid = $this->v4();
+        if (!$suid && !$user) $uid = uniqid($prefix="", $more_entropy = True);
         elseif ($user) {
             if ( $user->id != $suid) $this->updateCart($suid, $user);
             $uid = $user->id;
@@ -242,6 +246,7 @@ class SharedController extends Controller
         $uid = $this->getUID();
         session(['uid' => $uid]);
         View::share('cart_length', Cart::where('uid', $uid)->count());
+        View::share('cart_dict', Cart::getDict());
         View::share('rubrics_dict', Rubric::getDict());
         View::share('relations_by_id', RubricRelation::getDict());
         View::share('relations_dict', RubricRelation::getRelationDict());

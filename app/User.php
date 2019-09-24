@@ -11,6 +11,7 @@ class User extends Authenticatable
     // protected $guarded = ['remember_token',];
 
     protected $fillable = [
+        "id",
         "name",
         "city",
         "company",

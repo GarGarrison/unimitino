@@ -14,7 +14,7 @@
                     <div class="cart-item-info">
                         <span class="good-card-lable">Цена:</span><div class="cart-price">{{ $g->price }} {{ $money }}</div>
                         <div class="cart-count-wrapper">
-                            <span class="good-card-lable">Кол-во:</span><input type="text" class="goods-count cart-goods-count" value="{{ $g->count }}" data-id="{{ $g->cid }}">
+                            <span class="good-card-lable">Кол-во:</span><input type="text" class="goods-count cart-goods-count" data-max-count="{{ $g->onlinecount }}" value="{{ $g->count }}" data-id="{{ $g->cid }}">
                         </div>                                    
                     </div>
                 </div>

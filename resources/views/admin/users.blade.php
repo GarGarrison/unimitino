@@ -39,6 +39,7 @@
     </form>
 </div>
 <table class="order-table">
+        <th>UID</th>
         <th>Имя</th>
         <th>Адрес</th>
         <th>Телефон</th>
@@ -46,15 +47,19 @@
         <th>Скидка</th>
         <form method="GET">
         <tr class="filter-string">
+            <td><input type="text" class="filter-users" name="id" value="{{ app('request')->input('id') }}"></td>
             <td><input type="text" class="filter-users" name="name" value="{{ app('request')->input('name') }}"></td>
             <td><input type="text" class="filter-users" name="address" value="{{ app('request')->input('address') }}"></td>
             <td><input type="text" class="filter-users" name="phone" value="{{ app('request')->input('phone') }}"></td>
             <td><input type="text" class="filter-users" name="money" value="{{ app('request')->input('money') }}"></td>
-            <td><input type="text" class="filter-users" name="price_level" value="{{ app('request')->input('price_level') }}"><input type="submit" style="display:none"/></td>
+            <td><input type="text" class="filter-users" name="price_level" value="{{ app('request')->input('price_level') }}">
+                <input type="submit" style="display:none"/>
+            </td>
         </tr>
         </form>
         @foreach($users as $u)
             <tr data-id = "{{ $u->id }}">
+                <td data-relation="id">{{ $u->id }}</td>
                 <td data-relation="name">{{ $u->name }}</td>
                 <td>{{ $u->address }}</td>
                 <td>{{ $u->phone}}</td>

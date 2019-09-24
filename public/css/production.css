@@ -271,15 +271,30 @@ body {
     font-size: 28px;
     float: left;
 }
-input.goods-count {
-    width: 80%;
+
+.goods-count-container {
     width: 140px;
-    border: 1px solid #ccc;
-    padding-right: 10px;
     float: right;
+}
+input.goods-count {
+    width: 100%;
+    border: 1px solid #ccc;
     text-align: right;
+    padding-right: 10px;
     color: #87aa6b;
     font-size: 20px;
+}
+input.goods-count::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #87aa6b;
+    opacity: 1; /* Firefox */
+  }
+  
+input.goods-count:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #87aa6b;
+}
+
+input.goods-count::-ms-input-placeholder { /* Microsoft Edge */
+    color: #87aa6b;
 }
 input.goods-count.supply {
     color: #195894;
@@ -289,7 +304,11 @@ input.goods-count.empty {
     color: red;
     text-align: center;
 }
-
+.goods-in-cart-count {
+    margin-top: -18px;
+    font-size: 12px;
+    float: right;
+}
 .cart-count-wrapper input.goods-count {
     color: #195894;
 }

@@ -13,8 +13,8 @@
 
 Route::auth();
 
-Route::get('/social_login/{provider}', 'SocialController@login');
-Route::get('/callback/{provider}', 'SocialController@callback');
+// Route::get('/social_login/{provider}', 'SocialController@login');
+// Route::get('/callback/{provider}', 'SocialController@callback');
 
 Route::get('/', 'IndexController@index');
 Route::post('/search', 'IndexController@search');
@@ -44,8 +44,8 @@ Route::get('/home/history', 'HomeController@user_menu_history');
 Route::group(['middleware' => 'admin'], function(){
     Route::get('/admin', 'HomeController@index');
 
-    Route::get('/admin/sync/{provider}', 'SocialController@admin_sync');
-    // Route::get('/callback/admin/{provider}', 'SocialController@callback_another');
+    // Route::get('/admin/sync/{provider}', 'SocialController@admin_sync');
+    // // Route::get('/callback/admin/{provider}', 'SocialController@callback_another');
 
     Route::get('/admin/add_rubric', 'RubricController@show_add_rubric');
     Route::get('/admin/edit_rubric', 'RubricController@show_edit_rubric');
