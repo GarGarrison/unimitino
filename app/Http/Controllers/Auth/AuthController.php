@@ -60,21 +60,25 @@ class AuthController extends SharedController
      */
     protected function create(array $data)
     {
-        return User::create([
-            'id' => $this->getUID(),
-            'type' => $data['user_type'],
-            'name' => $data['name'],
-            'city' => $data['city'],
-            'company' => $data['company'],
-            'post_index' => $data['post_index'],
-            'address' => $data['address'],
-            'phone' => $data['phone'],
-            'bank_name' => $data['bank_name'],
-            'bank_account' => $data['bank_account'],
-            'inn' => $data['inn'],
-            'password' => bcrypt($data['password']),
-            'email' => $data['email']
-        ]);
+        $data['id'] = $this->getUID();
+        $data['password'] = bcrypt($data['password']);
+        $data['type'] = $data['user_type'];
+        return User::create($data);
+        // return User::create([
+        //     'id' => $this->getUID(),
+        //     'type' => $data['user_type'],
+        //     'name' => $data['name'],
+        //     'city' => $data['city'],
+        //     'company' => $data['company'],
+        //     'post_index' => $data['post_index'],
+        //     'address' => $data['address'],
+        //     'phone' => $data['phone'],
+        //     'bank_name' => $data['bank_name'],
+        //     'bank_account' => $data['bank_account'],
+        //     'inn' => $data['inn'],
+        //     'password' => bcrypt($data['password']),
+        //     'email' => $data['email']
+        // ]);
     }
 
     public function logout(){

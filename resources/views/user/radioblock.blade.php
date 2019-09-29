@@ -3,8 +3,8 @@
     $jurclass = "";
     $user = Auth::user();
     if ($user) {
-        $fizclass = $user->type == 'fiz' ? 'active':'';
-        $jurclass = $user->type == 'jur' ? 'active':'';
+        $fizclass = $user->type == 'fiz' ? 'active': '';
+        $jurclass = $user->type == 'jur' ? 'active': '';
     }
 ?>
 <div class="col s12 radio-block" name="user_type">

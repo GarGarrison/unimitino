@@ -285,16 +285,16 @@ input.goods-count {
     font-size: 20px;
 }
 input.goods-count::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: #87aa6b;
+    color: #ccc;
     opacity: 1; /* Firefox */
   }
   
 input.goods-count:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: #87aa6b;
+    color: #ccc;
 }
 
 input.goods-count::-ms-input-placeholder { /* Microsoft Edge */
-    color: #87aa6b;
+    color: #ccc;
 }
 input.goods-count.supply {
     color: #195894;

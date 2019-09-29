@@ -246,7 +246,7 @@ class SharedController extends Controller
         $uid = $this->getUID();
         session(['uid' => $uid]);
         View::share('cart_length', Cart::where('uid', $uid)->count());
-        View::share('cart_dict', Cart::getDict());
+        View::share('cart_dict', Cart::getDict($uid));
         View::share('rubrics_dict', Rubric::getDict());
         View::share('relations_by_id', RubricRelation::getDict());
         View::share('relations_dict', RubricRelation::getRelationDict());

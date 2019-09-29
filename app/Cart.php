@@ -8,8 +8,8 @@ class Cart extends Model
 {
     protected $guarded = ['id',];
 
-    public static function getDict() {
-        $all = Cart::all();
+    public static function getDict($uid) {
+        $all = Cart::where('uid', '=', $uid)->get();
         $rez = array();
         foreach ($all as $a) {
             $rez[$a['gid']] = $a["count"];
