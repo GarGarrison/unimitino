@@ -47,6 +47,10 @@ class ScriptsController extends SharedController
                 $user->update($req);
                 echo 'ok';
             }
+            if ($req['action']=='get_user_uid_by_email') {
+                $user = User::where('email', '=', $req['email'])->first();
+                echo $user->id;
+            }
             if ($req['action']=='create_goods') {
                 $e = Goods::create($req);
                 echo $e->id;

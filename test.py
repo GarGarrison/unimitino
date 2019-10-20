@@ -44,44 +44,61 @@ test_news = {
 }
 
 
-DELETE_ID = 0
-# test create goods
-test_goods.update(test_base)
-req = requests.post("http://localhost:8000/backoffice", data = test_goods)
-try:
-    assert req.status_code == 200, "status is'not 200"
-    assert req.text.isdigit, "response is not int"
-    DELETE_ID = int(req.text)
-    print("Successfully create goods with id={}".format(DELETE_ID))
-except Exception as e:
-    print(str(e))
-    print("status: ", req.status_code)
-    print("text: ", req.text)
-
-# test delete goods
-if DELETE_ID != 0:
-    data = {"action": "delete_goods", "id": DELETE_ID}
-    data.update(test_base)
-    req = requests.post("http://localhost:8000/backoffice", data = data)
+def test_create_delete_goods():
+    # test create goods
+    DELETE_ID = 0
+    test_goods.update(test_base)
+    req = requests.post("http://localhost:8000/backoffice", data = test_goods)
     try:
-        assert req.status_code == 200, "status is not 200"
-        assert req.text == "ok", "response is not ok"
-        print("Successfully delete goods with id={}".format(DELETE_ID))
+        assert req.status_code == 200, "status is'not 200"
+        assert req.text.isdigit, "response is not int"
+        DELETE_ID = int(req.text)
+        print("Successfully create goods with id={}".format(DELETE_ID))
     except Exception as e:
         print(str(e))
         print("status: ", req.status_code)
         print("text: ", req.text)
 
-#test update user
-uid = "04197004-f692-4093-959f-c8a16dbf7d67"
-data = {"action": "update_user", "id": uid, "address":"Королев Богомолова"}
-data.update(test_base)
-req = requests.post("http://localhost:8000/backoffice", data = data)
-try:
-    assert req.status_code == 200, "status is not 200"
-    assert req.text == "ok", "response is not ok"
-    print("Successfully update user with id={}".format(uid))
-except Exception as e:
-    print(str(e))
-    print("status: ", req.status_code)
-    print("text: ", req.text)
+    # test delete goods
+    if DELETE_ID != 0:
+        data = {"action": "delete_goods", "id": DELETE_ID}
+        data.update(test_base)
+        req = requests.post("http://localhost:8000/backoffice", data = data)
+        try:
+            assert req.status_code == 200, "status is not 200"
+            assert req.text == "ok", "response is not ok"
+            print("Successfully delete goods with id={}".format(DELETE_ID))
+        except Exception as e:
+            print(str(e))
+            print("status: ", req.status_code)
+            print("text: ", req.text)
+
+def test_update_user():
+    #test update user
+    uid = "04197004-f692-4093-959f-c8a16dbf7d67"
+    data = {"action": "update_user", "id": uid, "address":"Королев Богомолова"}
+    data.update(test_base)
+    req = requests.post("http://localhost:8000/backoffice", data = data)
+    try:
+        assert req.status_code == 200, "status is not 200"
+        assert req.text == "ok", "response is not ok"
+        print("Successfully update user with id={}".format(uid))
+    except Exception as e:
+        print(str(e))
+        print("status: ", req.status_code)
+        print("text: ", req.text)
+
+def test_get_user_uuid():
+    email = "q@q.ru"
+    data = {"action": "get_user_uid_by_email", "email": email}
+    data.update(test_base)
+    req = requests.post("http://localhost:8000/backoffice", data = data)
+    try:
+        assert req.status_code == 200, "status is not 200"
+        print("Successfully get user uid={} for email={}".format(req.text, email))
+    except Exception as e:
+        print(str(e))
+        print("status: ", req.status_code)
+        print("text: ", req.text)
+
+test_get_user_uuid()
