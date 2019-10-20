@@ -92,7 +92,7 @@ class RubricController extends SharedController
         $params = DB::table("rubrics_params")
             ->where('rid', $rubric->id)
             ->join("params", "rubrics_params.pid", "=", "params.id")->get();
-        $goods = Goods::where('rid', $rubric->id)->paginate(40);
+        $goods = Goods::where('rid', $rubric->id)->orderBy("typonominal")->orderBy("producer")->paginate(40);
         // dd($goods);
         return view('util.show_rubric', ['goods' => $goods, 'params' => $params, 'bread' => $bread, 'rid' => $rubric->id ]);
     }

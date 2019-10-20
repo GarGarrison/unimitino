@@ -253,7 +253,8 @@ body {
     margin: 1em 0em;
 }
 .goods-item-info-short {
-    width: auto;
+    width: 100%;
+    display: inline-block;
     margin: 1em 0em;
 }
 .cart-item-info i, .goods-item-info-short i {

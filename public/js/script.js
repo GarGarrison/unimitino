@@ -168,18 +168,19 @@ $(document).on('click', '.delete-from-cart', function(){
     })
 });
 
-// // развернуть превью новости
-// $(document).on('click', '.card-item-bottom', function(){
-//     if ($(this).children("i").text() == "arrow_drop_up") {
-//         $(".card-more-info").slideUp("fast");
-//         $(this).find("i").text("arrow_drop_down");
-//         return false;
-//     }
-//     $(".card-more-info").slideUp("fast");
-//     $(".card-item-bottom i").text("arrow_drop_down");
-//     $(this).closest(".card-item").find(".card-more-info").slideDown("fast");
-//     $(this).find("i").text("arrow_drop_up");
-// });
+// развернуть превью новости и доп. информацию о товаре
+$(document).on('click', '.card-item-bottom', function(){
+    if ($(this).children("i").text() == "arrow_drop_up") {
+        $(".card-more-info").slideUp("fast");
+        $(this).find("i").text("arrow_drop_down");
+        return false;
+    }
+    $(".card-more-info").slideUp("fast");
+    $(".card-item-bottom i").text("arrow_drop_down");
+    $(this).closest(".card-item").find(".card-more-info").slideDown("fast");
+    $(this).find("i").text("arrow_drop_up");
+});
+
 // показать доп меню
 $(document).on('click', '.more-tip-trigger', function(){
     $(".more-tip").hide();
