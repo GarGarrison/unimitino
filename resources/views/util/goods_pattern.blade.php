@@ -20,19 +20,24 @@
                 </div>    
             @elseif ($g->supply)
                 <i class="material-icons right to-mail" title="В корзину">mail</i>
-                <input class="goods-count supply" type="text" value="Сообщить о поставке" disabled="disabled" />
+                <div class="goods-count-container">
+                    <input class="goods-count supply" type="text" value="Сообщить о поставке" disabled="disabled" />
+                </div>
             @else
                 <i class="material-icons right cart-icon empty" title="Товара нет в наличии">shopping_cart</i>
-                <input class="goods-count empty" type="text" value="Нет в наличии" disabled="disabled" />
+                <div class="goods-count-container">
+                    <input class="goods-count empty" type="text" value="Нет в наличии" disabled="disabled" />
+                </div>
             @endif
-            @if ($g->packcount || $g->price_pack_money || $g->mark)
+
+            @php($price_pack_money = $price_pack[$money])
+            @if ($g->packcount || $g[$price_pack_money] || $g->mark)
             <div class="goods-item-info">
-                @php($price_pack_money = $price_pack[$money])
                 @if ($g->packcount)
-                <b>Кол-во в упаковке:</b><span class="green-text">{{ $g->packcount }}шт</span></b>
+                <b>Кол-во в упаковке: </b><span class="green-text">{{ $g->packcount }}шт</span></b>
                 @endif
-                @if ($g->price_pack_money)
-                | <b>Цена при покупке упаковки:<span class="green-text">{{ $g->$price_pack_money }}</span></b>
+                @if ($g[$price_pack_money])
+                <span class="vert-stick">|</span> <b>Цена при покупке упаковки: <span class="green-text">{{ $g[$price_pack_money] }}</span></b>
                 <br />
                 @endif
                 @if ($g->mark)
@@ -43,7 +48,7 @@
             <p>{{ $g->description }}</p>
         </div>
         <div class="card-more-info">
-                <p>{{ $g->description_long }}</p>
+                <p>{!! $g->description_long !!}</p>
             {{-- <table>
                 <tr>
                     <td>Внешний вид:</td><td>желтоватая жидкость</td>
