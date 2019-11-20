@@ -31,22 +31,25 @@
         <a href="/contacts"><li>Контакты</li></a>
         <a href="/about"><li>О компании</li></a>
     </ul>
-    <nav class="blue top-nav">
-        <div class="nav-wrapper container">
-            <a href="/"><img class="logo" src="/img/logo.png" /></a>
-            <ul class="hide-on-large-only right">
-                <li><a href="#" data-activates="collapse_menu" class="button-collapse"><i class="material-icons collapse_icon">menu</i></a></li>
-            </ul>
-            <ul class="hide-on-med-and-down right top-menu">
-                <li><a href="/cart" class="cart" data-url="cart"><i class="material-icons" title="Корзина">shopping_cart</i><span class="cart-length">{{ $cart_length }}</span></a></li>
-                <li><a href="/home" data-url="home"><i class="material-icons" title="Войти в личный кабинет">account_box</i></a></li>
-                <li class="more-tip-trigger protected-for-click" data-tip="main-menu-tip"><a class="protected-for-click"><i class="material-icons protected-for-click" title="Дополнительное меню">more_vert</i></a></li>
-                @if (Auth::user())
-                <li><a href="/logout"><i class="material-icons" title="Выйти из аккаунта">exit_to_app</i></a></li>
-                @endif
-            </ul>
-        </div>
-    </nav>
+    {{-- <div id="sticky-menu"> --}}
+    {{-- <div class="navbar-fixed"> --}}
+        <nav class="blue top-nav">
+            <div class="nav-wrapper container">
+                <a href="/"><img class="logo" src="/img/logo.png" /></a>
+                <ul class="hide-on-large-only right">
+                    <li><a href="#" data-activates="collapse_menu" class="button-collapse"><i class="material-icons collapse_icon">menu</i></a></li>
+                </ul>
+                <ul class="hide-on-med-and-down right top-menu">
+                    <li><a href="/cart" class="cart" data-url="cart"><i class="material-icons" title="Корзина">shopping_cart</i><span class="cart-length">{{ $cart_length }}</span></a></li>
+                    <li><a href="/home" data-url="home"><i class="material-icons" title="Войти в личный кабинет">account_box</i></a></li>
+                    <li class="more-tip-trigger protected-for-click" data-tip="main-menu-tip"><a class="protected-for-click"><i class="material-icons protected-for-click" title="Дополнительное меню">more_vert</i></a></li>
+                    @if (Auth::user())
+                    <li><a href="/logout"><i class="material-icons" title="Выйти из аккаунта">exit_to_app</i></a></li>
+                    @endif
+                </ul>
+            </div>
+        </nav>
+    {{-- </div> --}}
     <div class="more-tip main-menu-tip">
         <svg height="20" width="0">
           <path

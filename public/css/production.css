@@ -44,9 +44,14 @@ body {
         margin-bottom: -7px;
     }
 }
+/* .top-nav {
+    position: sticky !important;
+    top: 0;
+} */
 .top-nav, .top-nav .nav-wrapper i, .top-nav a.button-collapse, .top-nav a.button-collapse i {
     height: 69px !important;
     line-height: 69px !important;
+    z-index: 500;
 }
 .logo {
     padding-top: 20px;

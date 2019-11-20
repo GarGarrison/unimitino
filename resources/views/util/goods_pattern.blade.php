@@ -37,7 +37,7 @@
                 <b>Кол-во в упаковке: </b><span class="green-text">{{ $g->packcount }}шт</span></b>
                 @endif
                 @if ($g[$price_pack_money])
-                <span class="vert-stick">|</span> <b>Цена при покупке упаковки: <span class="green-text">{{ $g[$price_pack_money] }}</span></b>
+            <span class="vert-stick">|</span> <b>Цена при покупке упаковки: <span class="green-text">{{ $g[$price_pack_money] }} {{$money}}</span></b>
                 <br />
                 @endif
                 @if ($g->mark)

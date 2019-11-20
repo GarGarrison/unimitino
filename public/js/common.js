@@ -10,3 +10,19 @@ $(document).ready(function(){
     $(".button-collapse").sideNav();
     searchResize();
 });
+
+$(document).scroll(function(){
+    var nav = $("nav.top-nav");
+    if (window.scrollY > 73) {
+        nav.css({
+            'position': "fixed",
+            'top': '0',
+        });
+    }
+    else {
+        nav.css({
+            'position': 'absolute',
+            'top': 73
+        });
+    }
+});
