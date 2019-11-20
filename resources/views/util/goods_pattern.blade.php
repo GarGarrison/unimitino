@@ -1,7 +1,18 @@
 <div class="card-item">
     <div class="card-item-body">
         <div class="goods-item-info-short">
-            <div class="card-item-desc"><b>{{ $g->typonominal }} <span class="vert-stick">|</span>{{ $g->producer }} <span class="vert-stick">|</span>{{ $g->case }}</b>
+            <div class="card-item-desc">
+                <b>{{ $g->typonominal }} <span class="vert-stick">|</span>
+                   {{ $g->producer }}
+                   @if ($g->case)
+                   <span class="vert-stick">|</span>
+                   {{ $g->case }}
+                   @endif
+                   @if ($g->mark)
+                   <span class="vert-stick">|</span>
+                   Маркировка: <span class="green-text">{{ $g->mark }}</span>
+                   @endif
+                </b>
                 <div class="goods-img"><img src="{{ $g->img }}"></div>
             </div>
             <div class="goods-price green-text">{{ $g->$price_level }} {{ $money }}</div>
@@ -31,17 +42,14 @@
             @endif
 
             @php($price_pack_money = $price_pack[$money])
-            @if ($g->packcount || $g[$price_pack_money] || $g->mark)
+            @if ($g->packcount || $g[$price_pack_money])
             <div class="goods-item-info">
                 @if ($g->packcount)
                 <b>Кол-во в упаковке: </b><span class="green-text">{{ $g->packcount }}шт</span></b>
                 @endif
                 @if ($g[$price_pack_money])
-            <span class="vert-stick">|</span> <b>Цена при покупке упаковки: <span class="green-text">{{ $g[$price_pack_money] }} {{$money}}</span></b>
+                <span class="vert-stick">|</span> <b>Цена при покупке упаковки: <span class="green-text">{{ $g[$price_pack_money] }} {{$money}}</span></b>
                 <br />
-                @endif
-                @if ($g->mark)
-                <b>Маркировка: <span class="green-text">{{ $g->mark }}</span></b>
                 @endif
             </div>
             @endif
