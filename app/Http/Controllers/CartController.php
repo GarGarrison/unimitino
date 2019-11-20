@@ -64,6 +64,7 @@ class CartController extends SharedController
         $carts = Cart::where('uid', $uid)->get();
         $data = $request->all();
         if ($carts->isEmpty()) return redirect('/');
+        // dd($data);
         $validator = $this->get_validator($data, "order_validator");
         if ($validator->fails()) return redirect()->back()->withInput($data)->withErrors($validator->messages());
         

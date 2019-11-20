@@ -131,7 +131,7 @@ class SharedController extends Controller
             'email.unique' => 'Такая электронная почта уже зарегистрирована',
             'email.required' => 'Поле E-mail должно быть заполнено',
             'max' => 'Это поле не может превышать :max символов',
-            'integer' => 'Это поле должно содержать только цифры',
+            'numeric' => 'Это поле должно содержать только цифры',
             'password.min' => 'Пароль должен содержать не менее :min символов',
             'password.confirmed' => 'Пароль и его подтверждение не совпадают',
             'qiwi_phone.required_if' => 'Для выставления счета в QIWI нужно заполнить телефон'
@@ -151,9 +151,9 @@ class SharedController extends Controller
                                         'email' => 'required|email|max:255',
                                         'phone' => 'max:255',
                                         'password' => 'min:3|confirmed',
-                                        'post_index' => 'integer',
-                                        'inn' => 'integer',
-                                        'bank_account' => 'integer',
+                                        'post_index' => 'numeric',
+                                        'inn' => 'numeric',
+                                        'bank_account' => 'numeric',
                                         'bank_name' => 'max:255'
                                     ],
         "new_user_validator" => [
@@ -164,9 +164,9 @@ class SharedController extends Controller
                                         'phone' => 'max:255',
                                         'email' => 'required|email|max:255|unique:users',
                                         'password' => 'required|min:3|confirmed',
-                                        'post_index' => 'integer',
-                                        'inn' => 'integer',
-                                        'bank_account' => 'integer',
+                                        'post_index' => 'numeric',
+                                        'inn' => 'numeric',
+                                        'bank_account' => 'numeric',
                                         'bank_name' => 'max:255'
                                     ],
         "order_validator" => [
@@ -177,9 +177,9 @@ class SharedController extends Controller
                                         'phone' => 'required|max:255',
                                         'qiwi_phone' => 'required_if:payment,qiwi|max:255',
                                         'email' => 'required|email|max:255',
-                                        'post_index' => 'required|integer',
-                                        'inn' => 'required_if:type,jur|integer',
-                                        'bank_account' => 'required_if:type,jur|integer',
+                                        'post_index' => 'required|numeric',
+                                        'inn' => 'required_if:type,jur|numeric',
+                                        'bank_account' => 'required_if:type,jur|numeric',
                                         'bank_name' => 'required_if:type,jur|max:255',
                                         'payment' => 'required|max:16',
                                         'delivery_type' => 'required|max:255',

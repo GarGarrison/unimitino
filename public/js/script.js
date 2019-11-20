@@ -85,6 +85,10 @@ function checkGoodsCount(obj) {
         alert("Укажите количество товара!");
         return false;
     }
+    if ( count < 0 ) {
+        alert("Количество не может быть отрицательным!");
+        return false;
+    }
     return true;
 }
 // Подсчет общей итоговой суммы

@@ -60,7 +60,11 @@
         @foreach($users as $u)
             <tr data-id = "{{ $u->id }}">
                 <td data-relation="id">{{ $u->id }}</td>
-                <td data-relation="name">{{ $u->name }}</td>
+                <td data-relation="name">
+                    @if(!empty($u->company)){{ $u->company}}
+                    @else {{ $u->name }}
+                    @endif
+                </td>
                 <td>{{ $u->address }}</td>
                 <td>{{ $u->phone}}</td>
                 <td data-relation="money">{{ $u->money }}</td>

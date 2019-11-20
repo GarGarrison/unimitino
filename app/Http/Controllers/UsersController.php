@@ -18,7 +18,10 @@ class UsersController extends SharedController
     public function show_users(Request $request) {
         $users = DB::table("users");
         foreach ($request->all() as $k => $v) {
-            if ($v && $k != "page") $users = $users->where($k, 'like', '%'.$v.'%');
+            if ($v && $k != "page") {
+                if ($k == "name") $users = $users->where("name", 'like', '%'.$v.'%')->orWhere("company", 'like', '%'.$v.'%');
+                else $users = $users->where($k, 'like', '%'.$v.'%');
+            }
         }
         $users = $users->paginate(30);
         $users->setPath($request->fullUrl());

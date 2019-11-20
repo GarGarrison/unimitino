@@ -126,12 +126,12 @@
     </div>
     <footer class="row page-footer blue">
         <div class="container">
-            <div class="footer_social">
+            {{-- <div class="footer_social">
                 <img src="/img/footer_vk.png">
                 <img src="/img/footer_fb.png">
                 <img src="/img/footer_tw.png">
                 <img src="/img/footer_gl.png">
-            </div>
+            </div> --}}
             <div class="footer_copyright">
                 © 2016 «УНИСЕРВИС» ВСЕ ПРАВА СОХРАНЕНЫ | РАЗРАБОТКА САЙТА — СТУДИЯ «FRONTMAN»
             </div>

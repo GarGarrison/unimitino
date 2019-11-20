@@ -35,7 +35,7 @@ class ScriptsController extends SharedController
             }
             if ($req['action']=='get_orders_updated_after') {
                 if (! $this->validateDate( $req["after"] )) die("either no date param specified or bad date 'after'");
-                $orders = Order::where('updated_at', '>', $req["after"])->get();
+                $orders = Order::select('id')->where('updated_at', '>', $req["after"])->get();
                 echo json_encode($orders);
             }
             if ($req['action']==='getorder') {

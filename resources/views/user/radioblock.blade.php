@@ -6,6 +6,10 @@
         $fizclass = $user->type == 'fiz' ? 'active': '';
         $jurclass = $user->type == 'jur' ? 'active': '';
     }
+    else {
+        $fizclass = old("user_type") == 'fiz' ? 'active': '';
+        $jurclass = old("user_type") == 'jur' ? 'active': '';
+    }
 ?>
 <div class="col s12 radio-block" name="user_type">
     <div class="radio-item {{ $fizclass }}" data-val="fiz" data-group="user_type">

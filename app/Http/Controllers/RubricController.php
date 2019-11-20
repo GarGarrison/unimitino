@@ -60,12 +60,12 @@ class RubricController extends SharedController
 
     public function recursive($id, $func_name) {
         $this->recursive_counter = 0;
-        $this->rubric_storage = array();
+        $this->rubric_storage = array($id);
         $this->{$func_name}($id);
         $rez = $this->rubric_storage;
         $this->rubric_storage = array();
         $this->recursive_counter = 0;
-        return $rez;
+        return array_reverse($rez);
     }
 
     public function filter_rubric(Request $request) {
